@@ -46,11 +46,32 @@ bool LogFileReader::readAll(const QString& fileName)
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     // TODO implement this first
+    QStringList sections = line.split(", ");
+    if(sections.length() != 3)
+    {
+     return false;
+    }
 
-    // This is here to the compiler happy. Otherwise the compile
-    // will have an error warning about an unused variable. Remove this
-    // when you use it.
-    Q_UNUSED(line);
-    Q_UNUSED(batteryData);
+
+    QString stringTime = sections.at(0);
+    batteryData.time = QTime::fromString (stringTime, "hh:mm:ss.zzz");
+
+    bool voltageOkay;
+    bool currentOkay;
+
+    batteryData.voltage = sections.at(1).toDouble(&voltageOkay);
+    batteryData.current = sections.at(2).toDouble(&currentOkay);
+
+    if(!voltageOkay || !currentOkay)
+    {
+     return false;
+    }
+
+    if(!batteryData.time.isValid())
+    {
+     return false;
+    }
+
+
     return true;
 }

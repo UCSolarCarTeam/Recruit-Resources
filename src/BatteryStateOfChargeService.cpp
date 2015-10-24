@@ -1,4 +1,9 @@
 #include "BatteryStateOfChargeService.h"
+#include <QDebug>
+#include <QFile>
+#include <QString>
+#include <QTextStream>
+#include "LogFileReader.h"
 
 namespace
 {
@@ -8,6 +13,7 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
+    AmpHours = BATTERY_AMP_HOUR_CAPACITY * (initialStateOfChargePercent_/100);
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -16,7 +22,7 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return 0.0;
+    return AmpHours;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
@@ -31,6 +37,21 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData);
-    // Update your variables here.
+    InitialCurrent = CurrentPrime;
+    CurrentPrime = batteryData.current;
+     if (InitialCurrent == 0)
+         AverageCurrent = CurrentPrime;
+     else
+        AverageCurrent = (InitialCurrent+CurrentPrime)/2;
+
+    InitialTime = TimePrime;
+    TimePrime = batteryData.time;
+    TimeChange =InitialTime.msecsTo(TimePrime);
+    TimeChange = TimeChange * 2.77778e-7;
+
+    AmpHChange = AverageCurrent * TimeChange;
+    AmpHours -= AmpHChange;
+
+
+
 }
