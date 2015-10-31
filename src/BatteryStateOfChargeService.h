@@ -36,6 +36,17 @@ private:
     double aveCurrent;
     double dAmpHours;
     double initialampHours;
+    double timeRemaining;
+    double ampsRemaining;
+    double rateofDepletion;
+    double hoursPrime;
+    double minutesPrime;
+    double secondsPrime;
+    double aveCurrentPrime;
+    double currentPrime = 0;
+    QTime t;
+
+    int count;
 
     double ampHours = aveCurrent*dTime;
 
