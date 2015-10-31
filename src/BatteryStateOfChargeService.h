@@ -25,5 +25,15 @@ private:
     double AverageCurrent;
     QTime InitialTime;
     QTime TimePrime;
+    QTime t;
+    double TimeLeft;
     double TimeChange;
+    double TimeRemaining;
+    double HoursPrime;
+    double MinutesPrime;
+    double SecondsPrime;
+    double AverageCurrentPrime;
+    double NewCurrent = 0;
+    int counter;
+
 };

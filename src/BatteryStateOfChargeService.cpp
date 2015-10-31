@@ -22,17 +22,21 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return AmpHours;
+    return BATTERY_AMP_HOUR_CAPACITY-AmpHours;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return false;
+    if (CurrentPrime<0)
+        return false;
+    else
+        return true;
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return QTime::currentTime();
+
+    return t;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
@@ -50,8 +54,34 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     TimeChange = TimeChange * 2.77778e-7;
 
     AmpHChange = AverageCurrent * TimeChange;
-    AmpHours -= AmpHChange;
+    AmpHours +=  AmpHChange;
+
+    counter++;
+
+    NewCurrent += InitialCurrent;
+
+    AverageCurrentPrime = NewCurrent/counter;
+
+    TimeLeft = (BATTERY_AMP_HOUR_CAPACITY-AmpHours)/AverageCurrentPrime;
+
+    TimeLeft = qAbs(TimeLeft);
+
+    HoursPrime = TimeLeft;
+    int h = (int)TimeLeft;
+
+    MinutesPrime = (HoursPrime-h)*60;
+    int m = (int)MinutesPrime;
+
+    SecondsPrime = (MinutesPrime-m)*60;
+    int s = (int)SecondsPrime;
+
+    int ms = (int)(SecondsPrime-s)*1000;
+
+    QTime time(h, m, s, ms);
+    t = time;
+
 
 
 
 }
+
