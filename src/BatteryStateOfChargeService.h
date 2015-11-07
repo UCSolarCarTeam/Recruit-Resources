@@ -25,19 +25,9 @@ private:
 
     QTime previousTime;
     QTime newTime;
-    QTime t;
     double previousCurrent;
-
-    double ampsRemaining;
-
-    double initialampHours;
-    double newCurrent;
-
-
     double dTime;
     double aveCurrent;
 
-    double ampHours = aveCurrent*dTime;
-
-
+    double ampHours;
 };

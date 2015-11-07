@@ -9,11 +9,11 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
-    const double hoursToMiliseconds = 2.77778e-7;
+    const double MILISECONDS_TO_HOURS = 2.77778e-7;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent), newCurrent(0)
+: initialStateOfChargePercent_(initialStateOfChargePercent), previousCurrent(0)
 {
     ampHours = (BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_)/100;
 }
@@ -29,7 +29,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(newCurrent<0)
+    if(previousCurrent<0)
     {
     return false;
     }
@@ -41,30 +41,13 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    //calculating the time remaining on the charge
-
-    double sumCurrent = 0;
-    double avesumCurrent;
     double hoursLeftOnCharge;
     double minutesLeftOnCharge;
     double secondsLeftOnCharge;
-    double rowNumber;
 
-    double timeRemaining;
-
-    sumCurrent += previousCurrent;
-
-    rowNumber++;
-
-    qDebug()<< "rowNumber" <<rowNumber;
-    avesumCurrent = sumCurrent/rowNumber;
-
-    timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours)/avesumCurrent ;
+    double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours)/previousCurrent ;
 
     timeRemaining = qAbs(timeRemaining);
-
-    //converting the time remaining into hours, seconds, minutes, and miliseconds
-
 
     hoursLeftOnCharge = timeRemaining;
     int hours = int(timeRemaining);
@@ -85,14 +68,7 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData);
-
-    double dAmpHours;
-
-
-
-    previousCurrent = newCurrent;
-    newCurrent = batteryData.current;
+    double newCurrent = batteryData.current;
     if(previousCurrent == 0)
     {
         aveCurrent = newCurrent;
@@ -102,18 +78,14 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
         aveCurrent = (previousCurrent+newCurrent)/2;
     }
 
-    dAmpHours = aveCurrent*dTime;
+    newTime = batteryData.time;
+    dTime = previousTime.msecsTo(newTime);
 
+    dTime = dTime*MILISECONDS_TO_HOURS;
+
+    double dAmpHours = aveCurrent*dTime;
     ampHours += dAmpHours;
 
     previousTime = newTime;
-    newTime = batteryData.time;
-
-    dTime = previousTime.msecsTo(newTime);
-
-    dTime = dTime*hoursToMiliseconds;
-
-
-
-
+    previousCurrent = newCurrent;
 }
