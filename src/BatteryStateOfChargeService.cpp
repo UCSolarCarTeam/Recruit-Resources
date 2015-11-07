@@ -8,10 +8,11 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double MILLISECONDS_TO_HOURS = 2.77778e-7;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent)
+: initialStateOfChargePercent_(initialStateOfChargePercent), NewCurrent(0)
 {
     AmpHours = BATTERY_AMP_HOUR_CAPACITY * (initialStateOfChargePercent_/100);
 }
@@ -27,7 +28,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if (CurrentPrime<0)
+    if (NewCurrent<0)
         return false;
     else
         return true;
@@ -35,52 +36,71 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
+    double TimeLeft;
+    double Hours;
+    double Minutes;
+    double Seconds;
+    double SumCurrent = 0;
+    double counter;
 
-    return t;
+    counter++;
+
+     double TotalAverageCurrent;
+
+
+
+    SumCurrent += InitialCurrent;
+
+    TotalAverageCurrent = SumCurrent/counter;
+
+    TimeLeft = (BATTERY_AMP_HOUR_CAPACITY-AmpHours)/TotalAverageCurrent;
+
+    TimeLeft = qAbs(TimeLeft);
+
+
+    Hours = TimeLeft;
+    int h = (int)TimeLeft;
+
+    Minutes = (Hours-h)*60;
+    int m = (int)Minutes;
+
+    Seconds = (Minutes-m)*60;
+    int s = (int)Seconds;
+
+    int ms = (Seconds-s)*1000;
+
+    QTime time(h, m, s, ms);
+
+
+    return time;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    InitialCurrent = CurrentPrime;
-    CurrentPrime = batteryData.current;
-     if (InitialCurrent == 0)
-         AverageCurrent = CurrentPrime;
-     else
-        AverageCurrent = (InitialCurrent+CurrentPrime)/2;
 
-    InitialTime = TimePrime;
-    TimePrime = batteryData.time;
-    TimeChange =InitialTime.msecsTo(TimePrime);
-    TimeChange = TimeChange * 2.77778e-7;
+
+
+    double TimeChange;
+    double AmpHChange;
+
+     QTime InitialTime;
+
+
+    InitialCurrent = NewCurrent;
+    NewCurrent = batteryData.current;
+     if (InitialCurrent == 0)
+         AverageCurrent = NewCurrent;
+     else
+        AverageCurrent = (InitialCurrent+NewCurrent)/2;
+
+
+    InitialTime = NewTime;
+    NewTime = batteryData.time;
+    TimeChange =InitialTime.msecsTo(NewTime);
+    TimeChange = TimeChange * MILLISECONDS_TO_HOURS ;
 
     AmpHChange = AverageCurrent * TimeChange;
     AmpHours +=  AmpHChange;
-
-    counter++;
-
-    NewCurrent += InitialCurrent;
-
-    AverageCurrentPrime = NewCurrent/counter;
-
-    TimeLeft = (BATTERY_AMP_HOUR_CAPACITY-AmpHours)/AverageCurrentPrime;
-
-    TimeLeft = qAbs(TimeLeft);
-
-    HoursPrime = TimeLeft;
-    int h = (int)TimeLeft;
-
-    MinutesPrime = (HoursPrime-h)*60;
-    int m = (int)MinutesPrime;
-
-    SecondsPrime = (MinutesPrime-m)*60;
-    int s = (int)SecondsPrime;
-
-    int ms = (int)(SecondsPrime-s)*1000;
-
-    QTime time(h, m, s, ms);
-    t = time;
-
-
 
 
 }

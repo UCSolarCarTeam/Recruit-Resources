@@ -5,6 +5,12 @@
 
 #include "LogFileReader.h"
 
+namespace
+{
+const QString TIME_FORMAT = "hh:mm:ss.zzz";
+const int NUMBER_OF_COLUMNS = 3;
+}
+
 LogFileReader::LogFileReader()
 {
 }
@@ -47,14 +53,14 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 {
     // TODO implement this first
     QStringList sections = line.split(", ");
-    if(sections.length() != 3)
+    if(sections.length() != NUMBER_OF_COLUMNS)
     {
      return false;
     }
 
 
     QString stringTime = sections.at(0);
-    batteryData.time = QTime::fromString (stringTime, "hh:mm:ss.zzz");
+    batteryData.time = QTime::fromString (stringTime, TIME_FORMAT);
 
     bool voltageOkay;
     bool currentOkay;
