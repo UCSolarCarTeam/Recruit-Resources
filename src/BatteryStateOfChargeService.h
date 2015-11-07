@@ -46,6 +46,7 @@ private:
     const double initialStateOfChargePercent_;
 
     QTime prTime_;
+    double preC_;
     double bDC_;
     double deltaT_;
     double amph_;

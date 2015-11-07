@@ -90,7 +90,10 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     int ms = (deltaAH_-hours-min/60-sec/3600)*1000;
     time.setHMS(hours,min,sec,ms);
     if (hours>24)
-        qDebug() <<time<<"\n"<< deltaAH_<<endl;
+        qDebug() <<"this is the time: "<<time
+                <<"\nthis is the deltaah_: "<< deltaAH_
+               <<"\nthis is the bdc_: "<< bDC_
+              <<"\nThis is the charge status: "<<isCharging_<<endl;
 
     prTime_=batteryData.time;
 }
