@@ -18,16 +18,11 @@ private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
 
-
-    double AverageCurrent;
-    QTime NewTime;
-    double InitialCurrent;
-
-    double NewCurrent;
-    double AmpHours;   
-    QTime t;
-   // int counter;
-
+    double averageCurrent; //between previous current and new current
+    QTime newTime;
+    double previousCurrent;
+    double newCurrent;
+    double ampHours;
 
 
 };
