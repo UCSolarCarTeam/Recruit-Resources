@@ -18,7 +18,7 @@ private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
     double objectCurrent;
-    double inCurrent;
+    double inCurrent=0;
     double changeTime;
     double inVoltage;
     double Voltage;
@@ -26,5 +26,15 @@ private:
     QTime currentTime;
     double AmpHours;
     double Current;
+    int counter;
+    double SumCurrent=0;
+    double TimeLeft;
+    double AverageCurrent;
+    double Hours;
+    double Minutes;
+    double Seconds;
+    double Milliseconds;
+    QTime t;
+    double AmpChange;
     // Recommend adding necessary variables here
 };

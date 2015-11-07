@@ -20,45 +20,75 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return AmpHours;
+    return BATTERY_AMP_HOUR_CAPACITY-AmpHours;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if (Current - inCurrent < 0)
+    if (Current < 0)
     {
-        return true;
+        return false;
     }
     else
     {
-        return false;
+        return true;
     }
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    double Rtime = (Voltage/((Voltage-inVoltage)/changeTime));
-    QTime tie = QTime(0,0).addMSecs(Rtime * 3600000);
-    // QString chTime = QString::number(Rtime);
-    // QTime tie = QTime::fromString(chTime,"hh:mm:ss.zzz");
-    return tie;
+    return t;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    //Time
+
     QTime currentTime = batteryData.time;
     changeTime = abs(initialTime.msecsTo(currentTime));
     changeTime = changeTime * 2.77778e-7;
     initialTime = currentTime;
-    //Current
-    inCurrent = batteryData.current;
+    if ((Current > 0 && Current < 10000000000) || Current < 0 )
+    {
+        inCurrent = Current;
+    }
     Current = batteryData.current;
-    objectCurrent = (inCurrent + Current)/2;
-    //Amp Hours    //Voltage
+    if (inCurrent == 0)
+    {
+        objectCurrent = 0;
+    }
+    else
+    {
+        objectCurrent = (inCurrent + Current)/2;
+    }
+
     inVoltage = batteryData.voltage;
     Voltage = batteryData.voltage;
-    AmpHours = AmpHours - (objectCurrent * changeTime);
+    AmpChange = (objectCurrent * changeTime);
+
+    AmpHours += AmpChange;
+
+    counter++;
+    SumCurrent += inCurrent;
+    AverageCurrent = SumCurrent/counter;
+    TimeLeft= (BATTERY_AMP_HOUR_CAPACITY-AmpHours)/AverageCurrent;
+    TimeLeft = qAbs(TimeLeft) * 2.77778e-7;
+
+
+
+    Hours = TimeLeft;
+    int h = (int)TimeLeft;
+
+    Minutes = (Hours-h)*60;
+    int m = Minutes;
+
+    Seconds = (Minutes-m)*60;
+    int s = Seconds;
+
+    int ms = (Seconds-s)*1000;
+
+    QTime time(h,m,s,ms);
+    t =  time;
+
 
 
     // Update your variables here.
