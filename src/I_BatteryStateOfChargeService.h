@@ -28,7 +28,7 @@
 #pragma once
 
 #include <QTime>
-struct BatteryData;
+#include <BatteryData.h>
 
 class I_BatteryStateOfChargeService
 {

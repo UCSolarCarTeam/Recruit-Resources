@@ -26,6 +26,7 @@
  */
 
 #include "BatteryStateOfChargeService.h"
+#include <QDebug>
 
 namespace
 {
@@ -43,7 +44,7 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return 0.0;
+    return BATTERY_AMP_HOUR_CAPACITY - totalAH_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
@@ -51,13 +52,56 @@ bool BatteryStateOfChargeService::isCharging() const
     return false;
 }
 
+
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return QTime::currentTime();
+    QTime ntime(0,0,0,0);
+    if (time.isNull())
+        return ntime;
+    else
+        return time;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData);
-    // Update your variables here.
+    if (prTime_.isNull())
+    {
+        totalAH_=BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_/100;
+        prTime_=batteryData.time;
+    }
+    bDC_=batteryData.current;
+    deltaT_=prTime_.msecsTo(batteryData.time);
+    amph_=deltaT_*bDC_/3600000;
+    totalAH_+=amph_;
+
+    if (bDC_ < 0){
+        isCharging_=true;
+        deltaAH_=-1*(BATTERY_AMP_HOUR_CAPACITY-totalAH_);
+    }
+    else {
+        isCharging_=false;
+        deltaAH_=totalAH_;
+    }
+    deltaAH_=(deltaAH_ / bDC_);
+
+    int hours = deltaAH_;
+    int min = (deltaAH_-hours)*60;
+    int sec =(deltaAH_-hours-(min/60))*60;
+    int ms = (deltaAH_-hours-min/60-sec/3600)*1000;
+    time.setHMS(hours,min,sec,ms);
+    if (hours>24)
+        qDebug() <<time<<"\n"<< deltaAH_<<endl;
+
+    prTime_=batteryData.time;
 }
+
+
+
+
+
+
+
+
+
+
+

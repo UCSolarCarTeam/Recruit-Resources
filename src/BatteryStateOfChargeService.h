@@ -38,12 +38,18 @@ public:
     double totalAmpHoursUsed() const;
     bool isCharging() const;
     QTime timeWhenChargedOrDepleted() const;
+    QTime time;
 
     void addData(const BatteryData& batteryData);
 
 private:
-    // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
 
-    // Recommend adding necessary variables here
+    QTime prTime_;
+    double bDC_;
+    double deltaT_;
+    double amph_;
+    double totalAH_;
+    double isCharging_;
+    double deltaAH_;
 };
