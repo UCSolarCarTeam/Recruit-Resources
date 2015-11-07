@@ -9,10 +9,11 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double hoursToMiliseconds = 2.77778e-7;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent)
+: initialStateOfChargePercent_(initialStateOfChargePercent), newCurrent(0)
 {
     ampHours = (BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_)/100;
 }
@@ -40,91 +41,79 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return t;
+    //calculating the time remaining on the charge
+
+    double sumCurrent = 0;
+    double avesumCurrent;
+    double hoursLeftOnCharge;
+    double minutesLeftOnCharge;
+    double secondsLeftOnCharge;
+    double rowNumber;
+
+    double timeRemaining;
+
+    sumCurrent += previousCurrent;
+
+    rowNumber++;
+
+    qDebug()<< "rowNumber" <<rowNumber;
+    avesumCurrent = sumCurrent/rowNumber;
+
+    timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours)/avesumCurrent ;
+
+    timeRemaining = qAbs(timeRemaining);
+
+    //converting the time remaining into hours, seconds, minutes, and miliseconds
+
+
+    hoursLeftOnCharge = timeRemaining;
+    int hours = int(timeRemaining);
+    int h = hours;
+
+    minutesLeftOnCharge = (hoursLeftOnCharge-h)*60;
+    int m = (int)minutesLeftOnCharge;
+
+    secondsLeftOnCharge = (minutesLeftOnCharge - m)*60;
+    int s = (int)secondsLeftOnCharge;
+
+    int z = (secondsLeftOnCharge-s)*1000;
+
+    QTime time(h, m, s, z);
+
+    return time;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     Q_UNUSED(batteryData);
-    // Update your variables here.
-    initialCurrent = newCurrent;
+
+    double dAmpHours;
+
+
+
+    previousCurrent = newCurrent;
     newCurrent = batteryData.current;
-    if(initialCurrent == 0)
+    if(previousCurrent == 0)
     {
         aveCurrent = newCurrent;
     }
     else
     {
-        aveCurrent = (initialCurrent+newCurrent)/2;
+        aveCurrent = (previousCurrent+newCurrent)/2;
     }
-    initialTime = newTime;
-    newTime = batteryData.time;
 
     dAmpHours = aveCurrent*dTime;
-    //qDebug() << "new time" << newTime;
-    //qDebug() << "initial time" <<initialTime;
-    dTime = initialTime.msecsTo(newTime);
-
-    dTime = dTime*2.77778e-7;
 
     ampHours += dAmpHours;
 
-    count++;
+    previousTime = newTime;
+    newTime = batteryData.time;
 
-    currentPrime += initialCurrent;
+    dTime = previousTime.msecsTo(newTime);
 
-    aveCurrentPrime = currentPrime/count;
-
-    timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours)/aveCurrentPrime ;
-
-    timeRemaining = qAbs(timeRemaining);
-
-    hoursPrime = timeRemaining;
-    int hours = int(timeRemaining);
-    int h = hours;
-
-    minutesPrime = (hoursPrime-h)*60;
-    int m = (int)minutesPrime;
-
-    secondsPrime = (minutesPrime - m)*60;
-    int s = (int)secondsPrime;
-
-    int z = (secondsPrime-s)*1000;
-    int a = 2;
-
-    //qDebug() << "time remaining" << timeRemaining;
-    //qDebug() << "amp hours" << ampHours;
-
-    //QTime time;
-
-    //time = time.addSecs((int)ms);
-
-    QTime time(h, m, s, z);
-    t = time;
-    //QString TimetoDepletion = t.toString("hh:mm:ss.zzz");
-
-   /* qDebug() << " " << h;
-    qDebug() << " " << m;
-    qDebug() << " " << s;
-    qDebug() << " " << z;
-*/
-   //qDebug() << " " << t;
-
-
-/*
-    rateofDepletion = dAmpHours/dTime;
+    dTime = dTime*hoursToMiliseconds;
 
 
 
-
-
-    //qDebug() << " " << timeRemaining;
-
-    //timeRemaining = timeRemaining/2.777778e-7;
-
-    qDebug()<< "time remaining" << timeRemaining;
-
-
-*/
 
 }

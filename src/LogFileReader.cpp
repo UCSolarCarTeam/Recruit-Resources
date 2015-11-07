@@ -13,6 +13,11 @@ LogFileReader::~LogFileReader()
 {
 }
 
+namespace
+{
+       QString TIME_OUTPUT = "hh:mm:ss.zzz";
+}
+
 bool LogFileReader::readAll(const QString& fileName)
 {
     QFile file(fileName);
@@ -55,7 +60,7 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
         }
 
      QString time = splitLine.at(0);
-     batteryData.time = QTime::fromString(time, "hh:mm:ss.zzz");
+     batteryData.time = QTime::fromString(time, TIME_OUTPUT);
 
      batteryData.voltage = splitLine.at(1).toDouble();
      batteryData.current = splitLine.at(2).toDouble();

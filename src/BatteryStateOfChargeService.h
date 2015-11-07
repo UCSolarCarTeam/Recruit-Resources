@@ -1,11 +1,6 @@
 #pragma once
 
 #include "I_BatteryStateOfChargeService.h"
-#include "BatteryStateOfChargeService.h"
-#include <QDebug>
-#include <QFile>
-#include <QString>
-#include <QTextStream>
 
 #include "LogFileReader.h"
 
@@ -27,27 +22,22 @@ private:
     const double initialStateOfChargePercent_;
 
     // Recommend adding necessary variables here
-    double initialCurrent;
-    double newCurrent = 0;
-    QTime initialTime;
+
+    QTime previousTime;
     QTime newTime;
+    QTime t;
+    double previousCurrent;
+
+    double ampsRemaining;
+
+    double initialampHours;
+    double newCurrent;
+
 
     double dTime;
     double aveCurrent;
-    double dAmpHours;
-    double initialampHours;
-    double timeRemaining;
-    double ampsRemaining;
-    double rateofDepletion;
-    double hoursPrime;
-    double minutesPrime;
-    double secondsPrime;
-    double aveCurrentPrime;
-    double currentPrime = 0;
-    QTime t;
-
-    int count;
 
     double ampHours = aveCurrent*dTime;
+
 
 };
