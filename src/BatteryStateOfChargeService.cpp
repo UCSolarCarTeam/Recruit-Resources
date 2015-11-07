@@ -49,7 +49,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return false;
+    return isCharging_;
 }
 
 
@@ -69,33 +69,31 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
         totalAH_=BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_/100;
         prTime_=batteryData.time;
     }
-    bDC_=batteryData.current;
     deltaT_=prTime_.msecsTo(batteryData.time);
-    amph_=deltaT_*bDC_/3600000;
+    deltaC_=(batteryData.current+preC_)/2;
+    amph_=deltaT_*deltaC_/3600000;
     totalAH_+=amph_;
 
-    if (bDC_ < 0){
+    if (batteryData.current < 0){
         isCharging_=true;
         deltaAH_=-1*(BATTERY_AMP_HOUR_CAPACITY-totalAH_);
+
     }
-    else {
+    else{
         isCharging_=false;
         deltaAH_=totalAH_;
     }
-    deltaAH_=(deltaAH_ / bDC_);
+    deltaAH_ /= deltaC_;
 
     int hours = deltaAH_;
     int min = (deltaAH_-hours)*60;
     int sec =(deltaAH_-hours-(min/60))*60;
     int ms = (deltaAH_-hours-min/60-sec/3600)*1000;
-    time.setHMS(hours,min,sec,ms);
-    if (hours>24)
-        qDebug() <<"this is the time: "<<time
-                <<"\nthis is the deltaah_: "<< deltaAH_
-               <<"\nthis is the bdc_: "<< bDC_
-              <<"\nThis is the charge status: "<<isCharging_<<endl;
+    time.setHMS(hours, min, sec, ms);
 
     prTime_=batteryData.time;
+    preC_=batteryData.current;
+
 }
 
 

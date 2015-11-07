@@ -46,11 +46,13 @@ private:
     const double initialStateOfChargePercent_;
 
     QTime prTime_;
+    double deltaC_;
     double preC_;
-    double bDC_;
     double deltaT_;
     double amph_;
     double totalAH_;
     double isCharging_;
     double deltaAH_;
+    double chargeTime_;
+    int i;
 };
