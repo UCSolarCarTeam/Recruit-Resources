@@ -41,29 +41,18 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    double hoursLeftOnCharge;
-    double minutesLeftOnCharge;
-    double secondsLeftOnCharge;
 
     double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours)/previousCurrent ;
 
-    timeRemaining = qAbs(timeRemaining);
+    timeRemaining = qAbs(timeRemaining)/MILISECONDS_TO_HOURS;
 
-    hoursLeftOnCharge = timeRemaining;
-    int hours = int(timeRemaining);
-    int h = hours;
+    QTime time(0, 0, 0, 0);
 
-    minutesLeftOnCharge = (hoursLeftOnCharge-h)*60;
-    int m = (int)minutesLeftOnCharge;
+    QTime t;
 
-    secondsLeftOnCharge = (minutesLeftOnCharge - m)*60;
-    int s = (int)secondsLeftOnCharge;
+    t = time.addMSecs(timeRemaining);
 
-    int z = (secondsLeftOnCharge-s)*1000;
-
-    QTime time(h, m, s, z);
-
-    return time;
+    return t;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
