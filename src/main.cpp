@@ -28,7 +28,6 @@
 #include <QCommandLineParser>
 #include <QCoreApplication>
 #include <QTimer>
-
 #include "BatteryStateDisplayService.h"
 #include "BatteryStateOfChargeService.h"
 #include "LogFileReader.h"
@@ -69,8 +68,7 @@ int main(int argc, char *argv[])
     BatteryStateDisplayService batteryStateOfChargeDisplayService(logFileReader, batteryStateOfChargeService);
 
     logFileReader.readAll(filename);
-
     // Quit the program when it is done.
     QTimer::singleShot(0, &app, SLOT(quit()));
     return app.exec();
-};
+}

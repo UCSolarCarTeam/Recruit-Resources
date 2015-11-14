@@ -29,8 +29,15 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
-
 #include "LogFileReader.h"
+#include <QTime>
+
+namespace
+{
+    const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
+    const QString BatData_Delimiter= ", ";
+    const int COLUMNS = 3;
+}
 
 LogFileReader::LogFileReader()
 {
@@ -42,13 +49,13 @@ LogFileReader::~LogFileReader()
 
 bool LogFileReader::readAll(const QString& fileName)
 {
+
     QFile file(fileName);
     if(!file.open(QIODevice::ReadOnly))
     {
         qDebug() << "Unable to open file" << fileName;
         return false;
     }
-
     QTextStream input(&file);
     while(!input.atEnd())
     {
@@ -56,8 +63,7 @@ bool LogFileReader::readAll(const QString& fileName)
         BatteryData batteryData;
         if (!parseLine(line, batteryData))
         {
-            qDebug() << "Error while parsing" << line;
-            // return false;
+            qDebug() << "Error while parsing" << line;         
         }
         else
         {
@@ -74,12 +80,27 @@ bool LogFileReader::readAll(const QString& fileName)
 // File input is a csv file in the format of hh:mm:ss:zzz, voltage, current
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    // TODO implement this first
+    QStringList sections = line.split(BatData_Delimiter);
+    if(sections.length() != COLUMNS)
+    {
+        return false;
+    }
 
-    // This is here to the compiler happy. Otherwise the compile
-    // will have an error warning about an unused variable. Remove this
-    // when you use it.
-    Q_UNUSED(line);
-    Q_UNUSED(batteryData);
-    return true;
+    QString timeString = sections.at(0);
+    batteryData.time = QTime::fromString(timeString,STRING_TIME_FORMAT);
+
+    bool voltageOK;
+    batteryData.voltage = sections.at(1).toDouble(&voltageOK);
+
+    bool currentOK;
+    batteryData.current = sections.at(2).toDouble(&currentOK);
+
+    if(voltageOK && currentOK && batteryData.time.isValid())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

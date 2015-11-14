@@ -1,4 +1,4 @@
-/** 
+/**
  *  University of Calgary Solar Car Team New Recruit Exercise
  *  Copyright (C) 2015 University of Calgary Solar Car Team
  *
@@ -26,15 +26,20 @@
  */
 
 #include "BatteryStateOfChargeService.h"
-
+#include "BatteryData.h"
+ 
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double MSECS_TO_HOURS = 2.77778e-7;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
+, presentCurrent_(0)
+, firstRun_(true)
 {
+    ampHoursUsed_ = BATTERY_AMP_HOUR_CAPACITY * (initialStateOfChargePercent_ / 100);
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -43,21 +48,51 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return 0.0;
+    return ampHoursUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return false;
+    if(presentCurrent_ >= 0)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return QTime::currentTime();
+    double timeLeft;
+    timeLeft=qAbs(ampHoursUsed_ / presentCurrent_) / MSECS_TO_HOURS;
+    QTime base(0,0);
+    return base.addMSecs(timeLeft);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData);
-    // Update your variables here.
+ 
+    double previousCurrent_ = presentCurrent_;
+    QTime previous_Time = presentTime_;
+
+    presentCurrent_ = batteryData.current;
+    presentTime_ = batteryData.time;
+
+    if(firstRun_ != false)
+    {
+        firstRun_ = false;
+    }
+    else
+    {
+        int msSinceLastTime = abs(previous_Time.msecsTo(presentTime_));
+        double hoursSinceLastTime = msSinceLastTime * MSECS_TO_HOURS;
+
+        double avgCurrent = (presentCurrent_ + previousCurrent_) / 2;
+
+        double ampHoursBetweenPresentPreviousTime = avgCurrent * hoursSinceLastTime;
+
+        ampHoursUsed_ = ampHoursUsed_ - ampHoursBetweenPresentPreviousTime;
+    }
 }
