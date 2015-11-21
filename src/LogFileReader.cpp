@@ -52,7 +52,6 @@ bool LogFileReader::readAll(const QString& fileName)
 // File input is a csv file in the format of hh:mm:ss:zzz, voltage, current
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    // TODO implement this first
     QStringList sections = line.split(", ");
     if(sections.length() != NUMBER_OF_COLUMNS)
     {
