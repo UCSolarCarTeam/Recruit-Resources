@@ -9,8 +9,6 @@ BatteryStateDisplayService::BatteryStateDisplayService(
     I_BatteryStateOfChargeService& batteryStateOfChargeService)
 : batteryStateOfChargeService_(batteryStateOfChargeService)
 {
-
-
     // This function is what "connects" the signal to the slot. So whenever the
     // signals it emitted, the slot will be called and the signal arguements
     // will be passed into the slot.
@@ -24,8 +22,6 @@ BatteryStateDisplayService::~BatteryStateDisplayService()
 
 void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& batteryData)
 {
-
-
     batteryStateOfChargeService_.addData(batteryData);
 
     QTextStream(stdout) << "Voltage: " << batteryData.voltage
