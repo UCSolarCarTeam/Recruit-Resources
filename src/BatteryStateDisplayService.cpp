@@ -1,6 +1,4 @@
 #include <QTextStream>
-
-
 #include "BatteryData.h"
 #include "BatteryStateDisplayService.h"
 #include "I_BatteryDataSource.h"
@@ -11,6 +9,8 @@ BatteryStateDisplayService::BatteryStateDisplayService(
     I_BatteryStateOfChargeService& batteryStateOfChargeService)
 : batteryStateOfChargeService_(batteryStateOfChargeService)
 {
+
+
     // This function is what "connects" the signal to the slot. So whenever the
     // signals it emitted, the slot will be called and the signal arguements
     // will be passed into the slot.
@@ -24,6 +24,8 @@ BatteryStateDisplayService::~BatteryStateDisplayService()
 
 void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& batteryData)
 {
+
+
     batteryStateOfChargeService_.addData(batteryData);
 
     QTextStream(stdout) << "Voltage: " << batteryData.voltage
@@ -32,11 +34,11 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 
     if(batteryStateOfChargeService_.isCharging() == true)
     {
-        QTextStream(stdout) <<"Time until battery is charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz") <<endl;
+        QTextStream(stdout) << "Time until battery is charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz") << endl;
     }
     else
     {
-        QTextStream(stdout) <<"Time until battery is discharged: " <<batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz") <<endl;
+        QTextStream(stdout) << "Time until battery is discharged: " <<batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz") << endl;
     }
-    QTextStream(stdout) << " " <<endl;
+    QTextStream(stdout) << " " << endl;
 }

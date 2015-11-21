@@ -1,5 +1,4 @@
 #include "BatteryStateOfChargeService.h"
-
 #include "LogFileReader.h"
 
 namespace
@@ -20,12 +19,14 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return BATTERY_AMP_HOUR_CAPACITY-ampHours_ ;
+    return BATTERY_AMP_HOUR_CAPACITY - ampHours_ ;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(previousCurrent_<0)
+
+
+    if(previousCurrent_ < 0)
     {
     return false;
     }
@@ -38,15 +39,17 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
 
-    double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours_)/previousCurrent_ ;
+    double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours_) / previousCurrent_ ;
 
-    timeRemaining = qAbs(timeRemaining)/MILISECONDS_TO_HOURS;
+    timeRemaining = qAbs(timeRemaining) / MILISECONDS_TO_HOURS;
 
     return QTime(0, 0, 0, 0).addMSecs(timeRemaining);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
+
+
     double presentCurrent = batteryData.current;
     if(previousCurrent_ == 0)
     {
