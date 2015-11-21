@@ -1,6 +1,5 @@
 #include <QTextStream>
-#include <QFile>
-#include <QString>
+
 
 #include "BatteryData.h"
 #include "BatteryStateDisplayService.h"
@@ -33,15 +32,11 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 
     if(batteryStateOfChargeService_.isCharging() == true)
     {
-        QTextStream(stdout) <<"the battery is charging." <<endl;
         QTextStream(stdout) <<"Time until battery is charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz") <<endl;
     }
     else
     {
-        QTextStream(stdout)<<"the battery is discharging." << endl;
         QTextStream(stdout) <<"Time until battery is discharged: " <<batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz") <<endl;
     }
     QTextStream(stdout) << " " <<endl;
-
-    // TODO Print out time till it is depleted or charged.
 }

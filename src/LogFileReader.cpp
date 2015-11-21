@@ -25,7 +25,7 @@ bool LogFileReader::readAll(const QString& fileName)
     if(!file.open(QIODevice::ReadOnly))
     {
         qDebug() << "Unable to open file" << fileName;
-        return false;
+        //return false;
     }
 
     QTextStream input(&file);
@@ -36,7 +36,6 @@ bool LogFileReader::readAll(const QString& fileName)
         if (!parseLine(line, batteryData))
         {
             qDebug() << "Error while parsing" << line;
-            // return false;
         }
         else
         {
@@ -59,12 +58,23 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
         {
            return false;
         }
-
      QString time = splitLine.at(0);
      batteryData.time = QTime::fromString(time, TIME_OUTPUT);
 
-     batteryData.voltage = splitLine.at(1).toDouble();
-     batteryData.current = splitLine.at(2).toDouble();
+     bool currentOkay;
+     bool voltageOkay;
+
+     batteryData.voltage = splitLine.at(1).toDouble(&voltageOkay);
+     batteryData.current = splitLine.at(2).toDouble(&currentOkay);
+
+     if(!currentOkay || !voltageOkay || !batteryData.time.isValid())
+     {
+         return false;
+     }
+     else
+     {
+         return true;
+     }
 
 
 

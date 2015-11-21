@@ -1,8 +1,4 @@
 #include "BatteryStateOfChargeService.h"
-#include <QDebug>
-#include <QFile>
-#include <QString>
-#include <QTextStream>
 
 #include "LogFileReader.h"
 
