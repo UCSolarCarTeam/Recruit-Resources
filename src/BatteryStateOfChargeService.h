@@ -26,7 +26,7 @@ private:
     QTime previousTime;
     QTime newTime;
     double previousCurrent;
-    double dTime;
+    double deltaTime;
     double aveCurrent;
 
     double ampHours;

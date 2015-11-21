@@ -58,11 +58,11 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     }
 
     newTime = batteryData.time;
-    dTime = previousTime.msecsTo(newTime);
+    deltaTime = previousTime.msecsTo(newTime);
 
-    dTime = dTime*MILISECONDS_TO_HOURS;
+    deltaTime = deltaTime*MILISECONDS_TO_HOURS;
 
-    double dAmpHours = aveCurrent*dTime;
+    double dAmpHours = aveCurrent*deltaTime;
     ampHours += dAmpHours;
 
     previousTime = newTime;
