@@ -17,7 +17,6 @@ public:
     void addData(const BatteryData& batteryData);
 
 private:
-    // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
 
     QTime previousTime_;
