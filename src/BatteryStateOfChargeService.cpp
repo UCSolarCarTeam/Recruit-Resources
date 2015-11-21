@@ -26,11 +26,15 @@
  */
 
 #include "BatteryStateOfChargeService.h"
+#include <IOSTREAM>
+#include <QTextStream>
 #include <QDebug>
+using std::cout; using std::endl;
 
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double HOUR_TO_SEC = 3600000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -44,7 +48,12 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return BATTERY_AMP_HOUR_CAPACITY - totalAH_;
+    if (totalAH_>BATTERY_AMP_HOUR_CAPACITY)
+        return 0;
+    else if (totalAH_<0)
+        return BATTERY_AMP_HOUR_CAPACITY;
+    else
+        return BATTERY_AMP_HOUR_CAPACITY - totalAH_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
@@ -55,23 +64,24 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    QTime ntime(0,0,0,0);
-    if (time.isNull())
-        return ntime;
+    QTime null_time(0,0,0,0);
+    if (return_time.isNull())
+        return null_time;
     else
-        return time;
+        return return_time;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    if (prTime_.isNull())
+    if (previousTime_.isNull())
     {
         totalAH_=BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_/100;
-        prTime_=batteryData.time;
+        previousTime_=batteryData.time;
     }
-    deltaT_=prTime_.msecsTo(batteryData.time);
-    deltaC_=(batteryData.current+preC_)/2;
-    amph_=deltaT_*deltaC_/3600000;
+    zero_time.setHMS(0,0,0,0);
+    deltaTime_=previousTime_.msecsTo(batteryData.time)/HOUR_TO_SEC;
+    deltaCurrent_=(batteryData.current+previousCurrent_)/2;
+    amph_=deltaTime_*deltaCurrent_;
     totalAH_+=amph_;
 
     if (batteryData.current < 0){
@@ -83,26 +93,10 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
         isCharging_=false;
         deltaAH_=totalAH_;
     }
-    deltaAH_ /= deltaC_;
+    deltaAH_ /= batteryData.current;
+    return_time=zero_time.addMSecs(deltaAH_*HOUR_TO_SEC);
 
-    int hours = deltaAH_;
-    int min = (deltaAH_-hours)*60;
-    int sec =(deltaAH_-hours-(min/60))*60;
-    int ms = (deltaAH_-hours-min/60-sec/3600)*1000;
-    time.setHMS(hours, min, sec, ms);
-
-    prTime_=batteryData.time;
-    preC_=batteryData.current;
+    previousTime_=batteryData.time;
+    previousCurrent_=batteryData.current;
 
 }
-
-
-
-
-
-
-
-
-
-
-

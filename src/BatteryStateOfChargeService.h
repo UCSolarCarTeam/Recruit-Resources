@@ -38,21 +38,21 @@ public:
     double totalAmpHoursUsed() const;
     bool isCharging() const;
     QTime timeWhenChargedOrDepleted() const;
-    QTime time;
 
     void addData(const BatteryData& batteryData);
 
 private:
     const double initialStateOfChargePercent_;
 
-    QTime prTime_;
-    double deltaC_;
-    double preC_;
-    double deltaT_;
+    QTime previousTime_;
+    QTime return_time;
+    QTime zero_time;
+    int chargeTime_;
+    double deltaCurrent_;
+    double previousCurrent_;
+    double deltaTime_;
     double amph_;
     double totalAH_;
     double isCharging_;
     double deltaAH_;
-    double chargeTime_;
-    int i;
 };
