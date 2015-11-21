@@ -5,6 +5,7 @@
 #include <QTime>
 
 #include "LogFileReader.h"
+#include <iostream>
 
 LogFileReader::LogFileReader()
 {
@@ -48,8 +49,8 @@ bool LogFileReader::readAll(const QString& fileName)
 // File input is a csv file in the format of hh:mm:ss:zzz, voltage, current
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    unsigned int allowedCharLength = 14;
-    std::string allowedChars [allowedCharLength] = {"1","2","3","4","5","6","7","8","9","0",":",",",".","-"};
+    unsigned int allowedCharLength = 15;
+    std::string allowedChars [allowedCharLength] = {"1","2","3","4","5","6","7","8","9","0",":",",",".","-"," "};
     bool tempBool;
     for(unsigned int count = 0; count < line.toStdString().length(); count++)
     {
@@ -61,7 +62,7 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
                 tempBool = true;
             }
         }
-        if(!tempBool)
+        if(tempBool == false)
         {
             return false;
         }
