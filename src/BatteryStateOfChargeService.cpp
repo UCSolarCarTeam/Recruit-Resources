@@ -6,6 +6,7 @@ using namespace std;
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const QString CONVERT_TO_MILLISECONDS = 2.7778e-7;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -38,7 +39,7 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-AmpHours)/inCurrent;
-    timeRemaining = qAbs(timeRemaining)/2.77778e-7;
+    timeRemaining = qAbs(timeRemaining)/CONVERT_TO_MILLISECONDS;
     return QTime(0, 0, 0, 0).addMSecs(timeRemaining);
 }
 
@@ -47,7 +48,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 
     QTime currentTime = batteryData.time;
     changeTime = abs(initialTime.msecsTo(currentTime));
-    changeTime = changeTime * 2.77778e-7;
+    changeTime = changeTime * CONVERT_TO_MILLISECONDS;
     initialTime = currentTime;
     if ((Current > 0 && Current < 10000000000) || Current < 0 )
     {
@@ -74,12 +75,8 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     SumCurrent += inCurrent;
     AverageCurrent = SumCurrent/counter;
     TimeLeft= (BATTERY_AMP_HOUR_CAPACITY-AmpHours)/AverageCurrent;
-    TimeLeft = qAbs(TimeLeft) * 2.77778e-7;
+    TimeLeft = qAbs(TimeLeft) * CONVERT_TO_MILLISECONDS;
 
     dTime = initialTime.msecsTo(currentTime);
-    dTime = dTime * 2.77778e-7;
-
-
-
-    // Update your variables here.
+    dTime = dTime * CONVERT_TO_MILLISECONDS;
 }
