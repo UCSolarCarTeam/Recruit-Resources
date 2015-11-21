@@ -2,8 +2,14 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
-
+#include <QStringList>
 #include "LogFileReader.h"
+
+namespace
+{
+const QString TIME_FORMAT = "hh:mm:ss.zzz";
+const int NUMBER_OF_COLUMNS = 3;
+}
 
 LogFileReader::LogFileReader()
 {
@@ -30,13 +36,16 @@ bool LogFileReader::readAll(const QString& fileName)
         if (!parseLine(line, batteryData))
         {
             qDebug() << "Error while parsing" << line;
-            return false;
         }
+
 
         // This is how to send out a signal in QT using the emit keyword.
         // This line notifies how any classes listening to this signal
         // that battery data has been received.
-        emit batteryDataReceived(batteryData);
+        else
+        {
+            emit batteryDataReceived(batteryData);
+        }
     }
 
     return true;
@@ -46,11 +55,32 @@ bool LogFileReader::readAll(const QString& fileName)
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     // TODO implement this first
+    QStringList sections = line.split(", ");
+    if(sections.length() != NUMBER_OF_COLUMNS)
+    {
+     return false;
+    }
 
-    // This is here to the compiler happy. Otherwise the compile
-    // will have an error warning about an unused variable. Remove this
-    // when you use it.
-    Q_UNUSED(line);
-    Q_UNUSED(batteryData);
+
+    QString stringTime = sections.at(0);
+    batteryData.time = QTime::fromString (stringTime, TIME_FORMAT);
+
+    bool voltageOkay;
+    bool currentOkay;
+
+    batteryData.voltage = sections.at(1).toDouble(&voltageOkay);
+    batteryData.current = sections.at(2).toDouble(&currentOkay);
+
+    if(!voltageOkay || !currentOkay)
+    {
+     return false;
+    }
+
+    if(!batteryData.time.isValid())
+    {
+     return false;
+    }
+
+
     return true;
 }
