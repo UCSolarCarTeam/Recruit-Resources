@@ -26,7 +26,6 @@
  */
 
 #include <QTextStream>
-
 #include "BatteryData.h"
 #include "BatteryStateDisplayService.h"
 #include "I_BatteryDataSource.h"
@@ -56,5 +55,13 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
         << " Current: " << batteryData.current
         << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << endl;
 
-    // TODO Print out time till it is depleted or charged.
+    if(batteryStateOfChargeService_.isCharging() == true)
+    {
+        QTextStream(stdout) << "Time until battery is charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz") << endl;
+    }
+    else
+    {
+        QTextStream(stdout) << "Time until battery is discharged: " <<batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz") << endl;
+    }
+    QTextStream(stdout) << " " << endl;
 }

@@ -28,6 +28,7 @@
 #pragma once
 
 #include "I_BatteryStateOfChargeService.h"
+#include "LogFileReader.h"
 
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
@@ -42,8 +43,12 @@ public:
     void addData(const BatteryData& batteryData);
 
 private:
-    // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
 
-    // Recommend adding necessary variables here
+    QTime previousTime_;
+    QTime newTime_;
+    double previousCurrent_;
+    double deltaTime_;
+    double avgCurrent_;
+    double ampHours_;
 };
