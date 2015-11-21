@@ -43,18 +43,20 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-
+    //Time Calculations
     QTime currentTime = batteryData.time;
     changeTime = abs(prevTime.msecsTo(currentTime));
     changeTime = changeTime * CONVERT_TO_MILLISECONDS;
     prevTime = currentTime;
+    dTime = prevTime.msecsTo(currentTime);
+    dTime = dTime * CONVERT_TO_MILLISECONDS;
+
+    //Current Calculations
     prevCurrent = existingCurrent;
     existingCurrent = batteryData.current;
     AvgCurrent = (prevCurrent + existingCurrent)/2;
+
+    //Amp Calculations
     double AmpChange = (AvgCurrent * changeTime);
-
     AmpHours += AmpChange;
-
-    dTime = prevTime.msecsTo(currentTime);
-    dTime = dTime * CONVERT_TO_MILLISECONDS;
 }
