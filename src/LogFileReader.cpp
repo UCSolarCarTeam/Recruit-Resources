@@ -16,7 +16,8 @@ LogFileReader::~LogFileReader()
 
 namespace
 {
-       QString TIME_OUTPUT = "hh:mm:ss.zzz";
+       QString STRING_TO_QTIME = "hh:mm:ss.zzz";
+       QString NEXT_COLUMN = ",";
 }
 
 bool LogFileReader::readAll(const QString& fileName)
@@ -53,19 +54,20 @@ bool LogFileReader::readAll(const QString& fileName)
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     // TODO implement this first
-    QStringList splitLine = line.split(", ");
-      if(splitLine.length() != 3)
+    QStringList column = line.split(NEXT_COLUMN);
+      if(column.length() != 3)
         {
            return false;
         }
-     QString time = splitLine.at(0);
-     batteryData.time = QTime::fromString(time, TIME_OUTPUT);
+     QString timeString = column.at(0);
+
+     batteryData.time = QTime::fromString(timeString, STRING_TO_QTIME);
 
      bool currentOkay;
      bool voltageOkay;
 
-     batteryData.voltage = splitLine.at(1).toDouble(&voltageOkay);
-     batteryData.current = splitLine.at(2).toDouble(&currentOkay);
+     batteryData.voltage = column.at(1).toDouble(&voltageOkay);
+     batteryData.current = column.at(2).toDouble(&currentOkay);
 
      if(!currentOkay || !voltageOkay || !batteryData.time.isValid())
      {

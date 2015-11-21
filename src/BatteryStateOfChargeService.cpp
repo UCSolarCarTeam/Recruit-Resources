@@ -9,9 +9,9 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent), previousCurrent(0)
+: initialStateOfChargePercent_(initialStateOfChargePercent), previousCurrent_(0)
 {
-    ampHours = (BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_)/100;
+    ampHours_ = (BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_)/100;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -20,12 +20,12 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return BATTERY_AMP_HOUR_CAPACITY-ampHours ;
+    return BATTERY_AMP_HOUR_CAPACITY-ampHours_ ;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(previousCurrent<0)
+    if(previousCurrent_<0)
     {
     return false;
     }
@@ -38,7 +38,7 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
 
-    double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours)/previousCurrent ;
+    double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours_)/previousCurrent_ ;
 
     timeRemaining = qAbs(timeRemaining)/MILISECONDS_TO_HOURS;
 
@@ -47,24 +47,24 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    double newCurrent = batteryData.current;
-    if(previousCurrent == 0)
+    double presentCurrent = batteryData.current;
+    if(previousCurrent_ == 0)
     {
-        aveCurrent = newCurrent;
+        aveCurrent_ = presentCurrent;
     }
     else
     {
-        aveCurrent = (previousCurrent+newCurrent)/2;
+        aveCurrent_ = (previousCurrent_+presentCurrent)/2;
     }
 
-    newTime = batteryData.time;
-    deltaTime = previousTime.msecsTo(newTime);
+    newTime_ = batteryData.time;
+    deltaTime_ = previousTime_.msecsTo(newTime_);
 
-    deltaTime = deltaTime*MILISECONDS_TO_HOURS;
+    deltaTime_ = deltaTime_*MILISECONDS_TO_HOURS;
 
-    double dAmpHours = aveCurrent*deltaTime;
-    ampHours += dAmpHours;
+    double deltaAmpHours = aveCurrent_*deltaTime_;
+    ampHours_ += deltaAmpHours;
 
-    previousTime = newTime;
-    previousCurrent = newCurrent;
+    previousTime_ = newTime_;
+    previousCurrent_ = presentCurrent;
 }

@@ -23,11 +23,11 @@ private:
 
     // Recommend adding necessary variables here
 
-    QTime previousTime;
-    QTime newTime;
-    double previousCurrent;
-    double deltaTime;
-    double aveCurrent;
+    QTime previousTime_;
+    QTime newTime_;
+    double previousCurrent_;
+    double deltaTime_;
+    double aveCurrent_;
 
-    double ampHours;
+    double ampHours_;
 };
