@@ -71,13 +71,13 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     //example input= 07:01:07.024, 3.538654, 25.523571
     QStringList lineSplit = line.split(",");
     if(lineSplit.length()!= 3)
-        return false;
+        {return false;}
     QStringList timeSplit = lineSplit[0].split(":");
     if(timeSplit.length()!=3)
-        return false;
+        {return false;}
     QStringList secondSplit = timeSplit[2].split(".");
     if(secondSplit.length()!=2)
-        return false;
+        {return false;}
 
     QTime time = QTime(timeSplit[0].toInt(),    //hour
                         timeSplit[1].toInt(),   //minute

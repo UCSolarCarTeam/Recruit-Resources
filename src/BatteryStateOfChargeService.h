@@ -22,6 +22,7 @@ private:
     QTime *prevTime;
     double myVoltage;
     double myCurrent;
+    double prevCurrent;
 
     // Recommend adding necessary variables here
 };
