@@ -37,7 +37,6 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-
     double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-ampHours_) / previousCurrent_;
     timeRemaining = qAbs(timeRemaining) / MILLISECONDS_TO_HOURS;
     return QTime(0, 0, 0, 0).addMSecs(timeRemaining);

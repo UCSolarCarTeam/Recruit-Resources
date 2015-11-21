@@ -53,7 +53,7 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     QStringList column = line.split(BATDATA_DELIMITER);
     if(column.length() != 3)
     {
-           return false;
+        return false;
     }
     QString timeString = column.at(0);
 

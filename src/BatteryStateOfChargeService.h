@@ -3,7 +3,6 @@
 #include "I_BatteryStateOfChargeService.h"
 #include "LogFileReader.h"
 
-
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
 public:
