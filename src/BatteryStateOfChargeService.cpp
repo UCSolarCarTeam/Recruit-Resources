@@ -48,12 +48,8 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     changeTime = abs(prevTime.msecsTo(currentTime));
     changeTime = changeTime * CONVERT_TO_MILLISECONDS;
     prevTime = currentTime;
-    if (Current > 0 || Current < 0 )
-    {
-        inCurrent = Current;
-    }
+    inCurrent = Current;
     Current = batteryData.current;
-
     if (inCurrent == 0)
     {
         AvgCurrent = 0;
@@ -62,17 +58,9 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     {
         AvgCurrent = (inCurrent + Current)/2;
     }
-
-    double inVoltage = batteryData.voltage;
-    double Voltage = batteryData.voltage;
     double AmpChange = (AvgCurrent * changeTime);
 
     AmpHours += AmpChange;
-
-    int counter;
-    counter++;
-    SumCurrent += inCurrent;
-    AverageCurrent = SumCurrent/counter;
 
     dTime = prevTime.msecsTo(currentTime);
     dTime = dTime * CONVERT_TO_MILLISECONDS;

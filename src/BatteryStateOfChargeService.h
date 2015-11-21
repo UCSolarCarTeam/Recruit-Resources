@@ -24,7 +24,6 @@ private:
     QTime currentTime;
     double AmpHours;
     double Current;
-    double AverageCurrent;
     double dTime;
     double SumCurrent;
     // Recommend adding necessary variables here
