@@ -37,7 +37,9 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return t;
+    double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-AmpHours)/inCurrent;
+    timeRemaining = qAbs(timeRemaining)/2.77778e-7;
+    return QTime(0, 0, 0, 0).addMSecs(timeRemaining);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
@@ -52,6 +54,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
         inCurrent = Current;
     }
     Current = batteryData.current;
+
     if (inCurrent == 0)
     {
         objectCurrent = 0;
@@ -73,21 +76,8 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     TimeLeft= (BATTERY_AMP_HOUR_CAPACITY-AmpHours)/AverageCurrent;
     TimeLeft = qAbs(TimeLeft) * 2.77778e-7;
 
-
-
-    Hours = TimeLeft;
-    int h = (int)TimeLeft;
-
-    Minutes = (Hours-h)*60;
-    int m = Minutes;
-
-    Seconds = (Minutes-m)*60;
-    int s = Seconds;
-
-    int ms = (Seconds-s)*1000;
-
-    QTime time(h,m,s,ms);
-    t =  time;
+    dTime = initialTime.msecsTo(currentTime);
+    dTime = dTime * 2.77778e-7;
 
 
 

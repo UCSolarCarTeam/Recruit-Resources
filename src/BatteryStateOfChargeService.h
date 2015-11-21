@@ -36,5 +36,6 @@ private:
     double Milliseconds;
     QTime t;
     double AmpChange;
+    double dTime;
     // Recommend adding necessary variables here
 };
