@@ -17,10 +17,10 @@ public:
 private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
-    double objectCurrent;
+    double AvgCurrent;
     double inCurrent;
     double changeTime;
-    QTime initialTime;
+    QTime prevTime;
     QTime currentTime;
     double AmpHours;
     double Current;
