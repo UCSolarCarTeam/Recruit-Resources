@@ -35,7 +35,6 @@
 namespace
 {
     const QString TIME_FORMAT = "hh:mm:ss.zzz";
-    QString TEMP_TIME;
 
 }
 
@@ -81,18 +80,16 @@ bool LogFileReader::readAll(const QString& fileName)
 // File input is a csv file in the format of hh:mm:ss:zzz, voltage, current
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    TEMP_TIME = line.section(",",0,0);
-    QTime bdt = QTime::fromString(TEMP_TIME, TIME_FORMAT);
-    double bdv= line.section(", ",1,1).toDouble();
-    double bdc = line.section(", ",2,2).toDouble();
-    if (bdt.isNull() || !bdv || !bdc){
-        qDebug() << "\nError reading from data"<<endl;
+    QTime batteryDataTime = QTime::fromString(line.section(",",0,0), TIME_FORMAT);
+    double batteryDataVoltage= line.section(", ",1,1).toDouble();
+    double batteryDataCurrent = line.section(", ",2,2).toDouble();
+    if (batteryDataTime.isNull() || !batteryDataVoltage || !batteryDataCurrent){
         return false;
     }
     else {
-        batteryData.time=bdt;
-        batteryData.current=bdc;
-        batteryData.voltage=bdv;
+        batteryData.time=batteryDataTime;
+        batteryData.current=batteryDataCurrent;
+        batteryData.voltage=batteryDataVoltage;
         return true;
     }
 }

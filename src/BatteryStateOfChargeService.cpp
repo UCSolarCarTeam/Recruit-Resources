@@ -40,6 +40,7 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
+    totalAH_=BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_/100;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -58,15 +59,14 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return isCharging_;
+    return previousCurrent_ < 0;
 }
 
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    QTime null_time(0,0,0,0);
     if (return_time.isNull())
-        return null_time;
+        return QTime(0,0);
     else
         return return_time;
 }
@@ -75,26 +75,20 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     if (previousTime_.isNull())
     {
-        totalAH_=BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_/100;
         previousTime_=batteryData.time;
     }
-    zero_time.setHMS(0,0,0,0);
     deltaTime_=previousTime_.msecsTo(batteryData.time)/HOUR_TO_SEC;
-    deltaCurrent_=(batteryData.current+previousCurrent_)/2;
-    amph_=deltaTime_*deltaCurrent_;
-    totalAH_+=amph_;
+    avgCurrent_=(batteryData.current+previousCurrent_)/2;
+    totalAH_+= (deltaTime_*avgCurrent_);
 
     if (batteryData.current < 0){
-        isCharging_=true;
         deltaAH_=-1*(BATTERY_AMP_HOUR_CAPACITY-totalAH_);
 
     }
     else{
-        isCharging_=false;
         deltaAH_=totalAH_;
     }
-    deltaAH_ /= batteryData.current;
-    return_time=zero_time.addMSecs(deltaAH_*HOUR_TO_SEC);
+    return_time=QTime(0,0).addMSecs((deltaAH_/batteryData.current)*HOUR_TO_SEC);
 
     previousTime_=batteryData.time;
     previousCurrent_=batteryData.current;

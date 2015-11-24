@@ -46,13 +46,12 @@ private:
 
     QTime previousTime_;
     QTime return_time;
-    QTime zero_time;
-    int chargeTime_;
-    double deltaCurrent_;
+
+    double avgCurrent_;
     double previousCurrent_;
+
     double deltaTime_;
-    double amph_;
+
     double totalAH_;
-    double isCharging_;
     double deltaAH_;
 };
