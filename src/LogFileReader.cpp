@@ -55,6 +55,10 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     if(lineSplit.length()!= 3)
         {return false;}
 
+    QTime time = QTime::fromString(lineSplit[0],"hh:mm:ss.zzz");
+    if(!time.isValid())
+        {return false;}
+
     double voltage = lineSplit[1].toDouble(&convertedOkay);
     if(!convertedOkay||voltage<0)
         {return false;}
@@ -63,26 +67,6 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     if(!convertedOkay)
         {return false;}
 
-    QStringList timeSplit = lineSplit[0].split(":");
-    if(timeSplit.length()!=3)
-        {return false;}
-    QStringList secondSplit = timeSplit[2].split(".");
-    if(secondSplit.length()!=2)
-        {return false;}
-    int hour = timeSplit[0].toInt(&convertedOkay);
-    if(!convertedOkay|| hour < 0)
-        {return false;}
-    int minute = timeSplit[1].toInt(&convertedOkay);
-    if(!convertedOkay|| minute < 0)
-        {return false;}
-    int second = secondSplit[0].toInt(&convertedOkay);
-    if(!convertedOkay|| second < 0)
-        {return false;}
-    int millisec = secondSplit[1].toInt(&convertedOkay);
-    if(!convertedOkay || millisec < 0)
-        {return false;}
-
-    QTime time = QTime(hour, minute, second, millisec);
     batteryData = BatteryData(time, voltage, current);
 
     return true;
