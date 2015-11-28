@@ -10,7 +10,7 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
-    ampHourTotal = (initialStateOfChargePercent_/100) * BATTERY_AMP_HOUR_CAPACITY;
+    ampHourTotal_ = (initialStateOfChargePercent_/100) * BATTERY_AMP_HOUR_CAPACITY;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -19,7 +19,7 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return ampHourUsed;
+    return ampHourUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
@@ -37,12 +37,12 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     int current = currCurrent_;
     if(isCharging())
     {
-        ampHoursLeft = BATTERY_AMP_HOUR_CAPACITY - ampHourTotal;
+        ampHoursLeft = BATTERY_AMP_HOUR_CAPACITY - ampHourTotal_;
         current *= -1;
     }
     else
     {
-        ampHoursLeft = ampHourTotal;
+        ampHoursLeft = ampHourTotal_;
     }
     double msecLeft = (ampHoursLeft * HOURS_TO_MSECS) / current;
     QTime QTimeLeft = QTime(0,0,0,0).addMSecs(msecLeft);
@@ -66,6 +66,6 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     double avgCurrent = (currCurrent_+prevCurrent_)/2;
 
     double changeInAmpHour = avgCurrent * diffOfTime;
-    ampHourTotal += changeInAmpHour;
-    ampHourUsed = BATTERY_AMP_HOUR_CAPACITY- ampHourTotal;
+    ampHourTotal_ += changeInAmpHour;
+    ampHourUsed_ = BATTERY_AMP_HOUR_CAPACITY- ampHourTotal_;
 }
