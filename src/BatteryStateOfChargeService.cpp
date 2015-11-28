@@ -24,7 +24,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(currCurrent_>=0)
+    if(currCurrent_ >= 0)
     {
         return false;
     }

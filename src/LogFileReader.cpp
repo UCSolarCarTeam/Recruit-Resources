@@ -54,22 +54,29 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     //example input= 07:01:07.024, 3.538654, 25.523571
     bool convertedOkay;
     QStringList lineSplit = line.split(",");
-    if(lineSplit.length()!= 3)
-        {return false;}
+    if(lineSplit.length() != 3)
+    {
+        return false;
+    }
 
     QTime time = QTime::fromString(lineSplit[0],TIME_FORMAT);
     if(!time.isValid())
-        {return false;}
+    {
+        return false;
+    }
 
     double voltage = lineSplit[1].toDouble(&convertedOkay);
-    if(!convertedOkay||voltage<0)
-        {return false;}
+    if(!convertedOkay)
+    {
+        return false;
+    }
 
     double current = lineSplit[2].toDouble(&convertedOkay);
     if(!convertedOkay)
-        {return false;}
+    {
+        return false;
+    }
 
     batteryData = BatteryData(time, voltage, current);
-
     return true;
 }
