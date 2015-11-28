@@ -4,8 +4,7 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
-    double ampHourTotal;
-    double ampHourUsed;
+    const int HOURS_TO_MSECS = 3600000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -20,20 +19,12 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    double diffOfTimeMSec = prevTime->msecsTo(myTime);
-    double diffOfTime = diffOfTimeMSec/3600000;
-    double avgCurrent = (myCurrent+prevCurrent)/2;
-
-    double changeInAmpHour = avgCurrent * diffOfTime;
-    ampHourTotal += changeInAmpHour;
-    //if(ampHourTotal > BATTERY_AMP_HOUR_CAPACITY){ampHourTotal = BATTERY_AMP_HOUR_CAPACITY;}
-    ampHourUsed = BATTERY_AMP_HOUR_CAPACITY- ampHourTotal;
     return ampHourUsed;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(myCurrent>=0)
+    if(currCurrent_>=0)
     {
         return false;
     }
@@ -43,34 +34,38 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     double ampHoursLeft;
+    int current = currCurrent_;
     if(isCharging())
     {
         ampHoursLeft = BATTERY_AMP_HOUR_CAPACITY - ampHourTotal;
+        current *= -1;
     }
     else
     {
         ampHoursLeft = ampHourTotal;
     }
-    int current = myCurrent;
-    if(myCurrent < 0)
-    {
-        current *= -1;
-    }
-    double msecLeft = (ampHoursLeft * 3600000) / current;
-    QTime QTimeLeft = QTime(0,0,0,0);
-    QTimeLeft = QTimeLeft.addMSecs(msecLeft);
+    double msecLeft = (ampHoursLeft * HOURS_TO_MSECS) / current;
+    QTime QTimeLeft = QTime(0,0,0,0).addMSecs(msecLeft);
     return QTimeLeft;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    if(myTime.isNull())
+    if(currTime_.isNull())
     {
-        prevTime = new QTime(0,0,0,0);
+        prevTime_ = QTime(0,0,0,0);
     }
-    myVoltage = batteryData.voltage;
-    prevCurrent = myCurrent;
-    myCurrent = batteryData.current;
-    prevTime = new QTime(myTime.hour(),myTime.minute(),myTime.second(),myTime.msec());
-    myTime = batteryData.time;
+    prevCurrent_ = currCurrent_;
+    currCurrent_ = batteryData.current;
+    prevTime_ = QTime(currTime_.hour(),currTime_.minute(),currTime_.second(),currTime_.msec());
+    currTime_ = batteryData.time;
+
+    //ampHourCalculation is put here instead of totalAmpHoursUsed() due to the method being a const
+    double diffOfTimeMSec = prevTime_.msecsTo(currTime_);
+    double diffOfTime = diffOfTimeMSec/HOURS_TO_MSECS;
+    double avgCurrent = (currCurrent_+prevCurrent_)/2;
+
+    double changeInAmpHour = avgCurrent * diffOfTime;
+    ampHourTotal += changeInAmpHour;
+    ampHourUsed = BATTERY_AMP_HOUR_CAPACITY- ampHourTotal;
 }
