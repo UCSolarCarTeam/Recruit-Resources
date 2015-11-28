@@ -49,7 +49,7 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 {
     // TODO implement this first
     QStringList sections = line.split(",");
-    if (sections.length() !=3)
+    if (sections.length() != 3)
     {
         return false;
     }
