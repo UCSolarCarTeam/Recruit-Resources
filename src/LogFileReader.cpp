@@ -5,7 +5,6 @@
 #include <QTime>
 
 #include "LogFileReader.h"
-#include <iostream>
 
 LogFileReader::LogFileReader()
 {
