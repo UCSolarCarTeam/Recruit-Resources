@@ -1,6 +1,7 @@
 #include "BatteryStateOfChargeService.h"
 #include <QTime>
 #include <BatteryData.h>
+
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
@@ -8,9 +9,9 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent), prevCurrent(0)
+: initialStateOfChargePercent_(initialStateOfChargePercent), prevCurrent_(0)
 {
-    AmpHours = BATTERY_AMP_HOUR_CAPACITY*(initialStateOfChargePercent_/100);
+    AmpHours_ = BATTERY_AMP_HOUR_CAPACITY*(initialStateOfChargePercent_/100);
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -19,12 +20,12 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return BATTERY_AMP_HOUR_CAPACITY-AmpHours;
+    return BATTERY_AMP_HOUR_CAPACITY-AmpHours_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if (existingCurrent < 0)
+    if (existingCurrent_ < 0)
     {
         return false;
     }
@@ -36,27 +37,27 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-AmpHours)/prevCurrent;
-    timeRemaining = qAbs(timeRemaining)/CONVERT_TO_MILLISECONDS;
+    double timeRemaining = (BATTERY_AMP_HOUR_CAPACITY-AmpHours_) / prevCurrent_;
+    timeRemaining = qAbs(timeRemaining) / CONVERT_TO_MILLISECONDS;
     return QTime(0, 0, 0, 0).addMSecs(timeRemaining);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     //Time Calculations
-    QTime currentTime = batteryData.time;
-    changeTime = abs(prevTime.msecsTo(currentTime));
-    changeTime = changeTime * CONVERT_TO_MILLISECONDS;
-    prevTime = currentTime;
-    dTime = prevTime.msecsTo(currentTime);
-    dTime = dTime * CONVERT_TO_MILLISECONDS;
+    QTime currentTime_ = batteryData.time;
+    changeTime_ = abs(prevTime_.msecsTo(currentTime_));
+    changeTime_ = changeTime_ * CONVERT_TO_MILLISECONDS;
+    prevTime_ = currentTime_;
+    dTime_ = prevTime_.msecsTo(currentTime_);
+    dTime_ = dTime_ * CONVERT_TO_MILLISECONDS;
 
     //Current Calculations
-    prevCurrent = existingCurrent;
-    existingCurrent = batteryData.current;
-    AvgCurrent = (prevCurrent + existingCurrent)/2;
+    prevCurrent_ = existingCurrent_;
+    existingCurrent_ = batteryData.current;
+    AvgCurrent_ = (prevCurrent_ + existingCurrent_)/2;
 
     //Amp Calculations
-    double AmpChange = (AvgCurrent * changeTime);
-    AmpHours += AmpChange;
+    double AmpChange = (AvgCurrent_ * changeTime_);
+    AmpHours_ += AmpChange;
 }
