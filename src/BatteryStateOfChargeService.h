@@ -22,8 +22,8 @@ private:
     QTime prevTime_;
     double currCurrent_;
     double prevCurrent_;
-    double ampHourTotal;
-    double ampHourUsed;
+    double ampHourTotal_;
+    double ampHourUsed_;
 
     // Recommend adding necessary variables here
 };

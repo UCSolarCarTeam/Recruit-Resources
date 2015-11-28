@@ -45,8 +45,8 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
         ampHoursLeft = ampHourTotal_;
     }
     double msecLeft = (ampHoursLeft * HOURS_TO_MSECS) / current;
-    QTime QTimeLeft = QTime(0,0,0,0).addMSecs(msecLeft);
-    return QTimeLeft;
+    QTime timeLeft = QTime(0,0,0,0).addMSecs(msecLeft);
+    return timeLeft;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
@@ -57,12 +57,11 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     }
     prevCurrent_ = currCurrent_;
     currCurrent_ = batteryData.current;
-    prevTime_ = QTime(currTime_.hour(),currTime_.minute(),currTime_.second(),currTime_.msec());
+    prevTime_ = currTime_;
     currTime_ = batteryData.time;
 
     //ampHourCalculation is put here instead of totalAmpHoursUsed() due to the method being a const
-    double diffOfTimeMSec = prevTime_.msecsTo(currTime_);
-    double diffOfTime = diffOfTimeMSec/HOURS_TO_MSECS;
+    double diffOfTime = (double)prevTime_.msecsTo(currTime_)/HOURS_TO_MSECS;
     double avgCurrent = (currCurrent_+prevCurrent_)/2;
 
     double changeInAmpHour = avgCurrent * diffOfTime;

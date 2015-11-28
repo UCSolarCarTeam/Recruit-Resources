@@ -5,6 +5,10 @@
 
 #include "LogFileReader.h"
 
+namespace
+{
+    const QString TIME_FORMAT = "hh:mm:ss.zzz";
+}
 LogFileReader::LogFileReader()
 {
 }
@@ -53,7 +57,7 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     if(lineSplit.length()!= 3)
         {return false;}
 
-    QTime time = QTime::fromString(lineSplit[0],"hh:mm:ss.zzz");
+    QTime time = QTime::fromString(lineSplit[0],TIME_FORMAT);
     if(!time.isValid())
         {return false;}
 
