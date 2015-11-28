@@ -1,0 +1,11 @@
+src/BatteryData.cpp
+src/BatteryData.h
+src/BatteryStateDisplayService.cpp
+src/BatteryStateDisplayService.h
+src/BatteryStateOfChargeService.cpp
+src/BatteryStateOfChargeService.h
+src/I_BatteryDataSource.h
+src/I_BatteryStateOfChargeService.h
+src/LogFileReader.cpp
+src/LogFileReader.h
+src/main.cpp
