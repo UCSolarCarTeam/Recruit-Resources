@@ -49,44 +49,41 @@ bool LogFileReader::readAll(const QString& fileName)
 // File input is a csv file in the format of hh:mm:ss:zzz, voltage, current
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    unsigned int allowedCharLength = 15;
-    std::string allowedChars [allowedCharLength] = {"1","2","3","4","5","6","7","8","9","0",":",",",".","-"," "};
-    bool tempBool;
-    for(unsigned int count = 0; count < line.toStdString().length(); count++)
-    {
-        tempBool = false;
-        for(unsigned int count1 = 0; count1 < allowedCharLength; count1++)
-        {
-            if(allowedChars[count1] == line.toStdString().substr(count,1))
-            {
-                tempBool = true;
-            }
-        }
-        if(tempBool == false)
-        {
-            return false;
-        }
-    }
-
     //example input= 07:01:07.024, 3.538654, 25.523571
+    bool convertedOkay;
     QStringList lineSplit = line.split(",");
     if(lineSplit.length()!= 3)
         {return false;}
+
+    double voltage = lineSplit[1].toDouble(&convertedOkay);
+    if(!convertedOkay||voltage<0)
+        {return false;}
+
+    double current = lineSplit[2].toDouble(&convertedOkay);
+    if(!convertedOkay)
+        {return false;}
+
     QStringList timeSplit = lineSplit[0].split(":");
     if(timeSplit.length()!=3)
         {return false;}
     QStringList secondSplit = timeSplit[2].split(".");
     if(secondSplit.length()!=2)
         {return false;}
+    int hour = timeSplit[0].toInt(&convertedOkay);
+    if(!convertedOkay|| hour < 0)
+        {return false;}
+    int minute = timeSplit[1].toInt(&convertedOkay);
+    if(!convertedOkay|| minute < 0)
+        {return false;}
+    int second = secondSplit[0].toInt(&convertedOkay);
+    if(!convertedOkay|| second < 0)
+        {return false;}
+    int millisec = secondSplit[1].toInt(&convertedOkay);
+    if(!convertedOkay || millisec < 0)
+        {return false;}
 
-    QTime time = QTime(timeSplit[0].toInt(),    //hour
-                        timeSplit[1].toInt(),   //minute
-                        secondSplit[0].toInt(), //second
-                        secondSplit[1].toInt());//millisec
-
-    batteryData = BatteryData(time,
-                              lineSplit[1].toDouble(),//voltage
-                              lineSplit[2].toDouble());//current
+    QTime time = QTime(hour, minute, second, millisec);
+    batteryData = BatteryData(time, voltage, current);
 
     return true;
 }
