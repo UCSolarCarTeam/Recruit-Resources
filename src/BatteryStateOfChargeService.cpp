@@ -26,10 +26,7 @@
  */
 
 #include "BatteryStateOfChargeService.h"
-#include <IOSTREAM>
-#include <QTextStream>
-#include <QDebug>
-using std::cout; using std::endl;
+
 
 namespace
 {
@@ -73,6 +70,8 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
+    double deltaAH_;
+
     if (previousTime_.isNull())
     {
         previousTime_=batteryData.time;

@@ -53,5 +53,4 @@ private:
     double deltaTime_;
 
     double totalAH_;
-    double deltaAH_;
 };
