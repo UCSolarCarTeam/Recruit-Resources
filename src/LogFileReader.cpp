@@ -83,7 +83,7 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     QTime batteryDataTime = QTime::fromString(line.section(SPACE_DELIMINTER,0,0), TIME_FORMAT);
     double batteryDataVoltage= line.section(SPACE_DELIMINTER,1,1).toDouble();
     double batteryDataCurrent = line.section(SPACE_DELIMINTER,2,2).toDouble();
-    if (batteryDataTime.isNull() || !batteryDataVoltage || !batteryDataCurrent){
+    if (!batteryDataTime.isValid() || !batteryDataVoltage || !batteryDataCurrent || !line.section(SPACE_DELIMINTER, 3,3).isNull()){
         return false;
     }
     else {
