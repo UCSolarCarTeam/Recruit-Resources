@@ -45,12 +45,12 @@ private:
     const double initialStateOfChargePercent_;
 
     QTime previousTime_;
-    QTime return_time;
+    QTime returnTime_;
 
-    double avgCurrent_;
+    double averageCurrent_;
     double previousCurrent_;
 
     double deltaTime_;
 
-    double totalAH_;
+    double totalAmpHours_;
 };

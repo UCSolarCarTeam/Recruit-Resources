@@ -37,7 +37,7 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
-    totalAH_=BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_/100;
+    totalAmpHours_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / 100;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -46,12 +46,12 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    if (totalAH_>BATTERY_AMP_HOUR_CAPACITY)
+    if (totalAmpHours_ > BATTERY_AMP_HOUR_CAPACITY)
         return 0;
-    else if (totalAH_<0)
+    else if (totalAmpHours_ < 0)
         return BATTERY_AMP_HOUR_CAPACITY;
     else
-        return BATTERY_AMP_HOUR_CAPACITY - totalAH_;
+        return BATTERY_AMP_HOUR_CAPACITY - totalAmpHours_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
@@ -59,37 +59,41 @@ bool BatteryStateOfChargeService::isCharging() const
     return previousCurrent_ < 0;
 }
 
-
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    if (return_time.isNull())
-        return QTime(0,0);
+    if (returnTime_.isNull() || totalAmpHours_ > BATTERY_AMP_HOUR_CAPACITY)
+    {
+        return QTime(0, 0);
+    }
     else
-        return return_time;
+    {
+        return returnTime_;
+    }
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    double deltaAH_;
+    double deltaAmpHours;
 
     if (previousTime_.isNull())
     {
-        previousTime_=batteryData.time;
+        previousTime_ = batteryData.time;
     }
-    deltaTime_=previousTime_.msecsTo(batteryData.time)/HOUR_TO_SEC;
-    avgCurrent_=(batteryData.current+previousCurrent_)/2;
-    totalAH_+= (deltaTime_*avgCurrent_);
+    deltaTime_ = previousTime_.msecsTo(batteryData.time) / HOUR_TO_SEC;
+    averageCurrent_ = (batteryData.current + previousCurrent_) / 2;
+    totalAmpHours_ += (deltaTime_ * averageCurrent_);
 
-    if (batteryData.current < 0){
-        deltaAH_=-1*(BATTERY_AMP_HOUR_CAPACITY-totalAH_);
-
+    if (batteryData.current < 0)
+    {
+        deltaAmpHours = -1 * (BATTERY_AMP_HOUR_CAPACITY - totalAmpHours_);
     }
-    else{
-        deltaAH_=totalAH_;
+    else
+    {
+        deltaAmpHours = totalAmpHours_;
     }
-    return_time=QTime(0,0).addMSecs((deltaAH_/batteryData.current)*HOUR_TO_SEC);
 
-    previousTime_=batteryData.time;
-    previousCurrent_=batteryData.current;
+    returnTime_ = QTime(0, 0).addMSecs((deltaAmpHours / batteryData.current) * HOUR_TO_SEC);
 
+    previousTime_ = batteryData.time;
+    previousCurrent_ = batteryData.current;
 }
