@@ -47,11 +47,17 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
     if (totalAmpHours_ > BATTERY_AMP_HOUR_CAPACITY)
+    {
         return 0;
+    }
     else if (totalAmpHours_ < 0)
+    {
         return BATTERY_AMP_HOUR_CAPACITY;
+    }
     else
+    {
         return BATTERY_AMP_HOUR_CAPACITY - totalAmpHours_;
+    }
 }
 
 bool BatteryStateOfChargeService::isCharging() const
