@@ -27,14 +27,17 @@
 
 #include "BatteryStateOfChargeService.h"
 
+
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double HOUR_TO_SEC = 3600000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
+    totalAmpHours_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / 100;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -43,21 +46,60 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return 0.0;
+    if (totalAmpHours_ > BATTERY_AMP_HOUR_CAPACITY)
+    {
+        return 0;
+    }
+    else if (totalAmpHours_ < 0)
+    {
+        return BATTERY_AMP_HOUR_CAPACITY;
+    }
+    else
+    {
+        return BATTERY_AMP_HOUR_CAPACITY - totalAmpHours_;
+    }
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return false;
+    return previousCurrent_ < 0;
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return QTime::currentTime();
+    if (returnTime_.isNull() || totalAmpHours_ > BATTERY_AMP_HOUR_CAPACITY)
+    {
+        return QTime(0, 0);
+    }
+    else
+    {
+        return returnTime_;
+    }
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData);
-    // Update your variables here.
+    double deltaAmpHours;
+
+    if (previousTime_.isNull())
+    {
+        previousTime_ = batteryData.time;
+    }
+    deltaTime_ = previousTime_.msecsTo(batteryData.time) / HOUR_TO_SEC;
+    averageCurrent_ = (batteryData.current + previousCurrent_) / 2;
+    totalAmpHours_ += (deltaTime_ * averageCurrent_);
+
+    if (batteryData.current < 0)
+    {
+        deltaAmpHours = -1 * (BATTERY_AMP_HOUR_CAPACITY - totalAmpHours_);
+    }
+    else
+    {
+        deltaAmpHours = totalAmpHours_;
+    }
+
+    returnTime_ = QTime(0, 0).addMSecs((deltaAmpHours / batteryData.current) * HOUR_TO_SEC);
+
+    previousTime_ = batteryData.time;
+    previousCurrent_ = batteryData.current;
 }

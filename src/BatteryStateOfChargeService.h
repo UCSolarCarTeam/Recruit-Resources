@@ -42,8 +42,15 @@ public:
     void addData(const BatteryData& batteryData);
 
 private:
-    // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
 
-    // Recommend adding necessary variables here
+    QTime previousTime_;
+    QTime returnTime_;
+
+    double averageCurrent_;
+    double previousCurrent_;
+
+    double deltaTime_;
+
+    double totalAmpHours_;
 };
