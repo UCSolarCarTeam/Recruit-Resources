@@ -24,11 +24,14 @@
  *
  *  For further contact, email <software@calgarysolarcar.ca>
  */
-
+#include <QString>
 #include <QDebug>
 #include <QFile>
 #include <QString>
 #include <QTextStream>
+#include <iostream>
+#include <math.h>
+using namespace std;
 
 #include "LogFileReader.h"
 
@@ -75,7 +78,32 @@ bool LogFileReader::readAll(const QString& fileName)
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     // TODO implement this first
+    QStringList lines = line.split(',');
+    bool ok;
+    if(lines.count()!=3)
+        return false;
+    QStringList lines_1 = lines[0].split(':');
+    QStringList lines_2 = lines[1].split('.');
+    int value = lines_1[0].toInt(&ok);
+    if((!ok)||(value>24)||(value<0))
+        return false;
 
+    int m = lines_1[1].toInt(&ok);
+    if((!ok)||(m>60)||(m<0))
+    return false;
+    double dvalue = lines_1[2].toDouble(&ok);
+    if((!ok)||(dvalue>60)||(dvalue<0))
+        return false;
+    for (int c=1;c<3;c++)
+    {
+        dvalue = lines[c].toDouble(&ok);
+        if(!ok)
+            return false;
+    }
+    QTime t = QTime(lines_1[0].toInt(),lines_1[1].toInt(),lines_1[2].toDouble());
+    batteryData.time = t;
+    batteryData.voltage = lines[1].toDouble();
+    batteryData.current = lines[2].toDouble();
     // This is here to the compiler happy. Otherwise the compile
     // will have an error warning about an unused variable. Remove this
     // when you use it.
@@ -83,3 +111,4 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     Q_UNUSED(batteryData);
     return true;
 }
+

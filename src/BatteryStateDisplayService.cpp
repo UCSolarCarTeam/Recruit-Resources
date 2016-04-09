@@ -24,9 +24,9 @@
  *
  *  For further contact, email <software@calgarysolarcar.ca>
  */
-
+#include <QDebug>
 #include <QTextStream>
-
+#include <BatteryStateOfChargeService.h>
 #include "BatteryData.h"
 #include "BatteryStateDisplayService.h"
 #include "I_BatteryDataSource.h"
@@ -51,7 +51,8 @@ BatteryStateDisplayService::~BatteryStateDisplayService()
 void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& batteryData)
 {
     batteryStateOfChargeService_.addData(batteryData);
-
+    batteryStateOfChargeService_.isCharging();
+    qDebug()<<"Time finish charging: " <<batteryStateOfChargeService_.timeWhenChargedOrDepleted();
     QTextStream(stdout) << "Voltage: " << batteryData.voltage
         << " Current: " << batteryData.current
         << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << endl;

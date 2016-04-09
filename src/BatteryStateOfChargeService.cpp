@@ -24,9 +24,10 @@
  *
  *  For further contact, email <software@calgarysolarcar.ca>
  */
-
+#include<QDebug>
+#include "BatteryData.h"
 #include "BatteryStateOfChargeService.h"
-
+#include <QTime>
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
@@ -35,29 +36,49 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
+
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
 {
+
 }
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return 0.0;
+    return totalcurrent;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return false;
+    if (newcurrent<=0)
+        qDebug()<<"is charging";
+    else
+        return false;
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return QTime::currentTime();
+    return et;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
-{
+{   
+    newcurrent = batteryData.current;
+    newtime = batteryData.time;
+    s1 = QTime(0,0,0).secsTo(newtime);
+    s2 = QTime(0,0,0).secsTo(oldtime);
+    timeused = s1-s2;
+    totalcurrent = newcurrent - oldcurrent;
+    double avg = (fabs(newcurrent)+fabs(oldcurrent)) *3600 / timeused;
+    int tneed =(BATTERY_AMP_HOUR_CAPACITY - newcurrent)*3600/avg;
+    s1 = s1 + tneed;
+    int h = s1/3600;
+    int m = (s1 - (h*3600))/60;
+    int s = s1 - (h*3600)-(m*60);
+    et = QTime(h,m,s);
+    oldtime = newtime;
+    oldcurrent=newcurrent;
     Q_UNUSED(batteryData);
     // Update your variables here.
 }
