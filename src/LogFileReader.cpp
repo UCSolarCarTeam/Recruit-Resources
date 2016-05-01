@@ -31,6 +31,8 @@
 #include <QTextStream>
 #include <iostream>
 #include <math.h>
+#include <cstring>
+#include <string>
 using namespace std;
 
 #include "LogFileReader.h"
@@ -80,35 +82,23 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     // TODO implement this first
     QStringList lines = line.split(',');
     bool ok;
-    if(lines.count()!=3)
-        return false;
-    QStringList lines_1 = lines[0].split(':');
-    QStringList lines_2 = lines[1].split('.');
-    int value = lines_1[0].toInt(&ok);
-    if((!ok)||(value>24)||(value<0))
-        return false;
-
-    int m = lines_1[1].toInt(&ok);
-    if((!ok)||(m>60)||(m<0))
-    return false;
-    double dvalue = lines_1[2].toDouble(&ok);
-    if((!ok)||(dvalue>60)||(dvalue<0))
-        return false;
-    for (int c=1;c<3;c++)
+    //I have to split up the time and round up the second into an integer in order for fromString to work
+    //Not sure how to use fromString with 3 decimals in second
+    QStringList timelist = lines[0].split(':');
+    double second = timelist[2].toDouble(&ok);
+    second = round(second);
+    timelist[2] = QString::number(second);
+    lines[0]= timelist.join(":");
+    QTime time = QTime::fromString(lines[0],"hh:mm:s");
+    if (time.isValid())
     {
-        dvalue = lines[c].toDouble(&ok);
-        if(!ok)
-            return false;
+        batteryData.time = time;
     }
-    QTime t = QTime(lines_1[0].toInt(),lines_1[1].toInt(),lines_1[2].toDouble());
-    batteryData.time = t;
     batteryData.voltage = lines[1].toDouble();
     batteryData.current = lines[2].toDouble();
     // This is here to the compiler happy. Otherwise the compile
     // will have an error warning about an unused variable. Remove this
     // when you use it.
-    Q_UNUSED(line);
-    Q_UNUSED(batteryData);
     return true;
 }
 

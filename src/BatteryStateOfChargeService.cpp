@@ -31,6 +31,9 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const int SH_CONVERT = 3600;
+    const int M_CONVERT = 60;
+
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -46,39 +49,40 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return totalcurrent;
+    return totalcurrent_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if (newcurrent<=0)
-        qDebug()<<"is charging";
+    if (newcurrent_ <= 0)
+    {   return true;}
     else
-        return false;
+    {   return false;}
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return et;
+    return estimatetime_;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {   
-    newcurrent = batteryData.current;
-    newtime = batteryData.time;
-    s1 = QTime(0,0,0).secsTo(newtime);
-    s2 = QTime(0,0,0).secsTo(oldtime);
-    timeused = s1-s2;
-    totalcurrent = newcurrent - oldcurrent;
-    double avg = (fabs(newcurrent)+fabs(oldcurrent)) *3600 / timeused;
-    int tneed =(BATTERY_AMP_HOUR_CAPACITY - newcurrent)*3600/avg;
+    newcurrent_ = batteryData.current;
+    double oldcurrent = 0;
+    QTime newtime = batteryData.time;
+    QTime oldtime = newtime;
+    double s1 = QTime(0,0,0).secsTo(newtime);
+    double s2 = QTime(0,0,0).secsTo(oldtime);
+    int timeused = s1 - s2;
+    totalcurrent_ = newcurrent_ - oldcurrent;
+    double avg = (fabs(newcurrent_)+fabs(oldcurrent)) * SH_CONVERT / timeused;
+    int tneed =(BATTERY_AMP_HOUR_CAPACITY - newcurrent_)* SH_CONVERT / avg;
     s1 = s1 + tneed;
-    int h = s1/3600;
-    int m = (s1 - (h*3600))/60;
-    int s = s1 - (h*3600)-(m*60);
-    et = QTime(h,m,s);
+    int h = s1 / SH_CONVERT;
+    int m = (s1 - (h * SH_CONVERT)) / M_CONVERT;
+    int s = s1 - (h * SH_CONVERT) - (m * M_CONVERT);
+    estimatetime_ = QTime(h,m,s);
     oldtime = newtime;
-    oldcurrent=newcurrent;
-    Q_UNUSED(batteryData);
+    oldcurrent=newcurrent_;
     // Update your variables here.
 }
