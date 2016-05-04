@@ -83,7 +83,6 @@ bool LogFileReader::readAll(const QString& fileName)
 // File input is a csv file in the format of hh:mm:ss:zzz, voltage, current
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    // TODO implement this first
     QStringList lines = line.split(COMMA);
     QTime time = QTime::fromString(lines[0],TIMEFORMAT);
     if (time.isValid())
@@ -92,9 +91,6 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     }
     batteryData.voltage = lines[1].toDouble();
     batteryData.current = lines[2].toDouble();
-    // This is here to the compiler happy. Otherwise the compile
-    // will have an error warning about an unused variable. Remove this
-    // when you use it.
     return true;
 }
 

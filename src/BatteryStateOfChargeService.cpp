@@ -34,8 +34,6 @@ namespace
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
     const int SECONDS_TO_HOURS = 3600;
     const int SECONDS_TO_MINUTUES = 60;
-    const QString COMMA = ",";
-    const QString TIMEFORMAT = "hh:mm:ss.zzz";
 
 }
 
@@ -87,5 +85,4 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     estimatetime_ = QTime(h,m,s);
     oldtime = newtime;
     oldcurrent=newcurrent_;
-    // Update your variables here.
 }
