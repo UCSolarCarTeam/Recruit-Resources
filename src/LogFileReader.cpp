@@ -85,14 +85,6 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 {
     // TODO implement this first
     QStringList lines = line.split(COMMA);
-    bool ok;
-    //I have to split up the time and round up the second into an integer in order for fromString to work
-    //Not sure how to use fromString with 3 decimals in second
-//    QStringList timelist = lines[0].split(':');
-//    double second = timelist[2].toDouble(&ok);
-//    second = round(second);
-//    timelist[2] = QString::number(second);
-//    lines[0]= timelist.join(":");
     QTime time = QTime::fromString(lines[0],TIMEFORMAT);
     if (time.isValid())
     {
