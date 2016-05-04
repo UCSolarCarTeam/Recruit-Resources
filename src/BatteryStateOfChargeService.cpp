@@ -28,11 +28,14 @@
 #include "BatteryData.h"
 #include "BatteryStateOfChargeService.h"
 #include <QTime>
+#include <math.h>
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
-    const int SH_CONVERT = 3600;
-    const int M_CONVERT = 60;
+    const int SECONDS_TO_HOURS = 3600;
+    const int SECONDS_TO_MINUTUES = 60;
+    const QString COMMA = ",";
+    const QString TIMEFORMAT = "hh:mm:ss.zzz";
 
 }
 
@@ -75,12 +78,12 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     double s2 = QTime(0,0,0).secsTo(oldtime);
     int timeused = s1 - s2;
     totalcurrent_ = newcurrent_ - oldcurrent;
-    double avg = (fabs(newcurrent_)+fabs(oldcurrent)) * SH_CONVERT / timeused;
-    int tneed =(BATTERY_AMP_HOUR_CAPACITY - newcurrent_)* SH_CONVERT / avg;
-    s1 = s1 + tneed;
-    int h = s1 / SH_CONVERT;
-    int m = (s1 - (h * SH_CONVERT)) / M_CONVERT;
-    int s = s1 - (h * SH_CONVERT) - (m * M_CONVERT);
+    double avg = (fabs(newcurrent_)+fabs(oldcurrent)) * SECONDS_TO_HOURS / timeused;
+    int timeNeeded =(BATTERY_AMP_HOUR_CAPACITY - newcurrent_)* SECONDS_TO_HOURS / avg;
+    s1 = s1 + timeNeeded;
+    int h = s1 / SECONDS_TO_HOURS;
+    int m = (s1 - (h * SECONDS_TO_HOURS)) / SECONDS_TO_MINUTUES;
+    int s = s1 - (h * SECONDS_TO_HOURS) - (m * SECONDS_TO_MINUTUES);
     estimatetime_ = QTime(h,m,s);
     oldtime = newtime;
     oldcurrent=newcurrent_;
