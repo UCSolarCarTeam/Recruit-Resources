@@ -29,10 +29,6 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
-#include <iostream>
-#include <math.h>
-#include <cstring>
-#include <string>
 namespace
 {
 const QString COMMA = ",";
@@ -84,13 +80,31 @@ bool LogFileReader::readAll(const QString& fileName)
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     QStringList lines = line.split(COMMA);
-    QTime time = QTime::fromString(lines[0],TIMEFORMAT);
-    if (time.isValid())
+    QTime Time = QTime::fromString(lines[0], TIMEFORMAT);
+    bool ok;
+    if (Time.isValid())
     {
-        batteryData.time = time;
+        batteryData.time = Time;
     }
-    batteryData.voltage = lines[1].toDouble();
-    batteryData.current = lines[2].toDouble();
+    else
+    {
+        return false;
+    }
+
+    if (lines.count() !=    3)
+    {
+        return false;
+    }
+
+    for (int c = 1; c<=2; c++)
+    {
+        lines[c].toDouble(&ok);
+        if (!ok)
+            return false;
+    }
+
+    batteryData.voltage = lines[1].toDouble(&ok);
+    batteryData.current = lines[2].toDouble(&ok);
     return true;
 }
 

@@ -24,7 +24,7 @@
  *
  *  For further contact, email <software@calgarysolarcar.ca>
  */
-#include<QDebug>
+#include <QDebug>
 #include "BatteryData.h"
 #include "BatteryStateOfChargeService.h"
 #include <QTime>
@@ -33,56 +33,63 @@ namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
     const int SECONDS_TO_HOURS = 3600;
-    const int SECONDS_TO_MINUTUES = 60;
+    const int SECONDS_TO_MINUTES = 60;
 
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
-
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
 {
-
 }
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return totalcurrent_;
+    return totalCurrent_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if (newcurrent_ <= 0)
-    {   return true;}
+    if (newCurrent_ <= 0)
+    {
+        return true;
+    }
     else
-    {   return false;}
+    {
+        return false;
+    }
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return estimatetime_;
+    return estimatedTime_;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {   
-    newcurrent_ = batteryData.current;
-    double oldcurrent = 0;
-    QTime newtime = batteryData.time;
-    QTime oldtime = newtime;
-    double s1 = QTime(0,0,0).secsTo(newtime);
-    double s2 = QTime(0,0,0).secsTo(oldtime);
-    int timeused = s1 - s2;
-    totalcurrent_ = newcurrent_ - oldcurrent;
-    double avg = (fabs(newcurrent_)+fabs(oldcurrent)) * SECONDS_TO_HOURS / timeused;
-    int timeNeeded =(BATTERY_AMP_HOUR_CAPACITY - newcurrent_)* SECONDS_TO_HOURS / avg;
-    s1 = s1 + timeNeeded;
-    int h = s1 / SECONDS_TO_HOURS;
-    int m = (s1 - (h * SECONDS_TO_HOURS)) / SECONDS_TO_MINUTUES;
-    int s = s1 - (h * SECONDS_TO_HOURS) - (m * SECONDS_TO_MINUTUES);
-    estimatetime_ = QTime(h,m,s);
-    oldtime = newtime;
-    oldcurrent=newcurrent_;
+
+    QTime newTime = batteryData.time;
+    QTime oldTime = newTime;
+    double new_Time = QTime(0, 0, 0).secsTo(newTime);
+    double old_Time = QTime(0, 0, 0).secsTo(oldTime);
+    int TimeUsed = new_Time - old_Time;
+
+    newCurrent_ = batteryData.current;
+    double oldCurrent = 0;
+    totalCurrent_ = newCurrent_ - oldCurrent;
+    double Average = (newCurrent_ + oldCurrent) * SECONDS_TO_HOURS / TimeUsed;
+
+    int timeNeeded =(BATTERY_AMP_HOUR_CAPACITY - newCurrent_) * SECONDS_TO_HOURS / Average;
+    new_Time = new_Time + timeNeeded;
+
+    int Hour = new_Time / SECONDS_TO_HOURS;
+    int Minute = (new_Time - (Hour * SECONDS_TO_HOURS)) / SECONDS_TO_MINUTES;
+    int Second = new_Time - (Hour * SECONDS_TO_HOURS) - (Minute * SECONDS_TO_MINUTES);
+    estimatedTime_ = QTime(Hour, Minute, Second);
+
+    oldTime = newTime;
+    oldCurrent = newCurrent_;
 }
