@@ -49,8 +49,5 @@ private:
     double oldCurrent_;
     QTime oldTime_ = QTime(0,0,0);
     QTime newTime_;
-    double averageCurrent_;
-    double totalAmpUsed;
-    double AmpUsed = 0;
-    int TimeUsed;
+    double totalAmpUsed_ = 0;
 };
