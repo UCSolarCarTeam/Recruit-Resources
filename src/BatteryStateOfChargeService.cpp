@@ -76,7 +76,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     double oldTimeMSecs = QTime(0, 0, 0).msecsTo(oldTime_);
     double TimeUsed = (newTimeMSecs - oldTimeMSecs) / SECONDS_TO_HOURS;
 
-    int TimeElapsed =(BATTERY_AMP_HOUR_CAPACITY / newCurrent_);
+    int TimeElapsed =(BATTERY_AMP_HOUR_CAPACITY / fabs(newCurrent_));
     newTimeMSecs = newTimeMSecs + TimeElapsed;
 
     averageCurrent_ = (newCurrent_ + oldCurrent_) / 2;
