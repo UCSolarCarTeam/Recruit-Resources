@@ -46,4 +46,7 @@ private:
     double newCurrent_;
     double totalCurrent_;
     QTime estimatedTime_;
+    double oldCurrent_ = 0;
+    QTime oldTime_;
+
 };

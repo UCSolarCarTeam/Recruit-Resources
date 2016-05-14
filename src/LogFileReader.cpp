@@ -96,9 +96,9 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
         return false;
     }
 
-    for (int c = 1; c<=2; c++)
+    for (int i = 1; i<=2; i++)
     {
-        lines[c].toDouble(&ok);
+        lines[i].toDouble(&ok);
         if (!ok)
             return false;
     }

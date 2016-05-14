@@ -72,24 +72,19 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {   
 
     QTime newTime = batteryData.time;
-    QTime oldTime = newTime;
-    double new_Time = QTime(0, 0, 0).secsTo(newTime);
-    double old_Time = QTime(0, 0, 0).secsTo(oldTime);
-    int TimeUsed = new_Time - old_Time;
+    double new_TimeDouble = QTime(0, 0, 0).secsTo(newTime);
+    double old_TimeDouble = QTime(0, 0, 0).secsTo(oldTime_);
+    int TimeUsed = new_TimeDouble - old_TimeDouble;
 
     newCurrent_ = batteryData.current;
-    double oldCurrent = 0;
-    totalCurrent_ = newCurrent_ - oldCurrent;
-    double Average = (newCurrent_ + oldCurrent) * SECONDS_TO_HOURS / TimeUsed;
+    totalCurrent_ = newCurrent_ - oldCurrent_;
+    double Average = (newCurrent_ + oldCurrent_) * SECONDS_TO_HOURS / TimeUsed;
 
     int timeNeeded =(BATTERY_AMP_HOUR_CAPACITY - newCurrent_) * SECONDS_TO_HOURS / Average;
-    new_Time = new_Time + timeNeeded;
+    new_TimeDouble = new_TimeDouble + timeNeeded;
 
-    int Hour = new_Time / SECONDS_TO_HOURS;
-    int Minute = (new_Time - (Hour * SECONDS_TO_HOURS)) / SECONDS_TO_MINUTES;
-    int Second = new_Time - (Hour * SECONDS_TO_HOURS) - (Minute * SECONDS_TO_MINUTES);
-    estimatedTime_ = QTime(Hour, Minute, Second);
+    estimatedTime_ = QTime(0,0,0).addSecs(new_TimeDouble);
 
-    oldTime = newTime;
-    oldCurrent = newCurrent_;
+    oldTime_ = newTime;
+    oldCurrent_ = newCurrent_;
 }
