@@ -33,7 +33,6 @@ namespace
 {
 const QString COMMA = ",";
 const QString TIMEFORMAT = "hh:mm:ss.zzz";
-
 }
 #include "LogFileReader.h"
 
@@ -72,7 +71,6 @@ bool LogFileReader::readAll(const QString& fileName)
             emit batteryDataReceived(batteryData);
         }
     }
-
     return true;
 }
 
