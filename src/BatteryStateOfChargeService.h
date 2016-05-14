@@ -46,11 +46,11 @@ private:
     double newCurrent_;
     double totalCurrent_;
     QTime estimatedTime_;
-    double oldCurrent_ = 0;
-    QTime oldTime_;
+    double oldCurrent_;
+    QTime oldTime_ = QTime(0,0,0);
     QTime newTime_;
     double averageCurrent_;
-    double totalAmpUsed = 0;
+    double totalAmpUsed;
     double AmpUsed = 0;
     int TimeUsed;
 };

@@ -34,7 +34,7 @@ namespace
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
     const int SECONDS_TO_HOURS = 3600;
     const int SECONDS_TO_MINUTES = 60;
-
+    const int SECONDS_TO_MILISECONDS = 1000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -71,19 +71,17 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     newTime_ = batteryData.time;
     newCurrent_ = batteryData.current;
+    double newTimeSecs = QTime(0,0,0).secsTo(newTime_);
 
-    double newTimeMSecs = QTime(0, 0, 0).msecsTo(newTime_);
-    double oldTimeMSecs = QTime(0, 0, 0).msecsTo(oldTime_);
-    double TimeUsed = (newTimeMSecs - oldTimeMSecs) / SECONDS_TO_HOURS;
+    double TimeElapsed =(BATTERY_AMP_HOUR_CAPACITY / fabs(newCurrent_)) * SECONDS_TO_HOURS;
+    newTimeSecs = newTimeSecs + TimeElapsed;
 
-    int TimeElapsed =(BATTERY_AMP_HOUR_CAPACITY / fabs(newCurrent_));
-    newTimeMSecs = newTimeMSecs + TimeElapsed;
-
+    double TimeUsed = newTime_.msecsTo(oldTime_);
     averageCurrent_ = (newCurrent_ + oldCurrent_) / 2;
-    AmpUsed = averageCurrent_ / TimeUsed;
+    AmpUsed = averageCurrent_  / (TimeUsed / SECONDS_TO_MILISECONDS);
     totalAmpUsed = totalAmpUsed + AmpUsed;
 
-    estimatedTime_ = QTime(0,0,0).addSecs(newTimeMSecs);
+    estimatedTime_ = QTime(0,0,0).addSecs(newTimeSecs);
 
     oldTime_ = newTime_;
     oldCurrent_ = newCurrent_;
