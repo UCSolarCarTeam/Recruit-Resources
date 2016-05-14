@@ -50,4 +50,5 @@ private:
     QTime oldTime_ = QTime(0,0,0);
     QTime newTime_;
     double totalAmpUsed_ = 0;
+    double initialAmpUsed_;
 };

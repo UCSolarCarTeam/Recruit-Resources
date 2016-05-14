@@ -40,6 +40,7 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
+    initialAmpUsed_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent / 100;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -68,7 +69,6 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     double newTimeSecs = QTime(0,0,0).secsTo(newTime_);
     double TimeElapsed =(BATTERY_AMP_HOUR_CAPACITY / fabs(newCurrent_)) * SECONDS_TO_HOURS;
     newTimeSecs = newTimeSecs + TimeElapsed;
-
     QTime estimatedTime = QTime(0,0,0).addSecs(newTimeSecs);
 
     return estimatedTime;
@@ -80,7 +80,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 
     double TimeUsed = newTime_.msecsTo(oldTime_);
     double averageCurrent = (newCurrent_ + oldCurrent_) / 2;
-    totalAmpUsed_ = averageCurrent  / (TimeUsed / SECONDS_TO_MILISECONDS);
+    totalAmpUsed_ = initialAmpUsed_ + averageCurrent  / (TimeUsed / SECONDS_TO_MILISECONDS);
 
     oldTime_ = newTime_;
     oldCurrent_ = newCurrent_;
