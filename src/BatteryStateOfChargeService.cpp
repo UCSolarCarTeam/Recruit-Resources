@@ -83,12 +83,11 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     {
         oldTime = newTime_;
     }
+
     double oldCurrent = newCurrent_;
     newTime_ = batteryData.time;
     newCurrent_ = batteryData.current;
 
-    qDebug() << oldCurrent;
-    qDebug() << newCurrent_;
     double TimeUsed = newTime_.msecsTo(oldTime);
     double averageCurrent = (newCurrent_ + oldCurrent) / 2;
     totalAmpUsed_ = totalAmpUsed_ + averageCurrent  / (TimeUsed / SECONDS_TO_MILISECONDS);
