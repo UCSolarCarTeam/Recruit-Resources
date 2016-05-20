@@ -46,7 +46,6 @@ private:
     double newCurrent_;
     double totalCurrent_;
     QTime estimatedTime_;
-    double oldCurrent_;
     QTime newTime_;
     double totalAmpUsed_;
     double initialAmpUsed_;
