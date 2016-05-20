@@ -27,13 +27,10 @@
 #include <QDebug>
 #include "BatteryData.h"
 #include "BatteryStateOfChargeService.h"
-#include <QTime>
-#include <math.h>
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
     const int SECONDS_TO_HOURS = 3600;
-    const int SECONDS_TO_MINUTES = 60;
     const int SECONDS_TO_MILISECONDS = 1000;
 }
 
@@ -41,6 +38,7 @@ BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfCh
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
     initialAmpUsed_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent / 100;
+    totalAmpUsed_ = initialAmpUsed_;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -75,13 +73,24 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 }
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
+    QTime oldTime = QTime();
+    if (oldTime.isNull() == true)
+    {
+        oldTime = QTime(0,0,0);
+
+    }
+    else
+    {
+        oldTime = newTime_;
+    }
+    double oldCurrent = newCurrent_;
     newTime_ = batteryData.time;
     newCurrent_ = batteryData.current;
 
-    double TimeUsed = newTime_.msecsTo(oldTime_);
-    double averageCurrent = (newCurrent_ + oldCurrent_) / 2;
-    totalAmpUsed_ = initialAmpUsed_ + averageCurrent  / (TimeUsed / SECONDS_TO_MILISECONDS);
+    qDebug() << oldCurrent;
+    qDebug() << newCurrent_;
+    double TimeUsed = newTime_.msecsTo(oldTime);
+    double averageCurrent = (newCurrent_ + oldCurrent) / 2;
+    totalAmpUsed_ = totalAmpUsed_ + averageCurrent  / (TimeUsed / SECONDS_TO_MILISECONDS);
 
-    oldTime_ = newTime_;
-    oldCurrent_ = newCurrent_;
 }
