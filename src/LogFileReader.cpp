@@ -29,12 +29,13 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
+#include "LogFileReader.h"
+
 namespace
 {
 const QString COMMA = ",";
 const QString TIMEFORMAT = "hh:mm:ss.zzz";
 }
-#include "LogFileReader.h"
 
 LogFileReader::LogFileReader()
 {
@@ -79,27 +80,19 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 {
     QStringList lines = line.split(COMMA);
     QTime time = QTime::fromString(lines[0], TIMEFORMAT);
-    bool ok;
-    if (time.isValid() && lines.count() == 3)
+    bool notok = false;
+    if (time.isValid() && lines.count() == 3 && (lines[1].toDouble(&notok) != notok) && (lines[2].toDouble(&notok) != notok))
     {
         batteryData.time = time;
-    }
-    else
-    {
-        return false;
-    }
-
-
-    if((lines[1].toDouble(&ok) == ok) || (lines[2].toDouble(&ok) == ok))
-    {
-        return false;
-    }
-    else
-    {
         batteryData.voltage = lines[1].toDouble();
         batteryData.current = lines[2].toDouble();
     }
+    else
+    {
+        return false;
+    }
 }
+
 
 
 

@@ -37,8 +37,8 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
-    initialAmpUsed_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent / 100;
-    totalAmpUsed_ = initialAmpUsed_;
+    double initialampused = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent / 100;
+    totalAmpUsed_ = initialampused;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -52,7 +52,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if (newCurrent_ <= 0)
+    if (newCurrent_ < 0)
     {
         return true;
     }
@@ -64,32 +64,26 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    double newTimeSecs = QTime(0,0,0).secsTo(newTime_);
-    double TimeElapsed =(BATTERY_AMP_HOUR_CAPACITY / fabs(newCurrent_)) * SECONDS_TO_HOURS;
-    newTimeSecs = newTimeSecs + TimeElapsed;
-    QTime estimatedTime = QTime(0,0,0).addSecs(newTimeSecs);
-
-    return estimatedTime;
+    double seconds = QTime(0,0,0).secsTo(newTime_);
+    double timeelapsed =(BATTERY_AMP_HOUR_CAPACITY / fabs(newCurrent_)) * SECONDS_TO_HOURS;
+    seconds += timeelapsed;
+    QTime estimatedtime = QTime(0,0,0).addSecs(seconds);
+    return estimatedtime;
 }
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    QTime oldTime = QTime();
-    if (oldTime.isNull() == true)
+    QTime oldtime = QTime();
+    oldtime = newTime_;
+    if (oldtime.isNull())
     {
-        oldTime = QTime(0,0,0);
-
-    }
-    else
-    {
-        oldTime = newTime_;
+        oldtime = QTime(0,0,0);
     }
 
-    double oldCurrent = newCurrent_;
+    double oldcurrent = newCurrent_;
     newTime_ = batteryData.time;
     newCurrent_ = batteryData.current;
 
-    double TimeUsed = newTime_.msecsTo(oldTime);
-    double averageCurrent = (newCurrent_ + oldCurrent) / 2;
-    totalAmpUsed_ = totalAmpUsed_ + averageCurrent  / (TimeUsed / SECONDS_TO_MILISECONDS);
-
+    double timeused = newTime_.msecsTo(oldtime);
+    double averagecurrent = (newCurrent_ + oldcurrent) / 2;
+    totalAmpUsed_ += averagecurrent  / (timeused / SECONDS_TO_MILISECONDS);
 }

@@ -45,8 +45,6 @@ private:
     const double initialStateOfChargePercent_;
     double newCurrent_;
     double totalCurrent_;
-    QTime estimatedTime_;
     QTime newTime_;
     double totalAmpUsed_;
-    double initialAmpUsed_;
 };
