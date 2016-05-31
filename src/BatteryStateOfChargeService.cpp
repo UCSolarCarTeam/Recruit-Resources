@@ -70,6 +70,7 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     QTime estimatedTime = QTime(0,0,0).addSecs(seconds);
     return estimatedTime;
 }
+
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     QTime oldTime = newTime_;
