@@ -27,6 +27,7 @@
 #include <QDebug>
 #include "BatteryData.h"
 #include "BatteryStateOfChargeService.h"
+#include <math.h>
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
