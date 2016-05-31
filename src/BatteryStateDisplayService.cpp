@@ -24,14 +24,13 @@
  *
  *  For further contact, email <software@calgarysolarcar.ca>
  */
-
+#include <QDebug>
 #include <QTextStream>
-
+#include "BatteryStateOfChargeService.h"
 #include "BatteryData.h"
 #include "BatteryStateDisplayService.h"
 #include "I_BatteryDataSource.h"
 #include "I_BatteryStateOfChargeService.h"
-
 BatteryStateDisplayService::BatteryStateDisplayService(
     const I_BatteryDataSource& batteryDataSource,
     I_BatteryStateOfChargeService& batteryStateOfChargeService)
@@ -51,10 +50,22 @@ BatteryStateDisplayService::~BatteryStateDisplayService()
 void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& batteryData)
 {
     batteryStateOfChargeService_.addData(batteryData);
-
-    QTextStream(stdout) << "Voltage: " << batteryData.voltage
-        << " Current: " << batteryData.current
-        << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << endl;
-
-    // TODO Print out time till it is depleted or charged.
+    batteryStateOfChargeService_.isCharging();
+    QString voltage = QString::number(batteryData.voltage,'f',6);
+    QString current = QString::number(batteryData.current,'f',6);
+    QString Amp = QString::number(batteryStateOfChargeService_.totalAmpHoursUsed(),'f',2);
+    if (batteryStateOfChargeService_.isCharging() != false)
+    {
+        QTextStream(stdout) << "Voltage: " << voltage
+        << "    Current: " << current
+        << "    Total Ah used:  " << Amp
+        << "    Time until fully charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << endl;
+    }
+    else
+    {
+        QTextStream(stdout) << "Voltage: " << voltage
+        << "    Current: " << current
+        << "    Total Ah used:  " << Amp
+        << "    Time until fully depleted: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << endl;
+    }
 }

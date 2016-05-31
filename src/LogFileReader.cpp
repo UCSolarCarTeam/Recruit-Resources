@@ -24,13 +24,18 @@
  *
  *  For further contact, email <software@calgarysolarcar.ca>
  */
-
+#include <QString>
 #include <QDebug>
 #include <QFile>
 #include <QString>
 #include <QTextStream>
-
 #include "LogFileReader.h"
+
+namespace
+{
+const QString COMMA = ",";
+const QString TIMEFORMAT = "hh:mm:ss.zzz";
+}
 
 LogFileReader::LogFileReader()
 {
@@ -67,19 +72,29 @@ bool LogFileReader::readAll(const QString& fileName)
             emit batteryDataReceived(batteryData);
         }
     }
-
     return true;
 }
 
 // File input is a csv file in the format of hh:mm:ss:zzz, voltage, current
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    // TODO implement this first
+    QStringList lines = line.split(COMMA);
+    QTime time = QTime::fromString(lines[0], TIMEFORMAT);
+    bool ok1;
+    bool ok2;
+    if (time.isValid() && lines.count() == 3)
+    {
+        batteryData.time = time;
+    }
+    else
+    {
+        return false;
+    }
 
-    // This is here to the compiler happy. Otherwise the compile
-    // will have an error warning about an unused variable. Remove this
-    // when you use it.
-    Q_UNUSED(line);
-    Q_UNUSED(batteryData);
-    return true;
+    batteryData.voltage = lines[1].toDouble(&ok1);
+    batteryData.current = lines[2].toDouble(&ok2);
+    if(!ok1 || !ok2)
+    {
+        return false;
+    }
 }
