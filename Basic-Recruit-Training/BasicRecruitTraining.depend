@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1474065648 source:c:\users\billl\documents\solar car\basicrecruittraining\main.cpp
+	<iostream>
+	<sstream>
+	<string>
+	"Person.h"
+
+1474065326 c:\users\billl\documents\solar car\basicrecruittraining\person.h
+	<string>
+
+1474065303 source:c:\users\billl\documents\solar car\basicrecruittraining\person.cpp
+	<iostream>
+	<string>
+	"Person.h"
+
