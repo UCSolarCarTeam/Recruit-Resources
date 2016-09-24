@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-sudo apt-get install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config
+sudo apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config cmake
 
 # Install arm compiler
-command -v arm-none-eabi-gcc >/dev/null 2>&1 || {
+if ! type "arm-none-eabi-gcc" > /dev/null; then
     git clone https://github.com/adamgreen/gcc4mbed /opt/gcc4mbed
     (cd /opt/gcc4mbed && \
         chmod +x linux_install && \
         sed -i '108d;109d;110d;134d' linux_install && \ # Remove 'press any key to continue' and building samples
         ./linux_install)
    echo "export PATH=$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile
-}
+fi
 
 # Install CubeMX
 mkdir cubemx
@@ -19,7 +19,7 @@ cp auto-install.xml cubemx
     wget https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/en.stm32cubemx.zip && \
     unzip en.stm32cubemx.zip && \
     chmod +x SetupSTM32CubeMX-4.16.1.linux && \
-    ./SetupSTM32CubeMX-4.16.1.linux auto-install.xml)
+    sudo ./SetupSTM32CubeMX-4.16.1.linux auto-install.xml)
 rm -r cubemx
 
 # Install STLink
@@ -28,8 +28,8 @@ mkdir stlink/build
 (cd stlink/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j4)
 sudo cp stlink/build/st-flash /usr/local/bin/st-flash
 sudo cp stlink/build/st-info /usr/local/bin/st-info
-sudo cp stlink/build/srcgdbserver/st-util /usr/local/bin/st-util
-rm stlink -r
+sudo cp stlink/build/src/gdbserver/st-util /usr/local/bin/st-util
+rm stlink -rf
 
 # Install CubeMX2Makefile
 sudo git clone https://github.com/baoshi/CubeMX2Makefile.git /opt/CubeMX2Makefile
