@@ -66,7 +66,7 @@ int main()
     const std::string correctBirthdayAnswer = "It was Bill's Birthday, he is now 19";
 
     std::cout << "Checking Person::Birthday:" << std::endl;
-    std::cout << myBirthdayAnswer.str().c_str()<< std::endl;
+    std::cout << myBirthdayAnswer.str() << std::endl;
     compareAnswers(myBirthdayAnswer.str(), correctBirthdayAnswer);
 
     return 0;
