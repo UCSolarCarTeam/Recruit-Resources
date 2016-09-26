@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+USER=`whoami`
+if [ $USER = "root" ]
+    then
+    echo "Running as ROOT"
+else
+    echo "***********YOU ARE NOT ROOT************"
+    exit 0
+fi
+
 apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config cmake
 
 # Install arm compiler
@@ -7,7 +16,7 @@ if ! type "arm-none-eabi-gcc" > /dev/null; then
     git clone https://github.com/adamgreen/gcc4mbed /opt/gcc4mbed --depth 1
     (cd /opt/gcc4mbed && \
         chmod +x linux_install && \
-        sed -i '108d;109d;110d;134d' linux_install && \ # Remove 'press any key to continue' and building samples
+        sed -i '108d;109d;110d;134d' linux_install && \
         ./linux_install)
     export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/
     echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile
