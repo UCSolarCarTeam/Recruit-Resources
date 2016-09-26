@@ -21,7 +21,7 @@ void mySwap(int& a, int& b)
 {
 }
 //Using y++ or similar variants is not allowed for this function.
-void myIncrement(int* x, int& y)
+void myIncrement(int* x)
 {
 }
 
@@ -30,8 +30,9 @@ int main()
     int a = 5;
     int b = 6;
     int* c = 0;
-    mySwap(a, b);
-    myIncrement(c, a);
+    //Implement mySwap() on a & b.
+
+    //Implement myIncrement() to Increment a.
 
     std::stringstream swapIncrementAnswer;
     std::cout << "Checking Swap and Increment: " << std::endl;
