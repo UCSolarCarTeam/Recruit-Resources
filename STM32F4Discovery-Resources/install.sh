@@ -4,12 +4,13 @@ sudo apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch aut
 
 # Install arm compiler
 if ! type "arm-none-eabi-gcc" > /dev/null; then
-    git clone https://github.com/adamgreen/gcc4mbed /opt/gcc4mbed
+    git clone https://github.com/adamgreen/gcc4mbed /opt/gcc4mbed --depth 1
     (cd /opt/gcc4mbed && \
         chmod +x linux_install && \
         sed -i '108d;109d;110d;134d' linux_install && \ # Remove 'press any key to continue' and building samples
         ./linux_install)
-   echo "export PATH=$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile
+    export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/
+    echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile
 fi
 
 # Install CubeMX
@@ -26,15 +27,16 @@ rm -r cubemx
 git clone https://github.com/texane/stlink.git --depth 1
 mkdir stlink/build
 (cd stlink/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j4)
-sudo cp stlink/build/st-flash /usr/local/bin/st-flash
-sudo cp stlink/build/st-info /usr/local/bin/st-info
-sudo cp stlink/build/src/gdbserver/st-util /usr/local/bin/st-util
+sudo mkdir /opt/stlink
+sudo mv stlink/build /opt/stlink/build
+echo "export PATH=\$PATH:/opt/stlink/build/" >> ~/.profile
+echo "export PATH=\$PATH:/opt/stlink/build/src/gdbserver" >> ~/.profile
+export PATH=\$PATH:/opt/stlink/build
+export PATH=\$PATH:/opt/stlink/build/src/gdbserver
 rm stlink -rf
 
 # Install CubeMX2Makefile
-sudo git clone https://github.com/baoshi/CubeMX2Makefile.git /opt/CubeMX2Makefile
+sudo git clone https://github.com/baoshi/CubeMX2Makefile.git /opt/CubeMX2Makefile --depth 1
 sudo ln -s /opt/CubeMX2Makefile/CubeMX2Makefile.py /opt/CubeMX2Makefile/CubeMX2Makefile
 echo "export PATH=\$PATH:/opt/CubeMX2Makefile" >> ~/.profile
-
-# source PATH changes
-source  ~/.profile
+export PATH=\$PATH:/opt/CubeMX2Makefile
