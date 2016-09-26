@@ -1,28 +1,28 @@
 #!/usr/bin/env bash
 
-USER=`whoami`
-if [ $USER = "root" ]
-    then
-    echo "Running as ROOT"
-else
-    echo "***********YOU ARE NOT ROOT************"
-    exit 0
+if [[ $UID != 0 ]]; then
+    echo "Please run this script with sudo:"
+    echo "sudo $0 $*"
+    exit 1
 fi
 
-apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config cmake
+sudo apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config cmake
 
 # Install arm compiler
 if ! type "arm-none-eabi-gcc" > /dev/null; then
+    echo "Installing arm compiler"
     git clone https://github.com/adamgreen/gcc4mbed /opt/gcc4mbed --depth 1
     (cd /opt/gcc4mbed && \
         chmod +x linux_install && \
         sed -i '108d;109d;110d;134d' linux_install && \
         ./linux_install)
-    export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/
-    echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile
+    echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profilef
+    export PATH=$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/
+
 fi
 
 # Install CubeMX
+echo "Installing STM32CubeMX"
 mkdir cubemx
 cp auto-install.xml cubemx
 (cd cubemx && \
@@ -34,6 +34,7 @@ rm -r cubemx
 
 # Install STLink
 if ! type "st-flash" > /dev/null; then
+    echo "Installing ST Link"
     git clone https://github.com/texane/stlink.git --depth 1
     mkdir stlink/build
     (cd stlink/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j4)
@@ -41,15 +42,17 @@ if ! type "st-flash" > /dev/null; then
     mv stlink/build /opt/stlink/build
     echo "export PATH=\$PATH:/opt/stlink/build/" >> ~/.profile
     echo "export PATH=\$PATH:/opt/stlink/build/src/gdbserver" >> ~/.profile
-    export PATH=\$PATH:/opt/stlink/build
-    export PATH=\$PATH:/opt/stlink/build/src/gdbserver
-    rm stlink -rf
+    export PATH=$PATH:/opt/stlink/build
+    export PATH=$PATH:/opt/stlink/build/src/gdbserver
+    rm -r stlink
 fi
 
 # Install CubeMX2Makefile
 if ! type "CubeMX2Makefile" > /dev/null; then
-    git clone https://github.com/baoshi/CubeMX2Makefile.git /opt/CubeMX2Makefile --depth 1
+    echo "Installing CubeMX2Makefile"
+    git clone https://github.com/baoshi/CubeMX2Makefile.git --depth 1
+    mv CubeMX2Makefile /opt/CubeMX2Makefile
     ln -s /opt/CubeMX2Makefile/CubeMX2Makefile.py /opt/CubeMX2Makefile/CubeMX2Makefile
     echo "export PATH=\$PATH:/opt/CubeMX2Makefile" >> ~/.profile
-    export PATH=\$PATH:/opt/CubeMX2Makefile
+    export PATH=$PATH:/opt/CubeMX2Makefile
 fi
