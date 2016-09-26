@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sudo apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config cmake
+apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config cmake
 
 # Install arm compiler
 if ! type "arm-none-eabi-gcc" > /dev/null; then
@@ -20,23 +20,27 @@ cp auto-install.xml cubemx
     wget https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/en.stm32cubemx.zip && \
     unzip en.stm32cubemx.zip && \
     chmod +x SetupSTM32CubeMX-4.16.1.linux && \
-    sudo ./SetupSTM32CubeMX-4.16.1.linux auto-install.xml)
+    ./SetupSTM32CubeMX-4.16.1.linux auto-install.xml)
 rm -r cubemx
 
 # Install STLink
-git clone https://github.com/texane/stlink.git --depth 1
-mkdir stlink/build
-(cd stlink/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j4)
-sudo mkdir /opt/stlink
-sudo mv stlink/build /opt/stlink/build
-echo "export PATH=\$PATH:/opt/stlink/build/" >> ~/.profile
-echo "export PATH=\$PATH:/opt/stlink/build/src/gdbserver" >> ~/.profile
-export PATH=\$PATH:/opt/stlink/build
-export PATH=\$PATH:/opt/stlink/build/src/gdbserver
-rm stlink -rf
+if ! type "st-flash" > /dev/null; then
+    git clone https://github.com/texane/stlink.git --depth 1
+    mkdir stlink/build
+    (cd stlink/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j4)
+    mkdir /opt/stlink
+    mv stlink/build /opt/stlink/build
+    echo "export PATH=\$PATH:/opt/stlink/build/" >> ~/.profile
+    echo "export PATH=\$PATH:/opt/stlink/build/src/gdbserver" >> ~/.profile
+    export PATH=\$PATH:/opt/stlink/build
+    export PATH=\$PATH:/opt/stlink/build/src/gdbserver
+    rm stlink -rf
+fi
 
 # Install CubeMX2Makefile
-sudo git clone https://github.com/baoshi/CubeMX2Makefile.git /opt/CubeMX2Makefile --depth 1
-sudo ln -s /opt/CubeMX2Makefile/CubeMX2Makefile.py /opt/CubeMX2Makefile/CubeMX2Makefile
-echo "export PATH=\$PATH:/opt/CubeMX2Makefile" >> ~/.profile
-export PATH=\$PATH:/opt/CubeMX2Makefile
+if ! type "CubeMX2Makefile" > /dev/null; then
+    git clone https://github.com/baoshi/CubeMX2Makefile.git /opt/CubeMX2Makefile --depth 1
+    ln -s /opt/CubeMX2Makefile/CubeMX2Makefile.py /opt/CubeMX2Makefile/CubeMX2Makefile
+    echo "export PATH=\$PATH:/opt/CubeMX2Makefile" >> ~/.profile
+    export PATH=\$PATH:/opt/CubeMX2Makefile
+fi
