@@ -6,7 +6,7 @@ if [[ $UID != 0 ]]; then
     exit 1
 fi
 
-sudo apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config cmake
+apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config cmake
 
 # Install arm compiler
 if ! type "arm-none-eabi-gcc" > /dev/null; then
@@ -16,30 +16,30 @@ if ! type "arm-none-eabi-gcc" > /dev/null; then
         chmod +x linux_install && \
         sed -i '108d;109d;110d;134d' linux_install && \
         ./linux_install)
-    echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profilef
+    echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile
     export PATH=$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/
-
 fi
 
 # Install CubeMX
 echo "Installing STM32CubeMX"
-mkdir cubemx
-cp auto-install.xml cubemx
-(cd cubemx && \
-    wget https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/en.stm32cubemx.zip && \
-    unzip en.stm32cubemx.zip && \
-    chmod +x SetupSTM32CubeMX-4.16.1.linux && \
-    ./SetupSTM32CubeMX-4.16.1.linux auto-install.xml)
-rm -r cubemx
+if [ ! -d "/opt/STM32CubeMX" ]; then
+    mkdir cubemx
+    cp auto-install.xml cubemx
+    (cd cubemx && \
+        wget https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/en.stm32cubemx.zip && \
+        unzip en.stm32cubemx.zip && \
+        chmod +x SetupSTM32CubeMX-4.16.1.linux && \
+        ./SetupSTM32CubeMX-4.16.1.linux auto-install.xml)
+    rm -r cubemx
+    ln -s ../../../opt/STM32CubeMX/STM32CubeMX /usr/local/bin/STM32CubeMX
+fi
 
 # Install STLink
 if ! type "st-flash" > /dev/null; then
     echo "Installing ST Link"
-    git clone https://github.com/texane/stlink.git --depth 1
-    mkdir stlink/build
-    (cd stlink/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j4)
-    mkdir /opt/stlink
-    mv stlink/build /opt/stlink/build
+    git clone https://github.com/texane/stlink.git /opt/stlink --depth 1
+    mkdir /opt/stlink/build
+    (cd /opt/stlink/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j4)
     echo "export PATH=\$PATH:/opt/stlink/build/" >> ~/.profile
     echo "export PATH=\$PATH:/opt/stlink/build/src/gdbserver" >> ~/.profile
     echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/stlink/build" >> ~/.profile
