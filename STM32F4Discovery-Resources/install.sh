@@ -42,8 +42,10 @@ if ! type "st-flash" > /dev/null; then
     mv stlink/build /opt/stlink/build
     echo "export PATH=\$PATH:/opt/stlink/build/" >> ~/.profile
     echo "export PATH=\$PATH:/opt/stlink/build/src/gdbserver" >> ~/.profile
+    echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/stlink/build" >> ~/.profile
     export PATH=$PATH:/opt/stlink/build
     export PATH=$PATH:/opt/stlink/build/src/gdbserver
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/stlink/build
     rm -r stlink
 fi
 
