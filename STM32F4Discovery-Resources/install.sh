@@ -19,6 +19,9 @@ if [ ! -d "/opt/STM32CubeMX" ]; then
         chmod +x SetupSTM32CubeMX-*.linux && \
         ./SetupSTM32CubeMX-*.linux auto-install.xml)
     rm -r cubemx
+    echo "#!/usr/bin/env bash" >> /usr/local/bin/STM32CubeMX
+    echo "(cd /opt/STM32CubeMX && ./STM32CubeMX)" >> /usr/local/bin/STM32CubeMX
+    chmod +x /usr/local/bin/STM32CubeMX
 else
     echo "*** STM32CubeMX already installed"
 fi
