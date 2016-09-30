@@ -46,7 +46,10 @@ if ! type "CubeMX2Makefile" > /dev/null; then
     echo "*** Installing CubeMX2Makefile"
     git clone https://github.com/baoshi/CubeMX2Makefile.git --depth 1
     mv CubeMX2Makefile /opt/CubeMX2Makefile
-    ln -s /opt/CubeMX2Makefile/CubeMX2Makefile.py /usr/local/bin/CubeMX2Makefile
+    echo "#!/usr/bin/env bash" >> /usr/local/bin/CubeMX2Makefile
+    echo "ABS_PATH=\"\$(readlink -f \$1)\"" >> /usr/local/bin/CubeMX2Makefile
+    echo "(cd /opt/CubeMX2Makefile && python CubeMX2Makefile.py \$ABS_PATH)" >> /usr/local/bin/CubeMX2Makefile
+    chmod +x /usr/local/bin/CubeMX2Makefile
 else
     echo "*** CubeMX2Makefile already installed"
 fi
