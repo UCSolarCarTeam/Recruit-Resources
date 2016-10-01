@@ -56,7 +56,6 @@ int main()
 {
     int a = 5;
     int b = 6;
-    int* c = 0;
     std::stringstream swapIncrementAnswer;
     std::cout << "Checking Swap and Increment: " << std::endl;
     swapIncrementAnswer << "a is " << a << ", b is " << b;
@@ -65,7 +64,6 @@ int main()
     compareAnswers(swapIncrementAnswer.str(), correctSwapIncrementAnswer);
 // Pass a & b into mySwap
 // Pass in a to myIncrement
-// Uncomment this once you have completed the definitions of the Person class.
-    //personFunctions();
+    //personFunctions(); // Uncomment this once you have completed the definitions of the Person class.
     return 0;
 }
