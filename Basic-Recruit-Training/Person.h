@@ -1,4 +1,5 @@
-// This line is a preprocessor directive that prevents this header file being compiled multiple times by source files. It should be included in each header file.
+// This line is a preprocessor directive that this header is only defined once.
+// This needs to be included in each header file.
 #pragma once
 
 #include <string>
