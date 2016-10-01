@@ -10,3 +10,4 @@ build*
 *.orig
 debug
 *.depend
+*.layout
