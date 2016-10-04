@@ -8,24 +8,6 @@ fi
 
 apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf libusb-1.0-0-dev pkg-config cmake
 
-# Install CubeMX
-if [ ! -d "/opt/STM32CubeMX" ]; then
-    echo "*** Installing STM32CubeMX"
-    mkdir cubemx
-    cp auto-install.xml cubemx
-    (cd cubemx && \
-        wget http://www.st.com/content/ccc/resource/technical/software/sw_development_suite/00/22/e1/cf/b7/83/42/25/stm32cubemx.zip/files/stm32cubemx.zip/jcr:content/translations/en.stm32cubemx.zip && \
-        unzip en.stm32cubemx.zip && \
-        chmod +x SetupSTM32CubeMX-*.linux && \
-        ./SetupSTM32CubeMX-*.linux auto-install.xml)
-    rm -r cubemx
-    echo "#!/usr/bin/env bash" >> /usr/local/bin/STM32CubeMX
-    echo "(cd /opt/STM32CubeMX && ./STM32CubeMX)" >> /usr/local/bin/STM32CubeMX
-    chmod +x /usr/local/bin/STM32CubeMX
-else
-    echo "*** STM32CubeMX already installed"
-fi
-
 # Install STLink
 if ! type "st-flash" > /dev/null; then
     echo "*** Installing ST Link"
