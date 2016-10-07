@@ -20,7 +20,7 @@ void compareAnswers(const std::string myAnswer, const std::string correctAnswer)
 void mySwap(int& a, int& b)
 {
 }
-
+// Increment the value at the address pointed to x by one.
 void myIncrement(int* x)
 {
 }

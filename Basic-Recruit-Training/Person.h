@@ -14,13 +14,13 @@ public:
     int getAge() const;
     const std::string& getName() const;
 
-    void printInfo();
+    void printInfo();//Print out the name and age of the person.
 
     void setName(const std::string& newName);
     void setAge(int newAge);
 
     static int combinedAge(Person** x, int size); // Print the combined Age of everyone pointed to by x
-    static void birthday(Person& x);
+    static void birthday(Person& x); // Increases the Person's Age by 1.
 private:
     std::string name_;
 
