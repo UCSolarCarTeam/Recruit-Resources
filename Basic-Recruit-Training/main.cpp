@@ -20,12 +20,13 @@ void compareAnswers(const std::string myAnswer, const std::string correctAnswer)
 void mySwap(int& a, int& b)
 {
 }
-// Increment the value at the address pointed to x by one.
+// Increment the int that x is pointing to by one.
 void myIncrement(int* x)
 {
 }
 
-void personFunctions()
+// Uncomment this when person.cpp has been created.
+/* void personFunctions()
 {
     Person Bill;
     Bill.setName("Bill");
@@ -50,7 +51,7 @@ void personFunctions()
               << myBirthdayAnswer.str() << std::endl;
     compareAnswers(myBirthdayAnswer.str(), correctBirthdayAnswer);
     delete Joe;
-}
+}*/
 
 int main()
 {
