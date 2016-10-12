@@ -1,26 +1,19 @@
 #!/usr/bin/env bash
 sudo mkdir -p /tmp/solarcar
-sudo cp qt-installer-noninteractive.qs /tmp/solarcar
-sudo cp init.vim /tmp/solarcar
+sudo chmod +x qt-installer-noninteractive.qs
+sudo chmod +x init.vim
 
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo add-apt-repository -y ppa:webupd8team/sublime-text-3
 sudo apt-get -qq update
-sudo apt-get -q --yes  install cmake
-sudo apt-get -q --yes  install software-properties-common
-sudo apt-get -q --yes  install build-essential
-sudo apt-get -q --yes  install mesa-common-dev 
-sudo apt-get -q --yes  install libgl1-mesa-dev 
+sudo apt-get -q --yes  install cmake software-properties-common build-essential mesa-common-dev libgl1-mesa-dev git-all gitk sublime-text-installer neovim putty
+sudo cp init.vim ~/.config/nvim/
 
 sudo apt-get -q -o Dpkg::Options::="--force-condef" -o Dpkg::Options::="--force-confold" --yes --force-yes upgrade
 
-sudo apt-get -qq --yes install git-all
-
-sudo apt-get -qq --yes install gitk
-
 echo "Installing Git Repositores in ~/Documents/SolarCar"
 mkdir -p ~/Documents/SolarCar
-cd ~/Documents/SolarCar/
+(cd ~/Documents/SolarCar/
 mkdir DeltaTelemetryServer
 mkdir BackupCamera
 mkdir DeltaHermes
@@ -41,34 +34,21 @@ git clone https://github.com/UCSolarCarTeam/Delta-Hermes.git DeltaHermes/Delta-H
 git clone https://github.com/UCSolarCarTeam/Epsilon-Hermes.git EpsilonHermes/Epsilon-Hermes
 git clone https://github.com/UCSolarCarTeam/Android-Client-Telemetry.git AndroidClientTelemetry/Android-Client-Telemetry
 git clone https://github.com/UCSolarCarTeam/Delta-Desktop-Client-Telemetry.git DeltaDesktopClientTelemetry/Delta-Desktop-Client-Telemetry
-git clone https://github.com/UCSolarCarTeam/Recruit-Training.git
+git clone https://github.com/UCSolarCarTeam/Recruit-Training.git)
 
-cd ~/Documents/SolarCar/DeltaOnboardMediaControl/Delta-Onboard-Media-Control/
+(cd ~/Documents/SolarCar/DeltaOnboardMediaControl/Delta-Onboard-Media-Control/
 git clone https://github.com/google/googletest.git
 cd googletest
 g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googlemock/src/gmock-all.cc
 g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googletest/src/gtest-all.cc
 ar -rv libgmock.a gtest-all.o gmock-all.o
 cp libgmock.a ../test/
-
-sudo apt-get -qq --yes install sublime-text-installer
-
-sudo apt-get -qq --yes install neovim
-sudo cp /tmp/solarcar/init.vim ~/.config/nvim/
-
-sudo apt-get -qq --yes install putty
-
-cd /tmp/solarcar
-sudo wget https://github.com/google/googletest/archive/release-1.7.0.tar.gz
-sudo tar -xzf release-1.7.0.tar.gz
-sudo mv googletest-release-1.7.0 /usr/local/
-cd /usr/local/googletest-release-1.7.0/
 sudo cmake -DBUILD_SHARED_LIBS=ON
 sudo make
 sudo cp -a include/gtest/ /usr/include/
-sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+sudo cp -a libgtest_main.so libgtest.so /usr/lib/)
 
-cd /tmp/solarcar/
+(cd /tmp/solarcar/
 echo "Installing ANT, SDK, NDK and JDK in /opt/"
 sudo wget -q http://mirror.its.dal.ca/apache//ant/binaries/apache-ant-1.9.7-bin.tar.gz
 sudo tar -xzf apache-ant-1.9.7-bin.tar.gz
@@ -88,11 +68,12 @@ sudo mv jdk1.8.0_101/ /opt/
 
 echo "Downloading QT Installer"
 sudo wget -q http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
-sudo chmod +x qt-unified-linux-x64-online.run
-sudo chmod +x qt-installer-noninteractive.qs
-echo "Installing QT into Home/Qt/"
-./qt-unified-linux-x64-online.run --script qt-installer-noninteractive.qs 
+sudo chmod +x qt-unified-linux-x64-online.run)
 
+echo "Installing QT into Home/Qt/"
+/tmp/solarcar/qt-unified-linux-x64-online.run --script qt-installer-noninteractive.qs 
+
+(cd /tmp/solarcar/
 echo "Installing QWT Plot in /usr/local"
 sudo wget -q http://heanet.dl.sourceforge.net/project/qwt/qwt/6.1.3/qwt-6.1.3.tar.bz2
 sudo tar -xvf  qwt-6.1.3.tar.bz2
@@ -100,23 +81,20 @@ sudo mv qwt-6.1.3/ /usr/local/
 cd /usr/local/qwt-6.1.3/
 $HOME/Qt/5.5/gcc_64/bin/qmake qwt.pro
 sudo make
-sudo make install
+sudo make install)
 
-cd /tmp/solarcar/
+(cd /tmp/solarcar/
 echo "Installing golang in /usr/local"
 sudo wget -q https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz
 sudo tar -xf go1.7.linux-amd64.tar.gz
 sudo mv go/ /usr/local
-echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile 
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile )
 
+(cd /usr/local
 echo "Installing arm compiler in /usr/local"
-cd /tmp/solarcar/
-sudo wget -q https://github.com/adamgreen/gcc4mbed/zipball/master
-sudo unzip -qq master
-sudo mv adamgreen-gcc4mbed-b0e31ff /usr/local
-cd /usr/local/adamgreen-gcc4mbed-b0e31ff
+git clone https://github.com/adamgreen/gcc4mbed.git
+cd /usr/local/gcc4mbed/
 sudo sed -i '108d;109d;110d;134d' linux_install # Remove 'press any key to continue' and building samples
-sudo ./linux_install
+sudo ./linux_install)
 
 sudo rm -r /tmp/solarcar/
-

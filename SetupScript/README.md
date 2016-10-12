@@ -1,5 +1,5 @@
 # UCSolarCarTeam Setup Script  
-Run this script (This was targeted at Linux Mint Distros, however any debian based Distro should work) to install the following:
+This script initializes a Linux Mint Machine for UCSolarCarTeam members. Any debian based Distribution should work, although only Linux Mint is officially supported. Listed below is all changes made to the machine for initialization.
 
 ##Dependencies
 - Qt 5.5  
@@ -57,5 +57,3 @@ Run this script (This was targeted at Linux Mint Distros, however any debian bas
   
 - build-essentials  
   * Contains very essential build tools, it includes gcc/g++ compilers, libraries and many other utilities.    
-  
-
