@@ -48,6 +48,11 @@ sudo make
 sudo cp -a include/gtest/ /usr/include/
 sudo cp -a libgtest_main.so libgtest.so /usr/lib/)
 
+(cd ~/Documents/SolarCar/Delta-Onboard-Media-Control/
+sudo chmod 755 make-all
+sudo bash ./Installer/MainInstaller.sh
+sudo bash ./Installer/AutoBootSetup.sh)
+
 (cd /tmp/solarcar/
 echo "Installing ANT, SDK, NDK and JDK in /opt/"
 sudo wget -q http://mirror.its.dal.ca/apache//ant/binaries/apache-ant-1.9.7-bin.tar.gz
