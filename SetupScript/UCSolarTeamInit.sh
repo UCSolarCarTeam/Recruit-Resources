@@ -97,7 +97,7 @@ echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile )
 
 (cd /usr/local
 echo "Installing arm compiler in /usr/local"
-git clone https://github.com/adamgreen/gcc4mbed.git
+sudo git clone https://github.com/adamgreen/gcc4mbed.git
 cd /usr/local/gcc4mbed/
 sudo sed -i '108d;109d;110d;134d' linux_install # Remove 'press any key to continue' and building samples
 sudo ./linux_install)

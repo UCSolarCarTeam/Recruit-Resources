@@ -1,6 +1,7 @@
-cd ~/Documents/SolarCar/DeltaTelemetryTestTool/Delta-Telemetry-Test-Tool/
-qmake
+cd ~/Documents/SolarCar/Delta-Telemetry-Test-Tool/src
+qmake 
 make
+
 cd ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/
 chmod +x emverTest.sh
 ./emverTest.sh
