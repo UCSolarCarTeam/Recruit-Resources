@@ -1,42 +1,42 @@
-cd ~/Documents/SolarCar/Delta-Telemetry-Test-Tool/src
+(cd ~/Documents/SolarCar/Delta-Telemetry-Test-Tool/src
 qmake 
-make
+make)
 
-cd ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/
+(cd ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/
 chmod +x emverTest.sh
-./emverTest.sh
-cd ~/Documents/SolarCar/Epsilon-Onboard-Media-Control/
-make
+./emverTest.sh)
+(cd ~/Documents/SolarCar/Epsilon-Onboard-Media-Control/
+make)
 
-cd ~/Documents/SolarCar/
-sudo ./make-all
+(cd ~/Documents/SolarCar/
+sudo ./make-all)
 
-cd ~/Documents/SolarCar/DeltaHermes/Delta-Hermes/
+(cd ~/Documents/SolarCar/DeltaHermes/Delta-Hermes/
 qmake
-make
+make)
 
-cd ~/Documents/SolarCar/DeltaHermes/Delta-Hermes/Tests/
+(cd ~/Documents/SolarCar/DeltaHermes/Delta-Hermes/Tests/
 qmake
-make
+make)
 
-cd ~/Documents/SolarCar/EpsilonHermes/Epsilon-Hermes/
+(cd ~/Documents/SolarCar/EpsilonHermes/Epsilon-Hermes/
 qmake
-make
+make)
 
-cd ~/Documents/SolarCar/EpsilonHermes/Epsilon-Hermes/Tests/
+(cd ~/Documents/SolarCar/EpsilonHermes/Epsilon-Hermes/Tests/
 qmake 
-make
+make)
 
-cd ~/Documents/SolarCar/DeltaDesktopClientTelemetry/Delta-Desktop-Client-Telemetry/
+(cd ~/Documents/SolarCar/DeltaDesktopClientTelemetry/Delta-Desktop-Client-Telemetry/
 qmake
-make
+make)
 
-cd ~/Documents/SolarCar/BackupCamera/
-make
+(cd ~/Documents/SolarCar/BackupCamera/
+make)
 
-cd ~/Documents/Recruit-Resources/Advanced-Recruit-Training/src/
+(cd ~/Documents/Recruit-Resources/Advanced-Recruit-Training/src/
 qmake
-make
+make)
 
-cd ~/Documents/SolarCar/DeltaTelemetryServer/Delta-Telemetry-Server/
-go build
+(cd ~/Documents/SolarCar/DeltaTelemetryServer/Delta-Telemetry-Server/
+go build)

@@ -50,22 +50,6 @@ sudo bash ./Installer/MainInstaller.sh
 sudo bash ./Installer/AutoBootSetup.sh)
 
 (cd /tmp/solarcar/
-echo "Installing ANT, SDK, NDK and JDK in /opt/"
-sudo wget -q http://mirror.its.dal.ca/apache//ant/binaries/apache-ant-1.9.7-bin.tar.gz
-sudo tar -xzf apache-ant-1.9.7-bin.tar.gz
-sudo mv apache-ant-1.9.7/ /opt/
-
-sudo wget -q https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
-sudo tar -xzf android-sdk_r24.4.1-linux.tgz
-sudo mv android-sdk-linux/ /opt/
-
-sudo wget -q http://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip
-sudo unzip -qq android-ndk-r12b-linux-x86_64.zip 
-sudo mv android-ndk-r12b/ /opt/
-
-sudo wget -q --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-x64.tar.gz
-sudo tar -xzvf jdk-8u101-linux-x64.tar.gz
-sudo mv jdk1.8.0_101/ /opt/
 
 echo "Downloading QT Installer"
 sudo wget -q http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
