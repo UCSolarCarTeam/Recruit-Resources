@@ -27,10 +27,6 @@ cd ~/Documents/SolarCar/EpsilonHermes/Epsilon-Hermes/Tests/
 qmake 
 make
 
-cd ~/Documents/SolarCar/AndroidClientTelemetry/Android-Client-Telemetry/
-qmake
-make
-
 cd ~/Documents/SolarCar/DeltaDesktopClientTelemetry/Delta-Desktop-Client-Telemetry/
 qmake
 make
@@ -38,7 +34,7 @@ make
 cd ~/Documents/SolarCar/BackupCamera/
 make
 
-cd ~/Documents/Recruit-Training/src/
+cd ~/Documents/Recruit-Resources/Advanced-Recruit-Training/src/
 qmake
 make
 

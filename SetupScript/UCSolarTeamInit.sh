@@ -18,23 +18,19 @@ mkdir DeltaTelemetryServer
 mkdir BackupCamera
 mkdir DeltaHermes
 mkdir EpsilonHermes
-mkdir AndroidClientTelemetry
 mkdir DeltaDesktopClientTelemetry
 
 git clone https://github.com/UCSolarCarTeam/Epsilon-Domovoi.git
-git clone https://github.com/UCSolarCarTeam/Development-Guide.git
+git clone https://github.com/UCSolarCarTeam/Recruit-Resources.git
 git clone https://github.com/UCSolarCarTeam/Delta-Telemetry-Server.git DeltaTelemetryServer/Delta-Telemetry-Server
 git clone https://github.com/UCSolarCarTeam/Delta-Telemetry-Test-Tool.git
 git clone https://github.com/UCSolarCarTeam/Epsilon-Embedded-Test-Tool.git
 git clone https://github.com/UCSolarCarTeam/BackupCamera.git BackupCamera/Backup-Camera
 git clone https://github.com/UCSolarCarTeam/Epsilon-Onboard-Media-Control.git
 git clone https://github.com/UCSolarCarTeam/Delta-OnBoard-Media-Control.git
-
 git clone https://github.com/UCSolarCarTeam/Delta-Hermes.git DeltaHermes/Delta-Hermes
 git clone https://github.com/UCSolarCarTeam/Epsilon-Hermes.git EpsilonHermes/Epsilon-Hermes
-git clone https://github.com/UCSolarCarTeam/Android-Client-Telemetry.git AndroidClientTelemetry/Android-Client-Telemetry
-git clone https://github.com/UCSolarCarTeam/Delta-Desktop-Client-Telemetry.git DeltaDesktopClientTelemetry/Delta-Desktop-Client-Telemetry
-git clone https://github.com/UCSolarCarTeam/Recruit-Training.git)
+git clone https://github.com/UCSolarCarTeam/Delta-Desktop-Client-Telemetry.git DeltaDesktopClientTelemetry/Delta-Desktop-Client-Telemetry)
 
 (cd ~/Documents/SolarCar/DeltaOnboardMediaControl/Delta-Onboard-Media-Control/
 git clone https://github.com/google/googletest.git
