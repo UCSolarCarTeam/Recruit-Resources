@@ -34,7 +34,8 @@ This has been tested on Linux Mint and is expected to work on other Debian based
 
 === Flashing
 ==== Introduction
-Flashing is how we get the code that we have made onto the actual board. We cannot just simply copy the .c file onto the board as it won't know what to do with it
+Flashing is how we get the executable  that we have made onto the actual board. We cannot just simply copy the executable (.exe) onto the board as the processor won't know what to do with it.
+We must make a .bin file and "flash" it onto the board.
 
 To flash the board use `st-flash write /path/to/project/build/PROJECT.bin 0x8000000`
 
