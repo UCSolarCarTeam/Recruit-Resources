@@ -21,6 +21,7 @@ public:
 
     static int combinedAge(Person** x, int size); // Print the combined Age of everyone pointed to by x
     static void birthday(Person& x); // Increases the Person's Age by 1.
+
 private:
     std::string name_;
 
