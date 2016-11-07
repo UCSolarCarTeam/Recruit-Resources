@@ -1,4 +1,4 @@
-=Compiling and Flashing STM Board
+= Compiling and Flashing STM Board
 
 NOTE: This has been tested on Linux Mint and is expected to work on other Debian based distros
 
