@@ -2,45 +2,65 @@
 
 NOTE: This has been tested on Linux Mint and is expected to work on other Debian based distros
 
+== Setup
 
-
-=== Setup
 . Go to UCSolarCarTeam repo > Recruit Resources, and clone
+
 . Navigate to STM32F4Discovery-Resources and run the auto installer `sudo ./install.sh`. 
 This will should download STLink, gcc4mbed, and CubeMX2Makefile on your computer and add them all to your path
+
 . Check to make sure all of them were added to your path using your preffered text editor.
 For example, `nano ~/.profile`.
 If any of them are missing add them to your path.
+
 .. Add them by copying  `export PATH=$PATH:/opt/CubeMX2Makefile`, `export PATH=$PATH:/opt/stlink`, or `export PATH=$PATH:/opt/gcc4mbed` in your profile.
+
 .. Save, exit, and source your profile `source ~/.profile`
+
 . http://www.st.com/en/development-tools/stm32cubemx.html[Go to the download page of the official ST website by clicking this link^]
+
 . Scroll to the bottom of the page to the *GET SOFTWARE* section and click *Get Software*
+
 . Follow the instructions and download CubeMX
+
 . Extract files from `.zip` file using a method of your choice.
 For example `unzip file.zip -d Destination_folder`
+
 . Navigate to the directory that the files were extracted
+
 . Run *SetupSTM32CubeMX-VERSION.linux* `./SetupSTM32CubeMX-{var}.linux` where  {var} is the version of CubeMx that is being installed.
+
 . Follow the instructions in the Installation Wizard
 
-=== Making PROJECT, Creating Makefile, AND Making
+== Making PROJECT, Creating Makefile, AND Making
+
 . Open CubeMX. The default path is `/home/STM32CubeMX`
+
 . Select New Project
+
 . Click on the Board Selector Tab and scroll down till you find STM32F4DISCOVERY then click Ok
+
 . Go to Project > Project Settings
+
 . Name your project, set your project location, and change the Toolchain/IDE to SW4STM32. 
 *If you don't do this CubeMX2Makefile won't work!* 
 CubeMX2Makefile looks for an SW4STM32 project which correlates to CubeMX.
 If you do not set the Toolchain/IDE to SW4STM32, it will be in the format of a different IDE, not CubeMX.
 For example, EWARM is for the IAR Embedded Workbench IDE and CubeMX2Makefile will not know what to do with that format.
+
 . Make note of the Toolchain Folder Location, which will also be your project folder location.
+
 . Click Ok and download any dependencies that are needed, then click Ok again
+
 . Do configurations and go to Project > Generate Code, then save project
+
 . Create the makefile  `CubeMX2Makefile /path/to/project/folder`
+
 . Go to the directory that the Makefile was made then compile the Makefile `make`
+
 . Navigate to the build directory and you should see PROJECT.bin, where PROJECT is the name of your project
 
-=== Flashing
-==== Introduction
+== Flashing
 Flashing is how we get the executable  that we have made onto the actual board. We cannot just simply copy the executable (.exe) onto the board as the processor won't know what to do with it.
 We must make a .bin file and "flash" it onto the board.
 
