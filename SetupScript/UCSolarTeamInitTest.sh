@@ -45,3 +45,5 @@ make)
 echo "Delta-Telemetry-Server"
 (cd ~/Documents/SolarCar/DeltaTelemetryServer/Delta-Telemetry-Server/
 go build)
+
+echo "Done!"
