@@ -53,7 +53,7 @@ sudo bash ./Installer/AutoBootSetup.sh)
 
 echo "Downloading QT Installer"
 sudo wget -q http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
-sudo chmod +x qt-unified-linux-x64-online.run)
+chmod +x qt-unified-linux-x64-online.run)
 
 echo "Installing QT into Home/Qt/"
 /tmp/solarcar/qt-unified-linux-x64-online.run --script qt-installer-noninteractive.qs 

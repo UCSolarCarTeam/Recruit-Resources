@@ -1,3 +1,13 @@
+source ~/.profile
+
+(cmake --version
+git --version
+subl --version
+putty --version
+nvim --version
+qmake --version
+go version)
+
 echo "Testing Delta-Telemetry-Test-Tool"
 (cd ~/Documents/SolarCar/Delta-Telemetry-Test-Tool/src
 qmake 
@@ -42,6 +52,6 @@ echo "Testing BackupCamera"
 (cd ~/Documents/SolarCar/BackupCamera/
 make)
 
-echo "Delta-Telemetry-Server"
+echo "Testing Delta-Telemetry-Server"
 (cd ~/Documents/SolarCar/DeltaTelemetryServer/Delta-Telemetry-Server/
 go build)
