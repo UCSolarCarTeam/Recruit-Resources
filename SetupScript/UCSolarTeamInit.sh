@@ -32,7 +32,7 @@ git clone https://github.com/UCSolarCarTeam/Delta-Hermes.git DeltaHermes/Delta-H
 git clone https://github.com/UCSolarCarTeam/Epsilon-Hermes.git EpsilonHermes/Epsilon-Hermes
 git clone https://github.com/UCSolarCarTeam/Delta-Desktop-Client-Telemetry.git DeltaDesktopClientTelemetry/Delta-Desktop-Client-Telemetry)
 
-(cd ~/Documents/SolarCar/DeltaOnboardMediaControl/Delta-Onboard-Media-Control/
+(cd ~/Documents/SolarCar/Delta-OnBoard-Media-Control/
 git clone https://github.com/google/googletest.git
 cd googletest
 g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googlemock/src/gmock-all.cc
@@ -44,7 +44,7 @@ sudo make
 sudo cp -a include/gtest/ /usr/include/
 sudo cp -a libgtest_main.so libgtest.so /usr/lib/)
 
-(cd ~/Documents/SolarCar/Delta-Onboard-Media-Control/
+(cd ~/Documents/SolarCar/Delta-OnBoard-Media-Control/
 sudo chmod 755 make-all
 sudo bash ./Installer/MainInstaller.sh
 sudo bash ./Installer/AutoBootSetup.sh)
@@ -53,10 +53,10 @@ sudo bash ./Installer/AutoBootSetup.sh)
 
 echo "Downloading QT Installer"
 sudo wget -q http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
-chmod +x qt-unified-linux-x64-online.run)
+sudo chmod +x qt-unified-linux-x64-online.run)
 
 echo "Installing QT into Home/Qt/"
-/tmp/solarcar/qt-unified-linux-x64-online.run --script qt-installer-noninteractive.qs 
+sudo /tmp/solarcar/qt-unified-linux-x64-online.run --script qt-installer-noninteractive.qs 
 
 #Setting path to qmake
 (sudo mkdir /etc/xdg/qtchooser
