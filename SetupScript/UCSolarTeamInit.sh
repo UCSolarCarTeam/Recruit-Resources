@@ -58,6 +58,10 @@ sudo chmod +x qt-unified-linux-x64-online.run)
 echo "Installing QT into Home/Qt/"
 /tmp/solarcar/qt-unified-linux-x64-online.run --script qt-installer-noninteractive.qs 
 
+#Setting path to qmake
+(sudo mkdir /etc/xdg/qtchooser
+sudo cp default.conf /etc/xdg/qtchooser/)
+
 (cd /tmp/solarcar/
 echo "Installing QWT Plot in /usr/local"
 sudo wget -q http://heanet.dl.sourceforge.net/project/qwt/qwt/6.1.3/qwt-6.1.3.tar.bz2
