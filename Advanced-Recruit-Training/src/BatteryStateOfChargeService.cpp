@@ -14,7 +14,6 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 {
 }
 
-
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
     return 0.0;
