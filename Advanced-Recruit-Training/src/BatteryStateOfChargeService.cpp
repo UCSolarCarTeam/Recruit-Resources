@@ -14,6 +14,7 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 {
 }
 
+
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
     return 0.0;
@@ -33,4 +34,6 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     Q_UNUSED(batteryData);
     // This is where you can update your variables
+    // Hint: There are many different ways that the totalAmpHoursUsed can be updated
+    // i.e: Taking a running average of your data values, using most recent data points, etc.
 }
