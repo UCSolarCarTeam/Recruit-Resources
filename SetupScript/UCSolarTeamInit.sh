@@ -56,7 +56,7 @@ sudo wget -q http://download.qt.io/official_releases/online_installers/qt-unifie
 sudo chmod +x qt-unified-linux-x64-online.run)
 
 echo "Installing QT into Home/Qt/"
-sudo /tmp/solarcar/qt-unified-linux-x64-online.run --script qt-installer-noninteractive.qs 
+/tmp/solarcar/qt-unified-linux-x64-online.run --script qt-installer-noninteractive.qs 
 
 #Setting path to qmake
 (sudo mkdir /etc/xdg/qtchooser
