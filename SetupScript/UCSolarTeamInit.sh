@@ -34,20 +34,31 @@ git clone https://github.com/UCSolarCarTeam/Delta-Desktop-Client-Telemetry.git D
 
 (cd ~/Documents/SolarCar/Delta-OnBoard-Media-Control/
 git clone https://github.com/google/googletest.git
+(cp googletest ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/ -r) #Send it to Epsilon-Embedded-Test-Tool
 cd googletest
+sudo cp -r googletest/include/gtest /usr/local/include
+sudo cp -r googlemock/include/gmock /usr/local/include
 g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googlemock/src/gmock-all.cc
 g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googletest/src/gtest-all.cc
 ar -rv libgmock.a gtest-all.o gmock-all.o
 cp libgmock.a ../test/
+(cp libgmock.a ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/test/) #Send to Epsilion-Embedded-Test-Tool
 sudo cmake -DBUILD_SHARED_LIBS=ON
 sudo make
 sudo cp -a include/gtest/ /usr/include/
 sudo cp -a libgtest_main.so libgtest.so /usr/lib/)
 
+
 (cd ~/Documents/SolarCar/Delta-OnBoard-Media-Control/
 sudo chmod 755 make-all
 sudo bash ./Installer/MainInstaller.sh
 sudo bash ./Installer/AutoBootSetup.sh)
+
+(cd ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/googletest
+sudo cp -r googletest/include/gtest /usr/local/include
+sudo cp -r googlemock/include/gmock /usr/local/include
+g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googlemock/src/gmock-all.cc
+g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igooglemock -pthread -c googletest/src/gtest-all.cc)
 
 (cd /tmp/solarcar/
 
