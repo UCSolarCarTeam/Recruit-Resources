@@ -43,6 +43,7 @@ g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igoo
 ar -rv libgmock.a gtest-all.o gmock-all.o
 cp libgmock.a ../test/
 (cp libgmock.a ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/test/) #Send to Epsilion-Embedded-Test-Tool
+(cp libgmock.a ~/Documents/SolarCar/DeltaHermes/build/.lib/) #Send to Delta-Hermes
 sudo cmake -DBUILD_SHARED_LIBS=ON
 sudo make
 sudo cp -a include/gtest/ /usr/include/
