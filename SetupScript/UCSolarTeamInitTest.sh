@@ -49,7 +49,7 @@ qmake
 make)
 
 echo "Testing BackupCamera"
-(cd ~/Documents/SolarCar/BackupCamera/
+(cd ~/Documents/SolarCar/BackupCamera/Backup-Camera/
 make)
 
 echo "Testing Delta-Telemetry-Server"
