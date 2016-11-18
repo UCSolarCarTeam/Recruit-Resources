@@ -4,17 +4,21 @@
 
 #include <string>
 class Person
-{
+{  int age;
+    std::string name;
 public:
 // A Rule of Thumb when designing classes is to have a default constructor, regular constructor, and a destructor.
+   //Constructor
     Person();
+    //Regular Constructor
     Person(const std::string& name, int age);
+    //Destructor, Person Function
     ~Person();
 
     int getAge() const;
     const std::string& getName() const;
 
-    void printInfo();//Print out the name and age of the person.
+    void printInfo();//Print out the name and age of the person.ds
 
     void setName(const std::string& newName);
     void setAge(int newAge);
