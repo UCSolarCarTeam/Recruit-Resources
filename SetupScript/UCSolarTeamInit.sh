@@ -31,7 +31,6 @@ git clone https://github.com/UCSolarCarTeam/Delta-OnBoard-Media-Control.git
 git clone https://github.com/UCSolarCarTeam/Delta-Hermes.git DeltaHermes/Delta-Hermes
 git clone https://github.com/UCSolarCarTeam/Epsilon-Hermes.git EpsilonHermes/Epsilon-Hermes
 git clone https://github.com/UCSolarCarTeam/Delta-Desktop-Client-Telemetry.git DeltaDesktopClientTelemetry/Delta-Desktop-Client-Telemetry)
-
 (cd ~/Documents/SolarCar/Delta-OnBoard-Media-Control/
 git clone https://github.com/google/googletest.git
 (cp googletest ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/ -r) #Send it to Epsilon-Embedded-Test-Tool
@@ -43,7 +42,8 @@ g++ -isystem googletest/include/ -Igoogletest -isystem googlemock/include/ -Igoo
 ar -rv libgmock.a gtest-all.o gmock-all.o
 cp libgmock.a ../test/
 (cp libgmock.a ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/test/) #Send to Epsilion-Embedded-Test-Tool
-(cp libgmock.a ~/Documents/SolarCar/DeltaHermes/build/.lib/) #Send to Delta-Hermes
+(mkdir -p ~/Documents/SolarCar/DeltaHermes/build/.lib/
+cp libgmock.a ~/Documents/SolarCar/DeltaHermes/build/.lib/) #Send to Delta-Hermes
 sudo cmake -DBUILD_SHARED_LIBS=ON
 sudo make
 sudo cp -a include/gtest/ /usr/include/
