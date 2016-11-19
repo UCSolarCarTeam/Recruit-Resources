@@ -19,6 +19,8 @@ if ! type "st-flash" > /dev/null; then
     ln -s /opt/stlink/build/src/gdbserver/st-util /usr/local/bin/st-util
     echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/opt/stlink/build" >> ~/.profile
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/stlink/build
+    echo "export PATH=\$PATH:/opt/stlink/build" >> ~/.profile
+    export PATH=$PATH:/opt/stlink/build
 else
     echo "*** ST Link already installed"
 fi
@@ -32,6 +34,8 @@ if ! type "CubeMX2Makefile" > /dev/null; then
     echo "ABS_PATH=\"\$(readlink -f \$1)\"" >> /usr/local/bin/CubeMX2Makefile
     echo "(cd /opt/CubeMX2Makefile && python CubeMX2Makefile.py \$ABS_PATH)" >> /usr/local/bin/CubeMX2Makefile
     chmod +x /usr/local/bin/CubeMX2Makefile
+    echo "export PATH=\$PATH:/opt/CubeMX2Makefile" >> ~/.profile
+    export PATH=$PATH:/opt/CubeMX2Makefile
 else
     echo "*** CubeMX2Makefile already installed"
 fi
@@ -51,3 +55,6 @@ if [ ! -d "/opt/gcc4mbed" ]; then
 else
     echo "*** ARM compiler already installed"
 fi
+
+# Sourcing Profile
+source ~/.profile
