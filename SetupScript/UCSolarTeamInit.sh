@@ -96,6 +96,7 @@ echo "Installing arm compiler in /usr/local"
 sudo git clone https://github.com/adamgreen/gcc4mbed.git
 cd /usr/local/gcc4mbed/
 sudo sed -i '108d;109d;110d;134d' linux_install # Remove 'press any key to continue' and building samples
-sudo ./linux_install)
+sudo ./linux_install
+echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile)
 
 sudo rm -r /tmp/solarcar/
