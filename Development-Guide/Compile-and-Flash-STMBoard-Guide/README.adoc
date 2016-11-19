@@ -27,13 +27,13 @@ For example, use `unzip file.zip`.
 
 == Generating Code with CubeMX
 
-. Open CubeMX. The default path is `/home/STM32CubeMX`.
+. Open CubeMX. The default path is `~/STM32CubeMX`.
 
 . Select New Project.
 
 . Click on the Board Selector Tab and scroll to STM32F4DISCOVERY then click OK.
 
-. Go to Project > Project Settings.
+. Go to Project > Settings.
 
 . Name the project, set the project location, and change the Toolchain/IDE to SW4STM32. 
 *If this isn't done, CubeMX2Makefile won't work!* 
