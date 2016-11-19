@@ -52,8 +52,6 @@ For example, EWARM is for the IAR Embedded Workbench IDE and CubeMX2Makefile wil
 
 . Create the makefile using  `CubeMX2Makefile /path/to/project/folder`.
 
-. Create the makefile using  `/usr/local/bin/CubeMX2Makefile /path/to/project/folder`.
-
 . Go to the directory that the Makefile was made then compile using `make`.
 
 . Navigate to the build directory and there should be a `<project>.bin` file. Where `<project>` is the project name. 
@@ -61,7 +59,7 @@ For example, EWARM is for the IAR Embedded Workbench IDE and CubeMX2Makefile wil
 == Flashing
 Flashing is how the `.bin` that was made is put onto the board. This is how the processor on the board is able to carry out the instructions that were generated from the code.
 
-To flash the board use `/usr/local/bin/st-flash write /path/to/project/build/<project>.bin 0x8000000`.
+To flash the board use `st-flash write /path/to/project/build/<project>.bin 0x8000000`.
 
 If a board isn't connected, and it ran successfully, the output should be: 
 ----
