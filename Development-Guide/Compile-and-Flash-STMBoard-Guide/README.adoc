@@ -6,16 +6,8 @@ NOTE: This has only been tested on Linux Mint, but is expected to work on other 
 
 . Go to UCSolarCarTeam repo > Recruit Resources, and clone.
 
-. Navigate to STM32F4Discovery-Resources and run the auto installer `sudo ./install.sh`. 
-This will should download STLink, gcc4mbed, and CubeMX2Makefile and add them all to the path.
-
-. Check to make sure all of them were added by using a preferred text editor.
-For example, `nano ~/.profile`.
-If any of them are missing add them to the path.
-
-.. Add them by copying  `export PATH=$PATH:/opt/CubeMX2Makefile`, `export PATH=$PATH:/opt/stlink`, or `export PATH=$PATH:/opt/gcc4mbed`  in `.profile`.
-
-.. Save, exit, and source `source ~/.profile`.
+. Navigate to STM32F4Discovery-Resources and run the auto installer using `sudo ./install.sh`. 
+This should download STLink, gcc4mbed, and CubeMX2Makefile and add them all to the path.
 
 . http://www.st.com/en/development-tools/stm32cubemx.html[Go to the download page of the official ST website by clicking this link^].
 
@@ -24,11 +16,11 @@ If any of them are missing add them to the path.
 . Follow the instructions and download CubeMX.
 
 . Extract files from `.zip` file using a preferred method.
-For example `unzip file.zip -d Destination_folder`.
+For example, use `unzip file.zip -d Destination_folder`.
 
 . Navigate to the directory the files were extracted to.
 
-. Run *SetupSTM32CubeMX-VERSION.linux* `./SetupSTM32CubeMX-{var}.linux` where  {var} is the version of CubeMx that is being installed.
+. Run *SetupSTM32CubeMX-VERSION.linux* using `./SetupSTM32CubeMX-{var}.linux` where  {var} is the version of CubeMx that is being installed.
 
 . Follow the instructions in the Installation Wizard.
 
@@ -45,7 +37,7 @@ For example `unzip file.zip -d Destination_folder`.
 
 . Name the project, set the project location, and change the Toolchain/IDE to SW4STM32. 
 *If this isn't done, CubeMX2Makefile won't work!* 
-CubeMX2Makefile looks for an SW4STM32 project which correlates to CubeMX.
+CubeMX2Makefile looks for an SW4STM32 project which was created by CubeMX.
 If the Toolchain/IDE is not set to SW4STM32, it will be in the format of a different IDE, not CubeMX.
 For example, EWARM is for the IAR Embedded Workbench IDE and CubeMX2Makefile will not know what to do with that format.
 
@@ -53,13 +45,13 @@ For example, EWARM is for the IAR Embedded Workbench IDE and CubeMX2Makefile wil
 
 . Click OK and download any dependencies that are needed, then click OK again.
 
-. Do configurations and go to Project > Generate Code, then save project.
+. Make pin assignments then go to Project > Generate Code, and then save project.
 
 
 == Generating a Makefile and Compiling
-. Create the makefile  `CubeMX2Makefile /path/to/project/folder`.
+. Create the makefile using  `CubeMX2Makefile /path/to/project/folder`.
 
-. Go to the directory that the Makefile was made then compile the Makefile `make`.
+. Go to the directory that the Makefile was made then compile using `make`.
 
 . Navigate to the build directory and there should be a `<project>.bin` file. Where `<project>` is the project name. 
 
@@ -68,7 +60,7 @@ Flashing is how the `.bin` that was made is put onto the board. This is how the 
 
 To flash the board use `st-flash write /path/to/project/build/<project>.bin 0x8000000`.
 
-If a board isn't connected, and it ran successfully, you should get an output that looks like: 
+If a board isn't connected, and it ran successfully, the output should be: 
 ----
 st-flash 1.3.0-dev
 DATE/TIME WARN /opt/stlink/src/usb.c: Couldn't find any ST-Link/V2 devices
