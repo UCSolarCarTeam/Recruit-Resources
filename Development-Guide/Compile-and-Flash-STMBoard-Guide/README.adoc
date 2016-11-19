@@ -16,7 +16,7 @@ This should download STLink, gcc4mbed, and CubeMX2Makefile and add them all to t
 . Follow the instructions and download CubeMX.
 
 . Extract files from `.zip` file using a preferred method.
-For example, use `unzip file.zip -d Destination_folder`.
+For example, use `unzip file.zip`.
 
 . Navigate to the directory the files were extracted to.
 
