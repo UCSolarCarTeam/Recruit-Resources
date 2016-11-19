@@ -7,7 +7,11 @@ NOTE: This has only been tested on Linux Mint, but is expected to work on other 
 . Go to UCSolarCarTeam repo > Recruit Resources, and clone.
 
 . Navigate to STM32F4Discovery-Resources and run the auto installer using `sudo ./install.sh`. 
+<<<<<<< HEAD
 This should download STLink, gcc4mbed, and CubeMX2Makefile and add them all to the path.
+=======
+This should download the necessary tools needed (gcc4mbed, STlink, and CubeMX2Makefile)
+>>>>>>> c6bcc45e6d5e365c56b88dfae0bbe5e61fd5383b
 
 . http://www.st.com/en/development-tools/stm32cubemx.html[Go to the download page of the official ST website by clicking this link^].
 
@@ -49,7 +53,11 @@ For example, EWARM is for the IAR Embedded Workbench IDE and CubeMX2Makefile wil
 
 
 == Generating a Makefile and Compiling
+<<<<<<< HEAD
 . Create the makefile using  `CubeMX2Makefile /path/to/project/folder`.
+=======
+. Create the makefile using  `/usr/local/bin/CubeMX2Makefile /path/to/project/folder`.
+>>>>>>> c6bcc45e6d5e365c56b88dfae0bbe5e61fd5383b
 
 . Go to the directory that the Makefile was made then compile using `make`.
 
@@ -58,7 +66,7 @@ For example, EWARM is for the IAR Embedded Workbench IDE and CubeMX2Makefile wil
 == Flashing
 Flashing is how the `.bin` that was made is put onto the board. This is how the processor on the board is able to carry out the instructions that were generated from the code.
 
-To flash the board use `st-flash write /path/to/project/build/<project>.bin 0x8000000`.
+To flash the board use `/usr/local/bin/st-flash write /path/to/project/build/<project>.bin 0x8000000`.
 
 If a board isn't connected, and it ran successfully, the output should be: 
 ----
