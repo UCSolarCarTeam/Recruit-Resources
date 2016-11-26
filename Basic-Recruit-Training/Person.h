@@ -1,11 +1,11 @@
 // This line is a preprocessor directive that this header is only defined once.
 // This needs to be included in each header file.
 #pragma once
-
+#include <iostream>
 #include <string>
 class Person
-{  int age;
-    std::string name;
+{
+
 public:
 // A Rule of Thumb when designing classes is to have a default constructor, regular constructor, and a destructor.
    //Constructor

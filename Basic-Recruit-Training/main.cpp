@@ -29,7 +29,7 @@ void myIncrement(int* x)
 {
     (*x)++;
 }
-/*
+
 // Uncomment this when person.cpp has been created.
 void personFunctions()
 {
@@ -57,11 +57,11 @@ void personFunctions()
     compareAnswers(myBirthdayAnswer.str(), correctBirthdayAnswer);
     delete Joe;
 }
-*/
+
 
 int main()
 {
-    /*
+
     int a = 5;
     int b = 6;
     mySwap(a, b);
@@ -72,23 +72,11 @@ int main()
     std::cout << swapIncrementAnswer.str() << std::endl;
     const std::string correctSwapIncrementAnswer = "a is 7, b is 5";
     compareAnswers(swapIncrementAnswer.str(), correctSwapIncrementAnswer);
-    */
+
 // Pass a & b into mySwap
 // Pass in a to myIncrement
-// personFunctions(); // Uncomment this once you have completed the definitions of the Person class.
-    Person *Byron = new Person("Byron", 22);
-    Person *Sarah = new Person("Sarah", 18);
+    personFunctions(); // Uncomment this once you have completed the definitions of the Person class.
 
-    printf("hello, my name is %s, I am %d years old \n", Sarah->getName().c_str(), Sarah->getAge());
-    printf("hello, my name is %s, I am %d years old \n", Byron->getName().c_str(), Byron->getAge());
-
-    Person **ppersonArray = new Person*[2];
-    ppersonArray[0] = Byron;
-    ppersonArray[1] = Sarah;
-
-
-
-    printf("ppersonArray and their combined age is %d", ppersonArray[0]->getAge() + ppersonArray[1]->getAge() );
 
     return 0;
 }
