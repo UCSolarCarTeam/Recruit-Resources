@@ -19,14 +19,19 @@ void compareAnswers(const std::string myAnswer, const std::string correctAnswer)
 // Swaps a & b.
 void mySwap(int& a, int& b)
 {
+    int temp;
+    temp = a;
+    a = b;
+    b = temp;
 }
 // Increment the int that x is pointing to by one.
 void myIncrement(int* x)
 {
+    *x+=1;
 }
 
-// Uncomment this when person.cpp has been created.
-/* void personFunctions()
+//Uncomment this when person.cpp has been created.
+void personFunctions()
 {
     Person Bill;
     Bill.setName("Bill");
@@ -51,13 +56,16 @@ void myIncrement(int* x)
               << myBirthdayAnswer.str() << std::endl;
     compareAnswers(myBirthdayAnswer.str(), correctBirthdayAnswer);
     delete Joe;
-}*/
+}
 
 int main()
 {
     int a = 5;
     int b = 6;
+    mySwap(a,b);
+    myIncrement(&a);
     std::stringstream swapIncrementAnswer;
+    std::cout<<"hjdfsffbd";
     std::cout << "Checking Swap and Increment: " << std::endl;
     swapIncrementAnswer << "a is " << a << ", b is " << b;
     std::cout << swapIncrementAnswer.str() << std::endl;
@@ -65,6 +73,6 @@ int main()
     compareAnswers(swapIncrementAnswer.str(), correctSwapIncrementAnswer);
 // Pass a & b into mySwap
 // Pass in a to myIncrement
-    //personFunctions(); // Uncomment this once you have completed the definitions of the Person class.
+    personFunctions(); // Uncomment this once you have completed the definitions of the Person class.
     return 0;
 }
