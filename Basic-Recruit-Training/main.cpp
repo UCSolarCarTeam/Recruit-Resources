@@ -19,8 +19,7 @@ void compareAnswers(const std::string myAnswer, const std::string correctAnswer)
 // Swaps a & b.
 void mySwap(int& a, int& b)
 {
-    int temp;
-    temp = a;
+    int temp = a;
     a = b;
     b = temp;
 }
@@ -65,7 +64,6 @@ int main()
     mySwap(a,b);
     myIncrement(&a);
     std::stringstream swapIncrementAnswer;
-    std::cout<<"hjdfsffbd";
     std::cout << "Checking Swap and Increment: " << std::endl;
     swapIncrementAnswer << "a is " << a << ", b is " << b;
     std::cout << swapIncrementAnswer.str() << std::endl;
