@@ -3,23 +3,71 @@
 In general the Solar Car Team will be formatting code in astyle.
 In neovim there are commands to format your file into astyle.
 
-== Installing Astyle
+== Installing Autoformat to use with Astyle
+First install Astyle following the guide outlined in the Style Guide.
 
+Be sure to create the astylerc and know the file path to it.
 
-To install the astyle files, run the following code in your terminal.
+You will need to add python support for neovim.  Make sure the plugin is installed by running 
+
+[source, c++]
+----
+pip install neovim
+----
+
+Open init.vim through
+
 [source,c++]
 ----
-sudo apt-get install astyle
+nvim ~/.config/nvim/init.vim
 ----
 
-Now at anytime in neovim, running the following command will format your code into astyle.
+Add the code in the general section to get python support.
 
 [source,c++]
 ----
-:%!astyle
+let g:python_host_prog = '/path/to/python2.7'
 ----
 
-== Running astyle as an autocommand
+Next in the Vim-Plug section at the code
+
+[source,c++]
+----
+Plug 'chiel92/vim-autoformat'
+----
+
+and run the commands in neovim
+
+[source,c++]
+----
+:source %
+:PlugInstall
+----
+
+Now at any time running this command in neovim will format your code into Astyle.
+
+[source,c++]
+----
+:Autoformat
+----
+
+To use Autoformat with our astylerc we need to add the code
+
+[source,c++]
+----
+let b:formatdef_custom_c='"astyle --mode=c --suffix=none --options=/file/path/to/astylerc"'
+let b:formatters_c = ['custom_c']
+----
+
+In your local files, navigate to Recruit-Resources/Development-Guide/Style-Guide/
+
+[source,c++]
+----
+$echo `pwd`/astylerc
+----
+to see what the /file/path/to/astylerc should be
+
+== Using the Autoformat plugin as an auto command
 Open your init.vim file by running the command in terminal.
 
 [source,c++]
@@ -27,12 +75,17 @@ Open your init.vim file by running the command in terminal.
 nvim ~/.config/nvim/init.vim
 ----
 
-To run the astyle command everytime you save and quit, add the following code to the general section of your init.vim file.
+To run the Autoformat command everytime you save, add the following code to the general section of your init.vim file.  
 
 [source,c++]
 ----
 augroup autocom
     autocmd!
-    :autocmd VimLeave *.cpp,*.h execute '!astyle' shellescape(expand('%'), 1)
+    :au BufWrite * :Autoformat
 augroup END
 ----
+
+== Autoformat Plugin
+For more information on the Autoformat plugin, consult the page 
+
+http://vimawesome.com/plugin/vim-autoformat

@@ -1,0 +1,19 @@
+sudo: required
+
+arch:
+  packages:
+  - xorg-server-xvfb
+before_install:
+  - cd SetupScript/
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+  - chmod +x UCSolarTeamInit.sh
+
+script:
+- ./UCSolarTeamInit.sh
+
+after_script:
+- chmod +x UCSolarTeamInitTest.sh
+- ./UCSolarTeamInitTest.sh
