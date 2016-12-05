@@ -55,6 +55,11 @@ In other words, create a filter that only accepts messages from SYS2 and does no
 
 Answer - ID: `0x80`, Mask: `0xF0`
 
+Create a filter for SYS1.
+In other words, crete a filter that only accepts messages from SYS1 and does nothing with messages from SYS2.
+
+Answer - ID: `0x71`, Mask: `0xFF`
+
 Create a filter for the Lights Board. Refer to the https://docs.google.com/spreadsheets/d/1soVLjeD9Sl7z7Z6cYMyn1fmn-cG7tx_pfFDsvgkCqMU/edit?pref=2&pli=1#gid=0[Communications Protocol^].
 
-Answer - ID: `0x700`, Mask: `0xFFE`
+Answer - ID: `0x710`, Mask: `0xFFE`
