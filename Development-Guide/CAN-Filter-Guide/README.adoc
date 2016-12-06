@@ -56,7 +56,7 @@ In other words, create a filter that only accepts messages from SYS2 and does no
 Answer - ID: `0x80`, Mask: `0xF0`
 
 Create a filter for SYS1.
-In other words, crete a filter that only accepts messages from SYS1 and does nothing with messages from SYS2.
+In other words, create a filter that only accepts messages from SYS1 and does nothing with messages from SYS2.
 
 Answer - ID: `0x71`, Mask: `0xFF`
 
