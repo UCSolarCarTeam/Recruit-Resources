@@ -30,14 +30,15 @@ bool LogFileReader::readAll(const QString& fileName)
     }
 
     QTextStream input(&file);
+    //Michael u retard didnt do precision check do it when ur sober
     while(!input.atEnd())
     {
         QString line = input.readLine();
         BatteryData batteryData;
-        if (!parseLine(line, batteryData))
+        if (!parseLine(line, batteryData))  //! taken before parseline out
         {
             qDebug() << "Error while parsing" << line;
-            // return false;
+            return false;//previous commented out
         }
         else
         {
@@ -57,15 +58,51 @@ bool LogFileReader::readAll(const QString& fileName)
  * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    QStringList sections = line.split(BATDATA_DELIMITER);
 
+
+    QStringList sections = line.split(BATDATA_DELIMITER);
+    QString test=sections.at(1);
+    QString test1=sections.at(2);
+    QStringList sectvolt=test.split(".");
+    QStringList sectamp=test.split(".");
+    QString sectvolt2=sectvolt.at(1);
+    QString sectamp2=sectamp.at(1);
+    if(sections.size()!=3)
+    {
+        return false;
+    }
+    if(sectvolt2.length()!=6)
+    {
+        return false;
+    }
+    if(sectamp2.length()!=6)
+    {
+        return false;
+    }
+    if(sections.contains("[Aa-Zz]"))//make sure it doesnt contain alphabetical characters
+    {
+        return false;//bad
+    }
     QString timeString = sections.at(0);
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
+    if(sections.at(1).contains("[^Aa-Zz]"))//look to see if it contains any letters
+    {
 
-    batteryData.voltage = sections.at(1).toDouble();
+        return false;//bad
+    }
+    if(sections.at(2).contains("[^Aa-Zz]"))//look for alphabet
+    {
+        return false;//bad
+    }
 
-    batteryData.current = sections.at(2).toDouble();
 
-    return true;
+    batteryData.voltage = sections.at(1).toDouble();//convert to double
+    batteryData.current = sections.at(2).toDouble();//convert to double
+    QTextStream(stdout) << "Voltage: " << batteryData.voltage;
+    QTextStream(stdout) <<"currentt " << batteryData.current;
+
+
+    return true;//:)
 
 }
+

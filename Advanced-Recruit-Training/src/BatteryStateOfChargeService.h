@@ -15,7 +15,7 @@ public:
     bool isCharging() const;
 
     /*Return the time remaining to when the battery is charged or depleted*/
-    QTime timeWhenChargedOrDepleted() const;
+    QTime timeWhenChargedOrDepleted()const;
 
     /*Update Variables*/
     void addData(const BatteryData& batteryData);
@@ -23,6 +23,12 @@ public:
 private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
+    int counter;
+    double current;
+    double current1;
+    double totalcurrent;
+    QTime time;
+    QTime add;
 
     // Add your necessary variables here
 };
