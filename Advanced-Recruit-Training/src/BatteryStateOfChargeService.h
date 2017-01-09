@@ -26,7 +26,7 @@ private:
     int counter;
     double current;
     double current1;
-    double totalcurrent;
+    double totalCurrent;
     QTime time;
     QTime add;
 
