@@ -13,7 +13,7 @@ There will be 4 pairs of twisted wires that should now be exposed:
 * Solid brown and half brown, half white.
 
 == Removing the core
-Folding back each of the wires will expose a core of the cable.
+Folding back each of the wires will expose the core of the cable.
 Cut it off at the point that the cable was stripped to.
 This part can be discarded.
 
@@ -33,9 +33,9 @@ Arrange them from right to left in the following order:
 
 Trim the untwisted wires to a good length.
 The insulation of the cable should be just inside the bottom of the RJ-45 connector.
-Note to orient the cables so that the Orange/white striped wire is on the right when looking at the plastic release latch on the top.
+NOTE: to orient the cables so that the Orange/white striped wire is on the right when looking at the plastic release latch on the top.
 
-If the wires must be trimmed, trim them in small incrememnts.
+If the wires must be trimmed, trim them in small increments.
 Check frequently to ensure that they fit correctly.
 
 == Connecting the wires to the  RJ-45 connector
