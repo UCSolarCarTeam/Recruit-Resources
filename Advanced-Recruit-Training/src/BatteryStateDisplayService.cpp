@@ -28,4 +28,5 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
         << " Current: " << batteryData.current
         << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed()
         << "TIME UNTIL BATTERY FULLY CHARGED" << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString()<<endl;
+
 }

@@ -17,9 +17,7 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    double totalcurrent= 0;
-    totalcurrent= ( (current1 * ( counter - 1) )/ counter + (current/counter) );
-    return totalcurrent;
+    return currentAmpHours;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
@@ -36,89 +34,48 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-
-    double init=    initialStateOfChargePercent_;
-    double avg= ( (current / BATTERY_AMP_HOUR_CAPACITY )) * 100;
-    if(avg <= 0)
+    double initialValueOfCharge = initialStateOfChargePercent_ * BATTERY_AMP_HOUR_CAPACITY; //initial state in miliseconds
+    double averageIncreaseValue = totalAmpHoursUsed() * 3.6e+6 ; //the increase in charge
+    if(averageIncreaseValue <= 0)
     {
-        avg= -avg;
+        averageIncreaseValue = -averageIncreaseValue;
     }
-    double averageMin=0; //current/60 will be current per minutes
-    double averageSec=0; //average min /60 will be current per seconds
-    int hours=0;   //variable to multiply by 3600
-    int minutes=0; //variable to multiply by 60
-    int seconds=0; //variable to multiply by 1
-    if(isCharging())
+    if( isCharging() )
     {
-        while(init < 99.99)
-        {
-            if(( init + avg ) >= 100 )
-            {
-                averageMin = ( (100 - init) / avg)*100;
-                init = averageMin + init; //add to init the minute val
-                minutes += 1; //add one to variable minute
-                if ( (averageMin+init) >= 100)
-                {
-                    averageSec = ( (100-init) / averageMin ) * 100;
-                    init = init + averageSec; //adding the sec % charge
-                    seconds += 1; //adding a second variable to it
-                    if (averageSec + init >= 100) //if its greater than end it !
-                    {
-                        int adder = hours * 3600 + minutes * 60 + seconds; //Multiply these variable by their second values
-                        QTime time1 = time.addSecs(adder); //add it to a new time
-                        return time1; //return my final time
-                    }
-                }
-            }
-            else
-            {
-                hours += 1;
-                init = init + avg;
-            }
-        }
+        // Ah / a
+        double batteryChargeRemaining = (averageIncreaseValue * 3.6e+6) * (BATTERY_AMP_HOUR_CAPACITY-initialValueOfCharge) / -current; //BatteryAMPHOUR should be totalAMpHour
+        double timeLeft = batteryChargeRemaining / averageIncreaseValue;
+        QTime timeUntilFinished = currentTime.addMSecs(timeLeft);
+        return timeUntilFinished;
     }
     else
     {
-        while(init > 0.001)
-        {
-            if( ( init - avg ) < 0 )
-            {
-                averageMin = ((100-init) / avg) * 100;
-
-                init = init - averageMin;
-                minutes += 1;
-                if( (init - averageMin) < 100)
-                {
-                    averageSec =( (100-init) / averageMin) * 100;//this should be like 99.4%
-                    init = init - averageSec;
-                    seconds += 1;
-                    if( (init-averageSec) <= 0)
-                    {
-                        int adder = hours * 3600 + minutes * 60 + seconds;
-                        QTime time1 = time.addSecs(adder);
-                        return time1;
-                    }
-                }
-            }
-            else
-            {
-                hours += 1;
-                init = init - avg;
-            }
-        }
+        //Ah x V / Watts
+        double timeLeft = ((averageIncreaseValue * voltage * 3.6e+6 * initialValueOfCharge) / -(voltage * current));    //AH value passed around
+        QTime timeUntilFinished = currentTime.addMSecs(timeLeft);
+        return timeUntilFinished;
     }
-    int adder = hours * 3600 + minutes * 60 + seconds;
-    QTime time1 = time.addSecs(adder);
-    return time1;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     {
+        voltage = batteryData.voltage;
         current = batteryData.current; //get the current value
-        time = batteryData.time; //get the time variable stamp
-        counter = counter+1; //add one to the counter
-        current1 = totalAmpHoursUsed(); //call the funciton to change it
+        if(currentTime.toString() == NULL)
+        {
+            previousTime = QTime(0,0,0);
+        }
+        else
+        {
+            previousTime = currentTime;
+        }
+        currentTime = batteryData.time;
+        timeDifferenceStamp = currentTime.toString( "hhmmss.zzz").toDouble() - previousTime.toString( "hhmmss.zzz" ).toDouble();
+
+        currentAmpHours = currentAmpHours + current/timeDifferenceStamp;
+
+        //This was moved form above
         isCharging(); //call to change it
         timeWhenChargedOrDepleted();
     }
