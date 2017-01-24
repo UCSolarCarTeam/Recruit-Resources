@@ -27,5 +27,3 @@ private:
     int* age_; // age_ should be a dynamically allocated.
 
 };
-
-
