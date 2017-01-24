@@ -33,6 +33,7 @@ Arrange them from right to left in the following order:
 
 Trim the untwisted wires to a good length.
 The insulation of the cable should be just inside the bottom of the RJ-45 connector.
+
 NOTE: to orient the cables so that the Orange/white striped wire is on the right when looking at the plastic release latch on the top.
 
 If the wires must be trimmed, trim them in small increments.
@@ -47,5 +48,8 @@ Take care to make sure that each wire goes all the way into its appropriate chan
 
 Place the connector into the middle hole, designated 8P, of the crimp tool and firmly squeeze the handles firmly together to crimp the cable.
 You may want to do this more than once to ensure that the cable is properly connected.
+
+NOTE: There should be a satisfying click sound.
+A crunching sound means that the cable did not crimp correctly.  
 
 The RJ-45 connector should now be properly working.
