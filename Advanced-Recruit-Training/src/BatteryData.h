@@ -4,6 +4,10 @@
 
 struct BatteryData
 {
+
+
+
+
     BatteryData();
     BatteryData(QTime t, double v, double c);
     virtual ~BatteryData();
