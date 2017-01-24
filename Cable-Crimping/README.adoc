@@ -49,7 +49,7 @@ Take care to make sure that each wire goes all the way into its appropriate chan
 Place the connector into the middle hole, designated 8P, of the crimp tool and firmly squeeze the handles firmly together to crimp the cable.
 You may want to do this more than once to ensure that the cable is properly connected.
 
-NOTE: There should be a satisfying click sound.
+NOTE: There should be a click sound.
 A crunching sound means that the cable did not crimp correctly.
 
 The RJ-45 cable should now be properly working.
