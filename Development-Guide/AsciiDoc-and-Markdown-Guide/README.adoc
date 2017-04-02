@@ -50,67 +50,8 @@ Some more code
 
 In AsciiDocs it is best practice for each new sentence to be started on a new line in your text editor.
 
-= Markdown
-
-== Headers
-
-A large header in a Markdown file can be created by writing
-
-....
-# A Descriptive Title
-....
-
-Similarly, a sub header can be created by writing
-
-....
-## A Descriptive Subtitle
-....
-
-== Lists
-
-There are three ways to create an unordered list in Markdown.
-
-[source,md]
-* Unordered lists can be made with an atserisk
-- Or with a minus
-+ Or with a plus
-
-To create an ordered list, simply start a line with a number.
-
-[source,md]
-1. Step 1
-2. Step 2
-1. Step 3
-
-The actual number used before the step doesn't matter.
-It just has to be a number.
-
-Nested steps can be created by indenting with  two spaces after a steps.
-The same rules for creating a list can be used to create an ordered or unordered list of steps.
-For example.
-
-[source,md]
-1. Step 1
-  *Unordered sub step
-2. Step 2
-  1. Orderd sub step
-
-== Source Code
-
-A block of code will start and end with three back ticks.
-For example
-
-[source,md]
-'''Some code
-some more code
-'''
-
 == More information
 
 More information on AsciiDoc can be found at
 
 http://www.methods.co.nz/asciidoc/
-
-More information on Markdown can be found at
-
-https://daringfireball.net/projects/markdown/
