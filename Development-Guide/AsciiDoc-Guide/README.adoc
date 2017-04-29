@@ -1,57 +1,88 @@
+
 = AsciiDoc
 
 == Headers
-When writing an AsciiDoc a large header can be made by writing
 
-....
+Writing an equals sign before a line of text will make it into a header
+
+----
 = A Desciptive Title
-....
+----
 
-Similarly a sub header can be created by writing
+Equals signs can be added to give preceding header levels
 
-....
-== A Descriptive Subtitle
-....
+----
+= h1
+
+== h2
+
+=== h3
+----
 
 == Lists
 
-An unordered list, ie. a list of bullet points can be made with
-[source,adoc]
+=== Unordererd Lists
+
+An unordered list, ie. a list of bullet points can be made with asterisks
+
+----
+* First Item
+* Second Item
+----
+
+Will appear as:
+
 * First Item
 * Second Item
 
-A numbered list can be made as
+=== Numbered Lists
 
-[source,adoc]
+A numbered list is done with periods
+
+----
+. Step 1
+. Step 2
+----
+
+Will appear as:
+
 . Step 1
 . Step 2
 
-Nested steps can be added by increasing the number of periods before the step.  For example:
+=== Nested Lists
 
-[source,adoc]
-. Step 1
-.. Step 1a
-. Step 2
+Nested steps can be added by increasing the number of periods before the step
+
+----
+. step 1
+.. step 1a
+. step 2
+----
+
+Will appear as:
+
+. step 1
+.. step 1a
+. step 2
 
 == Source Code
 
-To write source code in an AsciiDoc, write "[source,a language]"
+To write source code in asciidoc, write "[source,a language]"
 Lines after the square brackets will be displayed as a block of code.
 An empty line will end the block of code.
 For example:
 
-....
+----
 [source, c]
-Some code
-Some more code
-....
+//Some c code
+----
 
 == Formatting
 
-In AsciiDocs it is best practice for each new sentence to be started on a new line in your text editor.
+When writing in asciidoc it is best practice for each new sentence to be started on a new line in your text editor.
 
 == More information
 
-More information on AsciiDoc can be found at
+More information on asciidoc can be found at
 
 http://www.methods.co.nz/asciidoc/
