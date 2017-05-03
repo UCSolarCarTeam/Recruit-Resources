@@ -3,13 +3,13 @@
 
 == Headers
 
-Writing an equals sign before a line of text will make it into a header
+Writing an equals sign before a line of text will make it into a header.
 
 ----
 = A Descriptive Title
 ----
 
-Equals signs can be added to give preceding header levels
+Equals signs can be added to give preceding header levels.
 
 ----
 = h1
@@ -23,7 +23,7 @@ Equals signs can be added to give preceding header levels
 
 === Unordererd Lists
 
-An unordered list, ie. a list of bullet points can be made with asterisks
+An unordered list, ie. a list of bullet points can be made with asterisks.
 
 ----
 * First Item
@@ -37,7 +37,7 @@ Will appear as:
 
 === Numbered Lists
 
-A numbered list is done with periods
+A numbered list is done with periods.
 
 ----
 . Step 1
@@ -51,7 +51,7 @@ Will appear as:
 
 === Nested Lists
 
-Nested steps can be added by increasing the number of periods before the step
+Nested steps can be added by increasing the number of periods before the step.
 
 ----
 . step 1
@@ -77,7 +77,55 @@ For example:
 //Some c code
 ----
 
-== Formatting
+== Formatted Text
+
+=== Bold Text
+
+To bold text in an asciioc place a single asterisk on each side of the phrase or word to be bolded.
+
+----
+*Bolded Statement*
+----
+
+Will appear as:
+
+*Bolded Statemenet*
+
+Individual parts of a word can be bolded by breaking up with word with double asterisks.
+All of the characters between two pairs of asterisks will be bolded.
+
+----
+**Bol**ded S**tate**ment
+----
+
+Will appear as:
+
+**Bol**ded S**tate**ment
+
+=== Italics
+
+To write text in italics in an asciidoc place an underscore on each side of the phrase or word to be bolded.
+
+----
+_Italics Statement_
+----
+
+Will appear as:
+
+_Italics Statement_
+
+
+Similarly to bold text, individual parts of a word can be in italics by breaking up the word with double underscores.
+
+----
+__Ita__lics S__tate__ment
+----
+
+Will appear as:
+
+__Ita__lics S__tate__ment
+
+== Conventions
 
 When writing in asciidoc it is best practice for each new sentence to be started on a new line in your text editor.
 
