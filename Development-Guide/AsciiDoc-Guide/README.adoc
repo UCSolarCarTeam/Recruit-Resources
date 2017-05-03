@@ -6,7 +6,7 @@
 Writing an equals sign before a line of text will make it into a header
 
 ----
-= A Desciptive Title
+= A Descriptive Title
 ----
 
 Equals signs can be added to give preceding header levels
