@@ -91,7 +91,7 @@ Will appear as:
 
 *Bolded Statemenet*
 
-Individual parts of a word can be bolded by breaking up with word with double asterisks.
+Individual parts of a word can be bolded by breaking up the word with double asterisks.
 All of the characters between two pairs of asterisks will be bolded.
 
 ----
@@ -134,3 +134,7 @@ When writing in asciidoc it is best practice for each new sentence to be started
 More information on asciidoc can be found at
 
 http://www.methods.co.nz/asciidoc/
+
+It is a good idea to preview docs at asciidoclive.
+
+https://asciidoclive.com/
