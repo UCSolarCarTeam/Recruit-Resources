@@ -2,6 +2,8 @@
 
 #include "I_BatteryStateOfChargeService.h"
 
+struct BatteryData;
+
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
 public:
@@ -25,4 +27,7 @@ private:
     const double initialStateOfChargePercent_;
 
     // Add your necessary variables here
+    double current_;
+    double voltage_;
+
 };
