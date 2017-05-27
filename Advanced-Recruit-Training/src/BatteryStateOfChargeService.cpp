@@ -5,12 +5,13 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const int HOUR_IN_MILLISECONDS = 36000000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
-
+    AmpHoursUsed_ = BATTERY_AMP_HOUR_CAPACITY - (initialStateOfChargePercent_ * BATTERY_AMP_HOUR_CAPACITY);
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -20,36 +21,46 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return BATTERY_AMP_HOUR_CAPACITY - (initialStateOfChargePercent_ * BATTERY_AMP_HOUR_CAPACITY);
+    return AmpHoursUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
 
-    if(current_> 0)
+    if(current_ > 0)
+    {
         return false;
-    return true;
+    }
+
+    else
+    {
+        return true;
+    }
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-   int charging = (totalAmpHoursUsed()/current_)*3600000;
-   int depleting = ((BATTERY_AMP_HOUR_CAPACITY  - totalAmpHoursUsed())/current_)*3600000;
    QTime time(0,0,0,0);
+   int timeLeft;
 
-   qDebug() << "Test:" << time.addMSecs(charging);
-   if(current_< 0)
-      return time.addMSecs(charging);
-
+   if(current_ < 0)
+   {
+       timeLeft = (totalAmpHoursUsed() / current_) * HOUR_IN_MILLISECONDS;
+   }
    else
-       return time.addMSecs(depleting);
+   {
+       timeLeft = ((BATTERY_AMP_HOUR_CAPACITY  - totalAmpHoursUsed())/current_) * HOUR_IN_MILLISECONDS;
+   }
 
+   return time.addMSecs(timeLeft);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    // This is where you can update your variables
+    previouscurrent_ = current_;
+    previoustime_ = time_;
     current_ = batteryData.current;
     voltage_ = batteryData.voltage;
-
+    time_ = batteryData.time.toString("hhmm.ss").toDouble();
+    AmpHoursUsed_ += ((previouscurrent_ + current_) / 2) * (previoustime_ - time_);
 }

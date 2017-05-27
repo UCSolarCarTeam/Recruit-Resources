@@ -29,5 +29,9 @@ private:
     // Add your necessary variables here
     double current_;
     double voltage_;
+    double time_;
+    double previouscurrent_;
+    double previoustime_;
+    double AmpHoursUsed_;
 
 };
