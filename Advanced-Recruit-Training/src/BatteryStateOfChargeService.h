@@ -29,9 +29,9 @@ private:
     // Add your necessary variables here
     double current_;
     double voltage_;
-    double time_;
+    QTime time_;
     double previouscurrent_;
-    double previoustime_;
-    double AmpHoursUsed_;
+    QTime previoustime_;
+    double ampHoursUsed_;
 
 };
