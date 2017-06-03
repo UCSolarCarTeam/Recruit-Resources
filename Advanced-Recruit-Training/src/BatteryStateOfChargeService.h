@@ -30,8 +30,10 @@ private:
     double current_;
     double voltage_;
     QTime time_;
-    double previouscurrent_;
-    QTime previoustime_;
+    double previousCurrent_;
+    QTime previousTime_;
     double ampHoursUsed_;
+    double averageCurrent_;
+    double changeInTime_;
 
 };
