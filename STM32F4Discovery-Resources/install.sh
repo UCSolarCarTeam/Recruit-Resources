@@ -46,7 +46,7 @@ if [ ! -d "/opt/gcc4mbed" ]; then
     git clone https://github.com/adamgreen/gcc4mbed /opt/gcc4mbed --depth 1
     (cd /opt/gcc4mbed && \
         chmod +x linux_install && \
-        sed -i '108d;109d;110d;134d' linux_install && \
+        sed -i '108d;109d;110d;147d' linux_install && \
         ./linux_install)
     if ! grep "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" ~/.profile; then
         echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile
