@@ -28,7 +28,7 @@ fi
 # Install CubeMX2Makefile
 if ! type "CubeMX2Makefile" > /dev/null; then
     echo "*** Installing CubeMX2Makefile"
-    git clone https://github.com/baoshi/CubeMX2Makefile.git --depth 1
+    git clone https://github.com/bill-luu/CubeMX2Makefile.git --depth 1
     mv CubeMX2Makefile /opt/CubeMX2Makefile
     echo "#!/usr/bin/env bash" >> /usr/local/bin/CubeMX2Makefile
     echo "ABS_PATH=\"\$(readlink -f \$1)\"" >> /usr/local/bin/CubeMX2Makefile
