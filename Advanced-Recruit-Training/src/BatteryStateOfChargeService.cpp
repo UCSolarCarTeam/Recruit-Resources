@@ -39,7 +39,7 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
    QTime time(0,0,0,0);
    int timeLeft;
-   if(isCharging() == true)
+   if(isCharging())
    {
        timeLeft = (totalAmpHoursUsed() / current_) * HOUR_TO_MILLISECONDS;
    }
