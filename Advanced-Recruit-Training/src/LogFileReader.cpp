@@ -1,4 +1,4 @@
-#include <QDebug>
+ #include <QDebug>
 #include <QFile>
 #include <QString>
 #include <QTextStream>
@@ -51,21 +51,30 @@ bool LogFileReader::readAll(const QString& fileName)
     return true;
 }
 
-/* File input is a csv file in the format of hh:mm:ss:zzz, voltage, current.
- * Negative current values denote a charging battery.
- * Need to implement error checking for the correct number of values and
- * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     QStringList sections = line.split(BATDATA_DELIMITER);
-
+    int count = sections.count();
+    if (count != COLUMNS)
+    {
+        return false;
+    }
     QString timeString = sections.at(0);
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
+    bool valid = batteryData.time.isValid();
+    if (!valid)
+    {
+        return false;
+    }
+    bool working;
+    bool good;
+    batteryData.voltage = sections.at(1).toDouble(&working);
 
-    batteryData.voltage = sections.at(1).toDouble();
+    batteryData.current = sections.at(2).toDouble(&good);
 
-    batteryData.current = sections.at(2).toDouble();
-
+    if (!working || !good)
+    {
+        return false;
+    }
     return true;
-
 }

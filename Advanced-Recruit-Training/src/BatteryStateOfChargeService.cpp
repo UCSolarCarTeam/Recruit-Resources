@@ -1,38 +1,62 @@
 #include "BatteryStateOfChargeService.h"
+#include "BatteryData.h"
 
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double HOUR_IN_MSECONDS = 3600000.0;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
+    AmpHoursUsed_ = BATTERY_AMP_HOUR_CAPACITY - ((initialStateOfChargePercent_ / 100) * BATTERY_AMP_HOUR_CAPACITY);
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
 {
+
 }
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
-{
-    return 0.0;
+{ 
+    return AmpHoursUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return false;
+    if ( current_ >= 0)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return QTime::currentTime();
+    QTime time (0,0,0,0);
+    int mseconds_;
+    if (isCharging())
+    {
+       mseconds_ = (totalAmpHoursUsed() / current_) * HOUR_IN_MSECONDS;
+    }
+    else
+    {
+       mseconds_ = ((BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_) * HOUR_IN_MSECONDS;
+    }
+
+    return time.addMSecs(mseconds_);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData);
-    // This is where you can update your variables
-    // Hint: There are many different ways that the totalAmpHoursUsed can be updated
-    // i.e: Taking a running average of your data values, using most recent data points, etc.
+    previoustime_ = time_;
+    previouscurrent_ = current_;
+    voltage_ = batteryData.voltage;
+    current_ = batteryData.current;
+    time_ = batteryData.time;
+    AmpHoursUsed_ += ((current_ + previouscurrent_)/2) * time_.msecsTo(previoustime_) / HOUR_IN_MSECONDS;
 }
