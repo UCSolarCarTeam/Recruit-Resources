@@ -10,7 +10,7 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
-    AmpHoursUsed_ = BATTERY_AMP_HOUR_CAPACITY - ((initialStateOfChargePercent_ / 100) * BATTERY_AMP_HOUR_CAPACITY);
+    ampHoursUsed_ = BATTERY_AMP_HOUR_CAPACITY - ((initialStateOfChargePercent_ / 100) * BATTERY_AMP_HOUR_CAPACITY);
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -19,8 +19,8 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 }
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
-{ 
-    return AmpHoursUsed_;
+{
+    return ampHoursUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
@@ -37,26 +37,27 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    QTime time (0,0,0,0);
-    int mseconds_;
+    int timeRemaining_;
     if (isCharging())
     {
-       mseconds_ = (totalAmpHoursUsed() / current_) * HOUR_IN_MSECONDS;
+       timeRemaining_ = (totalAmpHoursUsed() / current_) * HOUR_IN_MSECONDS;
     }
     else
     {
-       mseconds_ = ((BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_) * HOUR_IN_MSECONDS;
+       timeRemaining_ = ((BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_) * HOUR_IN_MSECONDS;
     }
-
-    return time.addMSecs(mseconds_);
+    QTime time (0,0,0,0);
+    return time.addMSecs(timeRemaining_);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    previoustime_ = time_;
-    previouscurrent_ = current_;
+    previousTime_ = time_;
+    previousCurrent_ = current_;
     voltage_ = batteryData.voltage;
     current_ = batteryData.current;
     time_ = batteryData.time;
-    AmpHoursUsed_ += ((current_ + previouscurrent_)/2) * time_.msecsTo(previoustime_) / HOUR_IN_MSECONDS;
+    averageCurrent_ = ((current_ + previousCurrent_)/2);
+    changeInTime_ = time_.msecsTo(previousTime_) / HOUR_IN_MSECONDS;
+    ampHoursUsed_ += averageCurrent_ * changeInTime_;
 }

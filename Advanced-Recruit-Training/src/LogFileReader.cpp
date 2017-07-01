@@ -1,4 +1,4 @@
- #include <QDebug>
+#include <QDebug>
 #include <QFile>
 #include <QString>
 #include <QTextStream>
@@ -54,25 +54,17 @@ bool LogFileReader::readAll(const QString& fileName)
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     QStringList sections = line.split(BATDATA_DELIMITER);
-    int count = sections.count();
-    if (count != COLUMNS)
+    if ( sections.count() != COLUMNS)
     {
         return false;
     }
     QString timeString = sections.at(0);
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
-    bool valid = batteryData.time.isValid();
-    if (!valid)
-    {
-        return false;
-    }
-    bool working;
-    bool good;
-    batteryData.voltage = sections.at(1).toDouble(&working);
-
-    batteryData.current = sections.at(2).toDouble(&good);
-
-    if (!working || !good)
+    bool validVoltage_;
+    bool validCurrent_;
+    batteryData.voltage = sections.at(1).toDouble(&validVoltage_);
+    batteryData.current = sections.at(2).toDouble(&validCurrent_);
+    if (!batteryData.time.isValid() || !validCurrent_ || !validVoltage_)
     {
         return false;
     }
