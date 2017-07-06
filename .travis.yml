@@ -1,19 +1,21 @@
 sudo: required
 
-arch:
-  packages:
-  - xorg-server-xvfb
-before_install:
-  - cd SetupScript/
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
-  - chmod +x UCSolarTeamInit.sh
 
+before_install:
+    - sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
+    - sudo apt-add-repository -y ppa:beineri/opt-qt542
+    - sudo apt-get -qq update
+install:
+    - sudo apt-get -qq install g++-4.8 libc6-i386 qt54tools qt54svg qt54webkit qt54serialport
+    - PATH="/opt/qt54/bin:$PATH"
+    - qt54-env.sh 
+    - wget 'https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/astyle'
+    - tar -zxvf astyle
+    - (cd astyle/build/gcc && make release && sudo make install)
+    - rm astyle -rf
 script:
-- ./UCSolarTeamInit.sh
+    - "! (astyle *.h *.cpp -r --dry-run --options=astylerc | grep Formatted)"
+    - make
 
 after_script:
-- chmod +x UCSolarTeamInitTest.sh
-- ./UCSolarTeamInitTest.sh
+
