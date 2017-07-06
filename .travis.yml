@@ -15,7 +15,6 @@ install:
     - rm astyle -rf
 script:
     - "! (astyle *.h *.cpp -r --dry-run --options=astylerc | grep Formatted)"
-    - qmake
     - make
 
 after_script:
