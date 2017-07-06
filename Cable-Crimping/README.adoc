@@ -1,0 +1,55 @@
+= How to Crimp RJ45 cables
+
+== Strip the wire
+Make a shallow cut with a knife and run it around the cable 2.5 to 5 cm away from the end of the cable.
+The jacket should slide off easily.
+Be very careful when cutting away the sheathe, it is very easy to cut the wire inside by mistake.
+
+There will be 4 pairs of twisted wires that should now be exposed:
+
+* Solid orange and half orange, half white
+* Solid green and half green, half white
+* Solid blue and half blue, half white
+* Solid brown and half brown, half white.
+
+== Removing the core
+Folding back each of the wires will expose the core of the cable.
+Cut it off at the point that the cable was stripped to.
+This part can be discarded.
+
+== Preparing to crimp
+
+Straighten the wires, this can easily be done with a pair of tweezers.
+Arrange them from right to left in the following order:
+
+* Orange/white stripe
+* Orange
+* Green/white stripe
+* Blue
+* Blue/white stripe
+* Green
+* Brown/white stripe
+* Brown
+
+Trim the untwisted wires to a good length.
+The insulation of the cable should be just inside the bottom of the RJ-45 connector.
+
+NOTE: Orient the cables so that the Orange/white striped wire is on the right when looking at the plastic release latch on the top.
+
+If the wires must be trimmed, trim them in small increments.
+Check frequently to ensure that they fit correctly.
+
+== Connecting the wires to the  RJ-45 connector
+
+Insert the wires into the RJ-45 connector.
+Take care to make sure that each wire goes all the way into its appropriate channel, otherwise after crimping it won't work.
+
+== Crimping
+
+Place the connector into the middle hole, designated 8P, of the crimp tool and firmly squeeze the handles firmly together to crimp the cable.
+You may want to do this more than once to ensure that the cable is properly connected.
+
+NOTE: There should be a click sound.
+A crunching sound means that the cable did not crimp correctly.
+
+The RJ-45 cable should now be properly working.

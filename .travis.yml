@@ -1,6 +1,7 @@
 sudo: required
 
 
+
 before_install:
     - sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
     - sudo apt-add-repository -y ppa:beineri/opt-qt542
@@ -17,6 +18,4 @@ script:
     - "! (astyle *.h *.cpp -r --dry-run --options=astylerc | grep Formatted)"
     - qmake
     - make
-
-after_script:
 

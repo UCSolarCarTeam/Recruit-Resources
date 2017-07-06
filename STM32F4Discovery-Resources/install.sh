@@ -19,6 +19,8 @@ if ! type "st-flash" > /dev/null; then
     ln -s /opt/stlink/build/src/gdbserver/st-util /usr/local/bin/st-util
     echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/opt/stlink/build" >> ~/.profile
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/stlink/build
+    echo "export PATH=\$PATH:/opt/stlink/build" >> ~/.profile
+    export PATH=$PATH:/opt/stlink/build
 else
     echo "*** ST Link already installed"
 fi
@@ -26,12 +28,14 @@ fi
 # Install CubeMX2Makefile
 if ! type "CubeMX2Makefile" > /dev/null; then
     echo "*** Installing CubeMX2Makefile"
-    git clone https://github.com/baoshi/CubeMX2Makefile.git --depth 1
+    git clone https://github.com/bill-luu/CubeMX2Makefile.git --depth 1
     mv CubeMX2Makefile /opt/CubeMX2Makefile
     echo "#!/usr/bin/env bash" >> /usr/local/bin/CubeMX2Makefile
     echo "ABS_PATH=\"\$(readlink -f \$1)\"" >> /usr/local/bin/CubeMX2Makefile
     echo "(cd /opt/CubeMX2Makefile && python CubeMX2Makefile.py \$ABS_PATH)" >> /usr/local/bin/CubeMX2Makefile
     chmod +x /usr/local/bin/CubeMX2Makefile
+    echo "export PATH=\$PATH:/opt/CubeMX2Makefile" >> ~/.profile
+    export PATH=$PATH:/opt/CubeMX2Makefile
 else
     echo "*** CubeMX2Makefile already installed"
 fi
@@ -42,7 +46,7 @@ if [ ! -d "/opt/gcc4mbed" ]; then
     git clone https://github.com/adamgreen/gcc4mbed /opt/gcc4mbed --depth 1
     (cd /opt/gcc4mbed && \
         chmod +x linux_install && \
-        sed -i '108d;109d;110d;134d' linux_install && \
+        sed -i '108d;109d;110d;147d' linux_install && \
         ./linux_install)
     if ! grep "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" ~/.profile; then
         echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile
@@ -51,3 +55,6 @@ if [ ! -d "/opt/gcc4mbed" ]; then
 else
     echo "*** ARM compiler already installed"
 fi
+
+# Sourcing Profile
+source ~/.profile
