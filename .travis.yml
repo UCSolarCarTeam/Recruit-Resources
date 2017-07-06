@@ -19,5 +19,4 @@ script:
     - make
 
 after_script:
-- chmod +x UCSolarTeamInitTest.sh
-- ./UCSolarTeamInitTest.sh
+
