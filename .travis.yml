@@ -12,6 +12,7 @@ install:
     - wget 'https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/astyle'
     - tar -zxvf astyle
     - (cd astyle/build/gcc && make release && sudo make install)
+    - (cd astyle/build/gcc && qmake release && sudo qmake install)
     - rm astyle -rf
 script:
     - "! (astyle *.h *.cpp -r --dry-run --options=astylerc | grep Formatted)"
