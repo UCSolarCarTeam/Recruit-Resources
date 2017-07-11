@@ -80,7 +80,7 @@ Some Code
 
 === Bold Text
 
-To bold text in an asciioc place a single asterisk on each side of the phrase or word to be bolded.
+To bold text in an asciidoc place a single asterisk on each side of the phrase or word to be bolded.
 
 ----
 *Bolded Statement*
@@ -88,7 +88,7 @@ To bold text in an asciioc place a single asterisk on each side of the phrase or
 
 Will appear as:
 
-*Bolded Statemenet*
+*Bolded Statement*
 
 Individual parts of a word can be bolded by breaking up the word with double asterisks.
 All of the characters between two pairs of asterisks will be bolded.
