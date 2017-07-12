@@ -1,0 +1,65 @@
+= CAN Message Filter Guide
+
+== Introduction
+This is a basic guide on how to make a CAN filter.
+There are two components to a CAN filter: an ID and a Mask.
+The ID is the unique identifier for the address of the message(s) being looked for, and the Mask determines which bits of the ID are important to sift through. 
+
+IMPORTANT: A Mask must be able to adapt to future additions to a CAN network. 
+It must be made *as tight as possible for longevity*.
+
+There is no set order of steps to follow, but to get started, determine the ID, then determine the Mask.
+A very useful tip is to convert the hex format into binary format, determine the ID and Mask, and then convert those back into hex.
+
+
+== Determine the ID
+The ID will be the unique identifier for the address of the message(s) being received.
+
+. The ID should be very specific and contain the important bits that will be compared to the incoming message.
+For example, if one is looking for a message from a system that sends out messages with address `0b0000_1111` (`0x0F`) then the ID will be `0b0000_1111` (`0x0F`) because there is only one type of address that is wanted.
+
+. The greater the variety of addresses wanted, the more flexible the ID will be to accommodate the variety of incoming messages.
+For example, if one is looking for a message from a system that sends out messages with addresses `0b0001_0001`, `0b0001_0010`, and `0b0001_0011` (`0x11`, `0x12`, and `0x13`) then the ID will be `0b0001_0000` (`0x10`) because the last two bits do not matter. 
+`0x11`, `0x15`, or any number for the last hex digit will create a valid ID and it will work regardless, but in practice the base address is used in these situations. 
+
+
+== Determine the Mask
+The Mask will determine which bits in the address of the message and which bits in the ID are important to compare. 
+It compares the messages by using 1s and 0s. 
+1s are for the bits that are to be compared and 0s are for the bits that do not matter. 
+For example, `0b0000_0001` only compares the first bit (bit 0) while `0b1111_1111` compares every bit.
+
+. The Mask should be as tight as possible so that no other messages from other addresses are filtered through apart from the ones that are desired. 
+For example, if one is looking for a message from a system that sends out messages with address `0b0000_1111` (`0x0F`), from the first example in *Determine the ID*, the ID will be `0b0000_1111` (`0x0F`), but the mask will be `0b1111_1111` (`0xFF`). 
+This will compare every single bit of the ID and the address coming through so that only messages from that single address will be filtered through.
+
+. Like the ID, the greater the variety of addresses wanted, the more flexible the Mask should be to be able to accommodate the variety.
+For example, if one is looking for a message from a system that sends out messages with addresses `0b0001_0001`, `0b0001_0010`, and `0b0001_0011` (`0x11`, `0x12`, and `0x13`), from above, the ID will be `0b0001_0000` (`0x010`), but the Mask will be `0b1111_1100` (`0xFC`) to compare every bit except the last two because they don't mattter.
+
+A table can be made to see the incoming message(s) being compared, a valid ID, and a valid Mask to make the problem much easier to solve.
+
+*Example Table (From first Mask example)*
+[options = "header, footer"]
+|=======
+|Address Wanted |ID |Mask
+|`0x00F` |`0x00F` |`0xFFF`
+|=======
+
+==== Examples
+Try the following exercises:
+
+A network contains 2 systems: SYS1 and SYS2. 
+SYS1 sends messages with the address `0x71`, and SYS2 sends messages with addresses from `0x80` up to and including `0x8F`. 
+Create a filter for SYS2. 
+In other words, create a filter that only accepts messages from SYS2 and does nothing with messages from SYS1. 
+
+Answer - ID: `0x80`, Mask: `0xF0`
+
+Create a filter for SYS1.
+In other words, create a filter that only accepts messages from SYS1 and does nothing with messages from SYS2.
+
+Answer - ID: `0x71`, Mask: `0xFF`
+
+Create a filter for the Lights Board. Refer to the https://docs.google.com/spreadsheets/d/1soVLjeD9Sl7z7Z6cYMyn1fmn-cG7tx_pfFDsvgkCqMU/edit?pref=2&pli=1#gid=0[Communications Protocol^].
+
+Answer - ID: `0x710`, Mask: `0xFFE`
