@@ -11,7 +11,7 @@ install:
      - qt54-env.sh 
      - wget 'https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/astyle'
      - tar -zxvf astyle
-     - (qt54 && make release && sudo make install)
+     - (cd Advanced-Recruit-Training/src && make release && sudo make install)
      - rm astyle -rf
 script:
      - "! (astyle *.h *.cpp -r --dry-run --options=astylerc | grep Formatted)"
