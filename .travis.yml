@@ -16,3 +16,5 @@ script:
      - cd Advanced-Recruit-Training/src 
      - qmake
      - make
+
+language: cpp
