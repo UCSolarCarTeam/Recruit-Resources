@@ -1,7 +1,4 @@
 sudo: required
-
- 
- 
 before_install:
      - sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
      - sudo apt-add-repository -y ppa:beineri/opt-qt542
@@ -19,5 +16,3 @@ script:
      - cd Advanced-Recruit-Training/src 
      - qmake
      - make
- 
-after_script:
