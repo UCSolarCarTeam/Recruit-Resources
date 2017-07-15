@@ -17,6 +17,6 @@ install:
 script:
      - "! (astyle *.h *.cpp -r --dry-run --options=astylerc | grep Formatted)"
      - cd ./Advanced-Recruit-Training/src qmake
-     - make
+     - cd ./Advanced-Recruit-Training/src make
  
 after_script:
