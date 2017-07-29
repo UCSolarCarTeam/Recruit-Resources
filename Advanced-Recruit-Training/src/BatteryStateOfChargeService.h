@@ -2,7 +2,6 @@
 
 #include "I_BatteryStateOfChargeService.h"
 
-struct BatteryData;
 
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
@@ -33,7 +32,5 @@ private:
     double previousCurrent_;
     QTime previousTime_;
     double ampHoursUsed_;
-    double averageCurrent_;
-    double changeInTime_;
 
 };

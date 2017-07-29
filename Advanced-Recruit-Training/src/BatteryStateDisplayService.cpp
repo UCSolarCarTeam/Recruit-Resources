@@ -5,6 +5,7 @@
 #include "I_BatteryDataSource.h"
 #include "I_BatteryStateOfChargeService.h"
 
+
 BatteryStateDisplayService::BatteryStateDisplayService(
     const I_BatteryDataSource& batteryDataSource,
     I_BatteryStateOfChargeService& batteryStateOfChargeService)

@@ -1,6 +1,5 @@
 #include "BatteryStateOfChargeService.h"
 #include "BatteryData.h"
-#include <QDebug>
 
 namespace
 {
@@ -54,10 +53,13 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     previousCurrent_ = current_;
     previousTime_ = time_;
+
     current_ = batteryData.current;
     voltage_ = batteryData.voltage;
     time_ = batteryData.time;
-    averageCurrent_ = (previousCurrent_ + current_) / 2;
-    changeInTime_ = time_.msecsTo(previousTime_) / HOUR_TO_MILLISECONDS;
+
+    double averageCurrent_ = (previousCurrent_ + current_) / 2;
+    double changeInTime_ = time_.msecsTo(previousTime_) / HOUR_TO_MILLISECONDS;
+
     ampHoursUsed_ += averageCurrent_ * changeInTime_;
 }
