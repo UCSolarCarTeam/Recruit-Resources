@@ -11,7 +11,7 @@ apt-get -y install build-essential git libsane:i386 ia32-libs-multiarch autoconf
 # Install STLink
 if ! type "st-flash" > /dev/null; then
     echo "*** Installing ST Link"
-    git clone https://github.com/texane/stlink.git /opt/stlink
+    git clone https://github.com/UCSolarCarTeam/stlink.git /opt/stlink
     mkdir /opt/stlink/build
     (cd /opt/stlink/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j4)
     ln -s /opt/stlink/build/st-flash /usr/local/bin/st-flash
