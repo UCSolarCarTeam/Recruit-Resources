@@ -38,6 +38,7 @@
 		</Compiler>
 		<Unit filename="Person.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="person.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
