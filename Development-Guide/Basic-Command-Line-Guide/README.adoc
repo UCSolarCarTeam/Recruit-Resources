@@ -1,69 +1,69 @@
-Basic Command Line Guide
-------------------------
+= Basic Command Line Guide
 
 This is a guide for common command line commands.
 
-.sudo
+
+. `cd` is used to navigate through directories.
+The usage is `cd <directory>`.
+You can use `..` to go up a level.
++
+.Example
 ----
-Allows a user with proper permissions (such as an admin) to execute commands. You will need to enter a password for the command to run.
-
-$ sudo <command>
-
-e.g.
-
-$ make install
-
-(usually will output an error, so use sudo)
-
-$ sudo make install
-
-(you will then be prompted to input the admins password)
+cd Documents/
+cd ..
 ----
 
-.cd
+. `ls` is used to list the contents in the current directory.
+This command does not normally need any arguments.
+
+. `rm` is used to delete files or directories.
+The usage is `rm <file>`.
+To delete directories, add the recursive flag `-r`.
++
+.Example
 ----
-Used to navigate through directories
-
-$ cd <directoryname>
-
-$ cd .. (navigates to previous directory)
-----
-
-.ls
-----
-Used to list the contents in the current directory
-
-$ ls 
+rm hello.txt
+rm -r Documents/
 ----
 
-.rm
+. `cp` is used to make copies of files or directories.
+The usage is `cp <file> <destination>`.
+To copy directories, add the recursive flag `-r`.
++
+.Copying a File Example
 ----
-Used to delete files or directories
-
-$ rm <file_name/directory_name>
+cp hello.txt Documents/hello.txt
 ----
-
-.cp
++
+.Copying a Directory Example
 ----
-Used to make copies of files or directories
-
-$ cp <file_name/directory_name>
-----
-
-.mv
-----
-Used to move or rename files
-
-$ mv <file> <target_directory> (Moves file to target directory)
-
-$ mv <old_file_name> <new_file_name> (Changes name of the file)
+cp -r Documents/ Downloads/
 ----
 
-.pwd
+. `mv` is used to move or rename files
+The usage is `mv <file> <destination>`.
+Unlike the other commands, no extra flag is needed to move directories.
++
+.Moving a File Example
 ----
-Used to print the name of the working directory. i.e. Show where you are.
-
-$ pwd
+mv hello.txt Documents/
+----
++
+.Renaming a File Example
+----
+mv hello.txt world.txt
 ----
 
+. `pwd` is used to print the name of the working directory, in other words, show where you are.
+This command does not normally need any arguments.
 
+
+. `sudo` can precede a command to act with administrative rights.
+If you run a command with a permission error, a common fix is to run the same command but with sudo.
++
+.Example
+----
+sudo mv /opt/soarr /opt/soar
+----
++
+But be warned, because sudo elevates privileges, it can be a security hazard!
