@@ -1,31 +1,26 @@
 = U of C Solar Car Advanced Recruit Training
-Intro project to learn c++ and QT
+
+Intro project to learn C++ and QT
 
 == Running the project
 
 === Via Command Line
 
-To build this project on linux navigate to the source directory and run the following commands:
+To build this project on Linux navigate to the source directory and run the following commands:
 
-`qmake`
+[source,bash]
+----
+qmake
+make
+./batteryLife -f myData.csv -i 50
+----
 
-`make`
-
-`./batteryLife` - The command line arguments are as follows:
-
-[options="header"]
-|============================
-|Flag|Argument |Description
-|`-f` or `--filename` |`<filename>`|Name of csv log file of battery data
-
-|`-i` or  `--initStateOfCharge` |`<stateOfCharge>`|Initial State Of Charge of Battery as percent from 0-100
-|============================
-
-For example, to run the project opening `myData.csv` and setting the initState of charge as 50%: 
-
-`./batteryLife -f myData.csv -i 50`
+Refer to help for further instructions on how to add arguments to the program.
+ 
+You can change the command line arguments within QT Creator with Projects -> Run -> Command Line Arguments.
 
 === Via QT Creator
+
 In QT Creator, the above `qmake` and `make` are located in `Build`, and the project can be run through the play button. 
 You'll have to set the appropriate command line arguments in `Projects > Build & Run > Run`. 
 
@@ -46,7 +41,7 @@ If you ever need any help with how to use Qt's functions, a good start would be 
 === Values to Note for BatteryStateOfChargeService
 
  *  The battery is charging when the battery current is negative, depleting when it is positive.
- *  The initial amount of Amphours used would be the Battery's Amphour capacity(Ah) x it's state of charge(%).
- *  The change in amphours used between two data points would be the average current(A) x the difference in time(h)
+ *  The initial amount of Amphours used would be the Battery's Amphour capacity(Ah) multiplied by it's state of charge(%).
+ *  The change in amphours used between two data points would be the average current(A) multiplied by the difference in time(h)
  *  The time until charge would be the Amphours used(Ah) divided by the current (A). 
  Similarily, the time until depletion would be the remaining amphours divided by the current.    
