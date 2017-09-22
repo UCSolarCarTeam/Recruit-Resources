@@ -1,4 +1,15 @@
-= AsciiDoc
+= AsciiDoc Guide
+
+Any plain text documentation should be done in AsciiDoctor syntax in the Solar Car Team.
+Below is a guide on some basic features of AsciiDoctor.
+
+More information on asciidoc can be found at:
+
+http://www.methods.co.nz/asciidoc/
+
+It is a good idea to preview docs at asciidoclive:
+
+https://asciidoclive.com/
 
 == Headers
 
@@ -127,13 +138,3 @@ __Ita__lics S__tate__ment
 == Conventions
 
 When writing in asciidoc it is best practice for each new sentence to be started on a new line in your text editor.
-
-== More information
-
-More information on asciidoc can be found at
-
-http://www.methods.co.nz/asciidoc/
-
-It is a good idea to preview docs at asciidoclive.
-
-https://asciidoclive.com/
