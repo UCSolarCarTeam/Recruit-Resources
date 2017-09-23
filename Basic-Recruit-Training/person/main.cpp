@@ -63,7 +63,7 @@ int main()
     std::cout << swapIncrementAnswer.str() << std::endl;
     const std::string correctSwapIncrementAnswer = "a is 7, b is 5";
     compareAnswers(swapIncrementAnswer.str(), correctSwapIncrementAnswer);
-// Pass a & b into mySwap
+// Pass a and b into mySwap
 // Pass in a to myIncrement
     //personFunctions(); // Uncomment this once you have completed the definitions of the Person class.
     return 0;
