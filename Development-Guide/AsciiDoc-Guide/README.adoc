@@ -1,6 +1,6 @@
 = AsciiDoc Guide
 
-Any plain text documentation should be done in AsciiDoctor syntax in the Solar Car Team.
+Any plain text documentation on the Solar Car Team should be done in AsciiDoctor syntax.
 Below is a guide on some basic features of AsciiDoctor.
 
 More information on asciidoc can be found at:

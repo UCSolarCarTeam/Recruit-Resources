@@ -8,10 +8,13 @@ This is just a quick overview of the commands that would be used most frequently
 
 *  `git commit -m 'Enter a logical git message'` makes a commit local to your computer with everything that's been "added", i.e. in the staging area.
 When writing the commit message, describe what changes are in this commit.
-For example if you added a updated a README for clarity, you might use `git commit -m 'Updated the README for clarity`.
+For example if you added a updated a README for clarity, you might use `git commit -m 'Updated the README for clarity'`.
 Try to be descriptive so that the history is easier to track.
 
 *  `git push` sends your committed changes upstream, in our case to GitHub.
+
+*  `git push --set-upstream origin <newBranchName>` pushes a new branch from your computer to the 'origin' (Github) for the FIRST time.
+All subsequent pushes can just use the `git push` command as listed above.
 
 *  `git status` displays the files that have been changed.
 Green files means that they have been "added" and are in the staging area.
@@ -20,9 +23,6 @@ Red means that they have not been "added".
 *  `git pull` pulls down any changes that were done by other people.
 
 *  `git checkout <branchName>` changes branches, add the `-b` flag to move to a new branch.
-
-*  `git push --set-upstream origin <newBranchName>` pushes a new branch from your computer to the 'origin' (Github) for the FIRST time.
-All subsequent pushes can just use the `git push` command as listed above.
 
 == Usual Workflow for Making Changes
 
