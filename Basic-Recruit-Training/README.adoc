@@ -1,20 +1,30 @@
 = Pointers
 
 One of the most important concepts in C/C++ programming is pointers.
-A pointer is a very similar to other primitive data types such as int.
-Instead of containing a value a pointer will instead contain an address.
-This address is the location in memory of another variable.
-To initialize a pointer use an asterisk after the type that the pointer will be pointing to.
+We will look at an example chunk of code that uses pointers to change the value in a variable before exploring pointers more in depth.
 
-For example:
+----
+int x;
+x = 0;
+int *p;
+p = &x;
+*p = 6;
+
+cout << x << endl; //this prints the number 6
+----
+
+First lets look at a pointer variable.
 
 ----
 int * p;
 ----
 
-Will create a variable p, which is a pointer that will be able to point to a variable of type int.
+A pointer is a very similar to other primitive data types such as int.
+Instead of containing a value a pointer will instead contain a memory address.
+This address is the location in memory of another variable.
+To initialize a pointer use an asterisk after the type that the pointer will be pointing to.
+This will create a variable p, which is a pointer that will be able to point to a variable of type int.
 In order to assign our pointer p to the address of a variable we will need to use the address operator, &.
-Take note of the following example:
 
 ----
 int x;
@@ -24,12 +34,11 @@ x = 3;
 p = &x;
 ----
 
+Now the memory address of x will be stored in p.
 Printing the value of p will print the address of x.
 This will look something like 0x7ffc9b657c7c.
-The 0x is notation to show that the following number is in hexadecimal.
 This means that the value for x is stored on your machine at the memory location 0x7ffc9b657c7c.
-The real power of pointers comes from the use of the dereferencing operator, which is also an asterisk.
-Lets look back at the code example.
+Next lets look at the dereferencing operator.
 
 ----
 int x;
@@ -42,11 +51,8 @@ p = &x;
 y = *p;
 ----
 
-Printing the value of y will print 3, which is the value stored in x.
-
-We can also create a variable that points to a pointer.
-Note that this is called a pointer pointer, not a double pointer.
-A double pointer would refer to a pointer that points to a variable of type double.
+Printing the value of y will print 3.
+We use the dereferencing operator to get the value stored at the address pointed to by the pointer.
 
 One of the most common uses of pointers is when passing them as an argument to a function.
 We will explore why this is so useful in the coding exercise later.
@@ -65,7 +71,7 @@ int main()
 
 void foo(int &a)
 {
-    //some cool code
+    //some code
 }
 ----
 

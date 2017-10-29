@@ -16,7 +16,7 @@ int main()
 {
     int x = 3;
     int y = 4;
-    int* p = &x;
+    int *p = &x;
 
     //TODO in the line below predict what what is going to be output
     cout << "Predicted value of p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
@@ -31,7 +31,7 @@ int main()
     cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of *p: " << *p << endl;
     cout << "Predicted value of x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
-
+    cout << "Actual value of x: " << x << endl;
     foo(*p, y);
 
     cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
