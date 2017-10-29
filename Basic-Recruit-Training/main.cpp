@@ -27,7 +27,7 @@ void myIncrement(int* x)
 }
 
 // Uncomment this when person.cpp has been created.
-void personFunctions()
+/* void personFunctions()
 {
     Person Bill;
     Bill.setName("Bill");
@@ -58,7 +58,7 @@ void personFunctions()
               << myBirthdayAnswer.str() << std::endl;
     compareAnswers(myBirthdayAnswer.str(), correctBirthdayAnswer);
     delete Joe;
-}
+} */
 
 int main()
 {
