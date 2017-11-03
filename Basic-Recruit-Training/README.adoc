@@ -2,7 +2,7 @@
 
 There are two components to this training.
 == Person
-The directory person contains an exercize for a basic introduction to c++.
+The directory person contains an exercise for a basic introduction to c++.
 
 == Pointer
-The directory pointer contains an exercize for practice with a more advanced c++ concept called pointers.
+The directory pointer contains an exercise for practice with a more advanced c++ concept called pointers.

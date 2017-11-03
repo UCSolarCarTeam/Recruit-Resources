@@ -82,4 +82,6 @@ If the array is of type int, which is 4 bytes, then the address of each array in
 
 Now move on to the pointer exercise in main.cpp and follow the directions in there
 
+For further reading go to:
 
+http://www.cplusplus.com/doc/tutorial/pointers/
