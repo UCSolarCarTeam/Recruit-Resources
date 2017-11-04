@@ -8,5 +8,7 @@ The directory pointer contains an exercise for practice with the advanced C++ to
 == Person
 The directory person contains an exercise designed as a basic introduction to the concepts of pointers, references, functions and class creation in C++.
 
+
+== Compiling
 Both exercises were designed for the Code::Blocks IDE, download at the link:from http://www.codeblocks.org/downloads/binaries[Codeblocks website].
 Make sure that the binary you download contains the mingw compiler, i.e `codeblocks-16.01mingw-setup.exe`
