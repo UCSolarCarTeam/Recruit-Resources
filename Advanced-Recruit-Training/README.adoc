@@ -1,5 +1,13 @@
 = U of C Solar Car Advanced Recruit Training
 
+
+
+//
+// MY NAME IS MAGNUS
+//
+
+
+
 Intro project to learn C++ and QT
 
 == Running the project
