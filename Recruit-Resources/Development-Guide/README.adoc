@@ -1,0 +1,4 @@
+= University of Calgary Solar Car Team Development Guide
+
+This repository will be used to host guides on workflow, programming style, and other useful tips. There will be topic folders each with its own README and potentially other files to help you understand the topic. If you feel like something is missing or wrong, please open an issue or feature request on GitHub and you can discuss with other members of the team for possible changes.
+

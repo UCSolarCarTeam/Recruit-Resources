@@ -1,0 +1,36 @@
+= STM32 Board Development
+
+The onboard embedded systems in the Gen 5 solar car is done using the STM32F4 Discovery Boards. To develop on these boards, two tools are necessary. The  the STM32 System Workbench and the STM32CubeMX, the first is an IDE that comes with the toolchain to compile for the STM32 boards, the second is a code generator for initialization code on STM32 boards.
+
+== STM32 System Workbench
+
+The STM32 System Workbench is an IDE based off eclipse, once finished setting up, you will be able to compile for the STM32F4 Discovery Boards. To install:
+
+.  You can download the installer link:http://www.openstm32.org/, note you will need to make an account Downloading+the+System+Workbench+for+STM32+installer?structure=Documentation[here]
+.  Run the installer, all the default options are fine.
+.  Open the IDE
+.  File -> New -> C project 
+.  (C Project Page) Project Type -> Ac6 STM32 MCU Project, Next
+.  (System Configurations Page) Next 
+.  (MCU Configuration) Series -> STM32F4, Board -> STM32F4DISCOVERY, Next
+.  (Project Firmware Configuration) Hardware Abstraction Layer (Cube HAL) then hit "Download target firmware", this step is a long process and you may get errors thrown at you. If you get an error, retry until you have the target firmware downloaded. 
+
+The project is then setup to compile for the STM32F4 Discovery boards.
+
+== STM32CubeMX
+
+You can download the STM32CubeMX code generator link:http://www.st.com/web/en/catalog/tools/PF259242#[here]. The download link is at the bottom. 
+
+.  Unzip the file and run the installer for your OS, in some linux distributions you will need to run the windows installer using `java -jar`
+.  In the installer hit next for everything, all the defaults are fine
+.  Create a new project
+.  Go to the Board Selector tab
+.  Under Vendor select STMicroElectronics
+.  Under Type of Board select Discovery
+.  Under MCU Series select STM32F4
+.  Then select the STM32F4DISCOVERY board
+.  At the top go to Project->Generate Code
+.  Pick a project name, and select the toolchain SW4STM32 Toolchain, then click OK
+.  Click yes to download the firmware
+
+You have now generated the code, you can now copy the source and header files into a STM32 System Workbench project. Do not use the generated project from STM32CubeMX. You will need to delete the MSP template file and add `mxconstants.h` to `main.c`.

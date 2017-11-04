@@ -1,0 +1,93 @@
+= Style Guide
+
+This is a general style guide for the Solar Car Team, individual projects can deviate from this style guide but this is for general practice. Anything not listed here is dependent on the project.
+
+== General
+
+=== Naming
+Avoid abbreviations.
+
+===== Bad Example
+	UofC
+
+===== Good Example
+	UniversityOfCalgary
+
+== C++
+
+Follow AStyle, bindings are available in sublime and vim.
+To install the latest version in debian based operating systems:
+
+```bash
+wget 'https://sourceforge.net/projects/astyle/files/astyle/astyle%202.06/astyle_2.06_linux.tar.gz/download'
+tar -zxvf download
+cd astyle/build/gcc
+make release
+sudo make install
+```
+
+To format a file with default astyle settings:
+```bash
+astyle filename
+```
+
+To recursively format all `.cpp` and `.h` files:
+```bash
+astyle "*.cpp" "*.h" -r
+```
+
+To use the provided `astylerc` options file:
+```bash
+astyle --options=/path/to/astylerc filename
+```
+
+The `astylerc` file located beside this README is the official astyle options file for the UofC Solar Car Team.
+
+To check in a script whether are files are formatted correctly:
+```bash
+astyle "*.h" "*.cpp" -r --dry-run --options=/path/to/astylerc | grep Formatted
+```
+
+=== Function Names
+Function names should be lower camel case.
+
+===== Example
+	thisFunctionName()
+
+=== Variable Names
+Variable names should be lower camel case as well.
+
+===== Example
+	aGoodVariable
+
+=== Constant Names
+Constants should be all caps separated by underscores.
+
+===== Example
+	A_CONSTANT_VARIABLE
+
+=== Class Names
+Class name should be upper camel case.
+
+===== Example
+	GoodClassName
+
+=== Member Variable Names
+Member variables should have a trailing underscore.
+
+===== Example
+	thisMemberVariable_
+
+=== Braces
+Opening braces should be on the next line.
+
+== Golang
+
+Use gofmt, this is built into a standard go installation.
+It's recommended to install an automatic gofmt in vim or sublime.
+
+== Python
+
+Refer to the PEP8 Style Guide
+
+https://www.python.org/dev/peps/pep-0008/
