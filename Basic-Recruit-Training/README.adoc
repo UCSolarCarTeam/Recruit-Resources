@@ -1,8 +1,16 @@
 = Basic Recruit Training
 
 There are two components to this training.
-== Person
-The directory person contains an exercise for a basic introduction to c++.
 
 == Pointer
-The directory pointer contains an exercise for practice with a more advanced c++ concept called pointers.
+The directory pointer contains an exercise for practice with the advanced C++ topic of pointers.
+
+== Person
+The directory person contains an exercise designed as a basic introduction to the concepts of pointers, references, functions and class creation in C++.
+
+Both exercises were designed for the Code::Blocks IDE, download at the link:from http://www.codeblocks.org/downloads/binaries[Codeblocks website].
+Make sure that the binary you download contains the mingw compiler, i.e `codeblocks-16.01mingw-setup.exe`
+
+== Credit
+
+Originally created by the University of Calgary Solar Car Team by Bill Luu (2017).

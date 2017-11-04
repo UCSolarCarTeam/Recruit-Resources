@@ -5,13 +5,6 @@ All changes to master branches of repos under the UCSolarCarTeam must be done th
 .  All code is reviewed by someone other than the author before being used.
 .  Members of the Solar Car Team learn how to do pull-requests so that they can contribute to other open-source projects.
 
-All pull requests should be done through reviewable, a "Reviewable" button is available at the top of the pull request.
-If the button is not there, that means Reviewable has not been activated for that repository, contact the current software manager.
-Reviewable is a Github plugin to improve the code review process.
-With reviewable you can mark files as reviewed or not making partial reviews easier.
-Reviewable also allows for comments to be set as approved, meaning an issue with a pull request can be pointed out and can be manually set to resolved or not.
-With reviewable it is also possible to view a subset of changes with a larger granularity than per commit.
-
 == How to Make a Pull Request
 
 Here are the steps to contributing to a UCSolarCarTeam repository. The repositories can be found at https://github.com/UCSolarCarTeam. These steps assume you have a Github account, know how to use git, and are a member of the UCSolarCarTeam organization on Github.
