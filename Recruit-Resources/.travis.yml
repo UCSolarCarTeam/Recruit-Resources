@@ -1,0 +1,20 @@
+sudo: required
+before_install:
+     - sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
+     - sudo apt-add-repository -y ppa:beineri/opt-qt542-trusty
+     - sudo apt-get -qq update
+install:
+     - sudo apt-get -qq install g++-4.8 libc6-i386 qt54tools qt54svg qt54webkit qt54serialport
+     - PATH="/opt/qt54/bin:$PATH"
+     - qt54-env.sh 
+     - wget 'https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/astyle'
+     - tar -zxvf astyle
+     - (cd ./astyle/build/gcc && make release && sudo make install)
+     - rm astyle -rf
+script:
+     - "! (astyle *.h *.cpp -r --dry-run --options=astylerc | grep Formatted)"
+     - cd Advanced-Recruit-Training/src 
+     - qmake
+     - make
+
+language: cpp

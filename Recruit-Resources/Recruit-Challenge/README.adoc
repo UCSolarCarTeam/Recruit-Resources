@@ -1,0 +1,13 @@
+= Recruit Challenge
+
+This is a technical hurdle for members older than 3rd year applying for the software team.
+
+Written in golang, build using `go build`, run using `./Recruit-Challenge`.
+
+= Official Recruitment Card Text
+
+```
+Solar Car Team Senior Software Application
+
+For instrutions to submit an application to join the Solar Car Team, send a POST request with your "Name" and "UCID" to http://192.241.188.243 on port 8456.
+```
