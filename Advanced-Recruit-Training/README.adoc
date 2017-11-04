@@ -26,6 +26,8 @@ You'll have to set the appropriate command line arguments in `Projects > Build &
 
 == Objective
 
+EDITED BY DEVON VIPOND
+
 The goal of this project is to give new recuits a good starting point to learn the required skills to work on the other projects. 
 If you ever need any help with how to use Qt's functions, a good start would be to look at http://doc.qt.io/qt-5.6/reference-overview.html[Qt's reference manual]
 
