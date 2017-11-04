@@ -62,10 +62,31 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     QString timeString = sections.at(0);
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
-    batteryData.voltage = sections.at(1).toDouble();
+    if(sections.length() != COLUMNS)
+        return false;
 
-    batteryData.current = sections.at(2).toDouble();
+    bool DoubleConversion1;
+    bool DoubleConversion2;
 
-    return true;
+    batteryData.voltage = sections.at(1).toDouble(&DoubleConversion1);
 
+    batteryData.current = sections.at(2).toDouble(&DoubleConversion2);
+
+    if((DoubleConversion1 != true) || (DoubleConversion2 != true)){
+        return false;
+    }
+    else
+    {
+        qDebug()<<"DoubleConversion is unsuccessful";
+        return false;
+    }
+
+    if(batteryData.time.isValid()){
+        return true;
+    }
+    else
+    {
+        qDebug()<<"time is invalid";
+        return false;
+    }
 }
