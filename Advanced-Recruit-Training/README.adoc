@@ -10,12 +10,10 @@ To build this project on Linux navigate to the source directory and run the foll
 
 [source,bash]
 ----
-qmake
-make
 ./batteryLife -f myData.csv -i 50
 ----
 
-Refer to help for further instructions on how to add arguments to the program.
+
  
 You can change the command line arguments within QT Creator with Projects -> Run -> Command Line Arguments.
 
