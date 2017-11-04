@@ -1,0 +1,12 @@
+= Person
+
+This Exercise is designed to introduce you to the concepts of pointers, references, functions, and class creation in C++.
+
+In this exercise, you must create the `Person.cpp` file and implement the definition of all of the functions within `Person.h`.
+In addition, you must complete the definitions of `mySwap()` and `myIncrement()` and implement them in `main.cpp`.
+You are not permitted to modify anything in `Person.h` or any of the function headers.
+The program will verify that you have correctly completed the exercise.
+
+== Credit
+
+Originally created by the University of Calgary Solar Car Team by Bill Luu (2017).

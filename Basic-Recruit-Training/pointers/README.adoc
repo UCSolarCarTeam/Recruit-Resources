@@ -1,0 +1,91 @@
+= Pointers
+
+One of the most important concepts in C/C++ programming is pointers.
+We will look at an example chunk of code that uses pointers to change the value in a variable before exploring pointers more in depth.
+
+----
+int x;
+x = 0;
+int *p;
+p = &x;
+*p = 6;
+
+cout << x << endl; //this prints the number 6
+----
+
+First lets look at a pointer variable:
+
+----
+int * p;
+----
+
+A pointer is very similar to other primitive data types such as int.
+Instead of containing values, pointers contain memory addresses to the location of another variable.
+To initialize a pointer use an asterisk after the type that the pointer will be pointing to.
+This will create a variable p, which is a pointer that will be able to point to a variable of type int.
+In order to assign our pointer p to the address of a variable we will need to use the address operator, &.
+
+----
+int x;
+int *p;
+
+x = 3;
+p = &x;
+
+cout << p << endl; //this prints an address such as 0x7ffc0b657c7c
+----
+
+Now the memory address of x will be stored in p.
+This means that the value for x is stored on your machine at the memory location 0x7ffc9b657c7c.
+Next lets look at the dereferencing operator:
+
+----
+int x;
+int *p;
+int y;
+
+x = 3;
+p = &x;
+
+y = *p;
+
+cout << y << endl; //this will print the value 3
+----
+
+We use the dereferencing operator to get the value stored at the address pointed to by the pointer.
+One of the most common uses of pointers is when passing them as an argument to a function.
+We will explore why this is so useful in the coding exercise later.
+Let's look at an example:
+
+----
+//function prototype
+void foo(int &a);
+
+int main()
+{
+    int x = 1;
+    int* p = &x;
+    foo(*p);
+}
+
+void foo(int &a)
+{
+    //some code
+}
+----
+
+By passing the pointer p into the function instead of x we can change the value that the pointer is pointing to.
+
+Pointers are also very useful when working with data structures such as arrays.
+In the case of an array a pointer will point to the first byte of the array.
+If the array is of type int, which is 4 bytes, then the address of each array index will be 4 bytes greater then the previous one.
+
+Now move on to the pointer exercise in main.cpp and follow the directions in there
+
+For further reading go to:
+
+http://www.cplusplus.com/doc/tutorial/pointers/
+
+== Credit
+
+Originally created by the University of Calgary Solar Car Team by Ben Graham (2017).
