@@ -85,3 +85,7 @@ Now move on to the pointer exercise in main.cpp and follow the directions in the
 For further reading go to:
 
 http://www.cplusplus.com/doc/tutorial/pointers/
+
+== Credit
+
+Originally created by the University of Calgary Solar Car Team by Ben Graham (2017).
