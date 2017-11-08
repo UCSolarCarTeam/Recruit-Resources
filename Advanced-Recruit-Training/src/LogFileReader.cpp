@@ -37,7 +37,7 @@ bool LogFileReader::readAll(const QString& fileName)
         if (!parseLine(line, batteryData))
         {
             qDebug() << "Error while parsing" << line;
-            // return false;
+             return false;
         }
         else
         {
@@ -66,6 +66,17 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 
     batteryData.current = sections.at(2).toDouble();
 
+    batteryData.time.isValid();
+
+    if (!batteryData.time.isValid()){
+             return false;
+    }
+
+
     return true;
+
+
+
+
 
 }
