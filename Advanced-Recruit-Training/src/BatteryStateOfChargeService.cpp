@@ -24,7 +24,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 }
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(previousCurrent_ < 0)
+    if(current_ < 0)
         return true;
     return false;
 }
@@ -32,20 +32,21 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     QTime timeToCompletion_(0, 0, 0, 0);
-    if(previousCurrent_ < 0) //charging
-        return (timeToCompletion_.addMSecs(qAbs(totalAmpHoursUsed()/previousCurrent_)*HOUR_TO_MILLISECOND));
+    if(current_ < 0) //charging
+        return (timeToCompletion_.addMSecs(qAbs(totalAmpHoursUsed()/current_)*HOUR_TO_MILLISECOND));
     else    //depleting
-        return (timeToCompletion_.addMSecs(((BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed())/previousCurrent_)*HOUR_TO_MILLISECOND));
+        return (timeToCompletion_.addMSecs(((BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed())/current_)*HOUR_TO_MILLISECOND));
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     time_ = batteryData.time;
+    current_ = batteryData.current;
     //time difference is 0 for the first and then previousTime_ is the previous for the next
     double timeDifference;
     timeDifference = (double) (previousTime_.msecsTo(time_)*MILLISECOND_TO_HOUR_CONVERSION);
     double currentAverage;
-    currentAverage = (previousCurrent_ + batteryData.current)/2;
+    currentAverage = (previousCurrent_ + current_)/2;
     previousTime_ = batteryData.time;
     previousCurrent_ = batteryData.current;
     additionalAmpHours_ += (currentAverage*timeDifference);
