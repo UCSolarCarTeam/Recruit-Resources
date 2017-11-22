@@ -11,6 +11,10 @@ namespace
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
+, current_(0)
+, previousCurrent_(0)
+, additionalAmpHours_(0)
+, totalAmpHours_(0)
 {
 }
 
