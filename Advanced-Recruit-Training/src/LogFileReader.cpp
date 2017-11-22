@@ -2,7 +2,6 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
-
 #include "LogFileReader.h"
 
 namespace
@@ -10,6 +9,7 @@ namespace
     const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
     const QString BATDATA_DELIMITER= ", ";
     const int COLUMNS = 3;
+    const int CORRECT_SECTION_SIZE = 3;
 }
 
 LogFileReader::LogFileReader()
@@ -57,31 +57,34 @@ bool LogFileReader::readAll(const QString& fileName)
  * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    bool check = true;
+    bool voltageCheck = true;
+    bool currentCheck = true;
 
     QStringList sections = line.split(BATDATA_DELIMITER);
 
     QString timeString = sections.at(0);
 
-    if (sections.size() != 3)
+    if (sections.size() != CORRECT_SECTION_SIZE)
+    {
         return false;
-        //QTextStream(stdout) <<"error ";
+    }
 
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
-    batteryData.voltage = sections.at(1).toDouble(&check);
+    batteryData.voltage = sections.at(1).toDouble(&voltageCheck);
 
-    batteryData.current = sections.at(2).toDouble(&check);
+    batteryData.current = sections.at(2).toDouble(&currentCheck);
 
 
     if (!batteryData.time.isValid())
+    {
         return false;
-        // QTextStream(stdout) <<"error ";
+    }
 
-    return check;
+    if (voltageCheck == true && currentCheck == true )
+    {
+        return true;
+    }
+
+    return false;
 }
-
-
-
-
-
