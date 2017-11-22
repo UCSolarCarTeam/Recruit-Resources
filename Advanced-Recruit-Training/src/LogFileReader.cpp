@@ -13,7 +13,7 @@ namespace
 }
 
 LogFileReader::LogFileReader()
-{   
+{
 }
 
 LogFileReader::~LogFileReader()
