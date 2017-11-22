@@ -28,6 +28,5 @@ private:
     double current_;
     double ampHoursUsed_;
     QTime time_;
-    QTime chargeTime_;
-    int numberOfRecords_;   //Number of readings made
+    bool isFirstRecord_;
 };
