@@ -31,9 +31,13 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 bool BatteryStateOfChargeService::isCharging() const
 {
    if (current_ < 0)
+   {
        return true;
+   }
    else
+   {
        return false;
+   }
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
