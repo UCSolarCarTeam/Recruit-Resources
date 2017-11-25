@@ -3,7 +3,7 @@
 #include "BatteryData.h"
 #include "BatteryStateDisplayService.h"
 #include "I_BatteryDataSource.h"
-#include "BatteryStateOfChargeService.h"
+#include "I_BatteryStateOfChargeService.h"
 
 BatteryStateDisplayService::BatteryStateDisplayService(
     const I_BatteryDataSource& batteryDataSource,
