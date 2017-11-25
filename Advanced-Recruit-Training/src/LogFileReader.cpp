@@ -2,6 +2,7 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
+#include <QRegExp>
 
 #include "LogFileReader.h"
 
@@ -57,9 +58,17 @@ bool LogFileReader::readAll(const QString& fileName)
  * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
+    { // check for exact format "hh:mm:ss.zzz, voltage, current"
+        QRegExp rxItem("(^([0-1]\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d\\d\\d, \\d\\.\\d+, (-\\d|\\d)+\\.\\d+$)");
+        if (rxItem.indexIn(line) == -1) {
+            return false;
+        }
+    }
+
     QStringList sections = line.split(BATDATA_DELIMITER);
 
     QString timeString = sections.at(0);
+    
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
     batteryData.voltage = sections.at(1).toDouble();
