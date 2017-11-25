@@ -1,5 +1,9 @@
 = U of C Solar Car Advanced Recruit Training
 
+
+Nathanael Huh hahahahah
+Hello World???? not really
+
 Intro project to learn C++ and QT
 
 == Running the project
