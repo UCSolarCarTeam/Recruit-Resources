@@ -36,7 +36,7 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     QTime timeToCompletion_(0, 0, 0, 0);
-    if(current_ < 0) //charging
+    if(isCharging()) //charging
         return (timeToCompletion_.addMSecs(qAbs(totalAmpHoursUsed() / current_) * HOUR_TO_MILLISECOND));
     else    //depleting
         return (timeToCompletion_.addMSecs(((BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_) * HOUR_TO_MILLISECOND));
