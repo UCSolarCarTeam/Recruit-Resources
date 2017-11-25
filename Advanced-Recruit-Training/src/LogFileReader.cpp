@@ -37,7 +37,7 @@ bool LogFileReader::readAll(const QString& fileName)
         if (!parseLine(line, batteryData))
         {
             qDebug() << "Error while parsing" << line;
-            //return false;
+            return false;
         }
         else
         {
@@ -51,10 +51,6 @@ bool LogFileReader::readAll(const QString& fileName)
     return true;
 }
 
-/* File input is a csv file in the format of hh:mm:ss:zzz, voltage, current.
- * Negative current values denote a charging battery.
- * Need to implement error checking for the correct number of values and
- * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     QStringList sections = line.split(BATDATA_DELIMITER);
@@ -74,11 +70,11 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     }
 
     // if voltage or current not converted to double, ok boolean set to false
-    bool ok1;
-    bool ok2;
-    batteryData.voltage = sections.at(1).toDouble(&ok1);
-    batteryData.current = sections.at(2).toDouble(&ok2);
-    if (!ok1 || !ok2)
+    bool voltageIsValid;
+    bool currentIsValid;
+    batteryData.voltage = sections.at(1).toDouble(&voltageIsValid);
+    batteryData.current = sections.at(2).toDouble(&currentIsValid);
+    if (!voltageIsValid || !currentIsValid)
     {
         return false;
     }

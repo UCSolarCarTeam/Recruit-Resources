@@ -8,7 +8,7 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent), current_(0),
+: initialStateOfChargePercent_(initialStateOfChargePercent), currentCurrent_(0),
   ampHoursUsed_(BATTERY_AMP_HOUR_CAPACITY * (1 - (initialStateOfChargePercent_ / 100)))
 {
 }
@@ -23,39 +23,45 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 }
 
 bool BatteryStateOfChargeService::isCharging() const
-// returns true if current is positive
+// returns true if current is negative
 {
-    if (current_ < 0)
+    if (currentCurrent_ < 0)
     {
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 // calculates time (in hours) and returns it in QTime
 {
-    double time;
+    double hours;
     if (isCharging())
     {
-        time = ampHoursUsed_ / current_;
+        hours = ampHoursUsed_ / (currentCurrent_ * -1);
     }
     else
     {
-        time = (BATTERY_AMP_HOUR_CAPACITY - ampHoursUsed_) / (current_ * -1);
+        hours = (BATTERY_AMP_HOUR_CAPACITY - ampHoursUsed_) / currentCurrent_;
     }
 
     QTime nullTime(0, 0);
-    QTime clockTime = nullTime.addMSecs(time * MS_PER_HOUR);
+    QTime clockTime = nullTime.addMSecs(hours * MS_PER_HOUR);
     return clockTime;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 // update ampHoursUsed, time and current
 {
+    double previousCurrent = currentCurrent_;
+    currentCurrent_ = batteryData.current;
+
+    QTime previousTime = currentTime_;
+    currentTime_ = batteryData.time;
+
     double timeDiff;
-    if (!time_.isValid())
+    if (!currentTime_.isValid())
     {
         timeDiff = 0;
     }
@@ -63,10 +69,8 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     {
         // calculates difference between previous time and current time in ms
         // divide by MS_PER_HOUR to get difference in hours
-        timeDiff = (double)time_.msecsTo(batteryData.time) / MS_PER_HOUR;
+        timeDiff = (double)previousTime.msecsTo(currentTime_) / MS_PER_HOUR;
     }
 
-    ampHoursUsed_ += ((current_ + batteryData.current) / 2) * timeDiff;
-    time_ = batteryData.time;
-    current_ = batteryData.current;
+    ampHoursUsed_ += ((previousCurrent + currentCurrent_) / 2) * timeDiff;
 }
