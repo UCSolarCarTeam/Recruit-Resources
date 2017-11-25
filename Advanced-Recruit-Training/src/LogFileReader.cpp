@@ -76,15 +76,10 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     batteryData.current = sections.at(2).toDouble(&currentCheck);
 
 
-    if (!batteryData.time.isValid())
+    if (!batteryData.time.isValid() || !voltageCheck || !currentCheck)
     {
         return false;
     }
 
-    if (voltageCheck == true && currentCheck == true )
-    {
-        return true;
-    }
-
-    return false;
+    return true;
 }

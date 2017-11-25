@@ -11,11 +11,11 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent),
-  current_(0),
-  totalAmpHoursUsed_(0),
-  checkStart_(true),
-  timeDiff_(0)
+: initialStateOfChargePercent_(initialStateOfChargePercent)
+, previousCurrent_(0)
+, totalAmpHoursUsed_((initialStateOfChargePercent_ / 100) * BATTERY_AMP_HOUR_CAPACITY)
+, checkStart_(true)
+, timeDiff_(0)
 {
 }
 
@@ -30,7 +30,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-   if (current_ < 0)
+   if (previousCurrent_ < 0)
    {
        return true;
    }
@@ -47,26 +47,20 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData);
-
-
-    if (checkStart_ == true)
+    if (checkStart_)
     {
-        totalAmpHoursUsed_ = (initialStateOfChargePercent_ / 100) * BATTERY_AMP_HOUR_CAPACITY;
+        checkStart_ = false;
     }
-
-    else if (checkStart_ == false)
+    else
     {
-        timeDiff_ = (double)(time_.msecsTo(batteryData.time) * MSECONDS_TO_HOURS_CONVERSION);
-        double currentAverage = (batteryData.current + current_) / 2;
+        timeDiff_ = (double)(previousTime_.msecsTo(batteryData.time)) * MSECONDS_TO_HOURS_CONVERSION;
+        double currentAverage = (batteryData.current + previousCurrent_) / 2;
         totalAmpHoursUsed_ += currentAverage * timeDiff_;
     }
 
-    time_ = batteryData.time;
+    previousTime_ = batteryData.time;
 
-    current_ = batteryData.current;
-
-    checkStart_ = false;
+    previousCurrent_ = batteryData.current;
 
     // The section below is for calculating the time it takes to charge or deplete
     int mSeconds;
@@ -74,12 +68,12 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 
     if (isCharging())
     {
-       mSeconds = (totalAmpHoursUsed_ / qAbs(current_)) * HOURS_TO_MSECONDS_CONVERSION;
+       mSeconds = (totalAmpHoursUsed_ / qAbs(previousCurrent_)) * HOURS_TO_MSECONDS_CONVERSION;
        timeWhenChargedOrDepleted_ = timeWhenChargedOrDepleted_.addMSecs(mSeconds);
     }
     else
     {
-        mSeconds = ((BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed_) / current_) * HOURS_TO_MSECONDS_CONVERSION;
+        mSeconds = ((BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed_) / previousCurrent_) * HOURS_TO_MSECONDS_CONVERSION;
         timeWhenChargedOrDepleted_ = timeWhenChargedOrDepleted_.addMSecs(mSeconds);
     }
 }
