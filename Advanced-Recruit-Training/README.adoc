@@ -1,3 +1,4 @@
+Justin Hung
 = U of C Solar Car Advanced Recruit Training
 
 Intro project to learn C++ and QT

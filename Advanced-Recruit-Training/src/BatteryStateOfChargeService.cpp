@@ -1,12 +1,21 @@
 #include "BatteryStateOfChargeService.h"
+#include "BatteryData.h"
+#include <QTextStream>
+#include <QTime>
 
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const int HOURS_TO_MSECONDS_CONVERSION = 3600000;
+    const double MSECONDS_TO_HOURS_CONVERSION = 0.000000278;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
+, previousCurrent_(0)
+, totalAmpHoursUsed_((initialStateOfChargePercent_ / 100) * BATTERY_AMP_HOUR_CAPACITY)
+, checkStart_(true)
+, timeDiff_(0)
 {
 }
 
@@ -16,23 +25,56 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return 0.0;
+    return totalAmpHoursUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return false;
+   if (previousCurrent_ < 0)
+   {
+       return true;
+   }
+   else
+   {
+       return false;
+   }
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return QTime::currentTime();
+    return timeWhenChargedOrDepleted_;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData);
-    // This is where you can update your variables
-    // Hint: There are many different ways that the totalAmpHoursUsed can be updated
-    // i.e: Taking a running average of your data values, using most recent data points, etc.
+    if (checkStart_)
+    {
+        checkStart_ = false;
+    }
+    else
+    {
+        timeDiff_ = (double)(previousTime_.msecsTo(batteryData.time)) * MSECONDS_TO_HOURS_CONVERSION;
+        double currentAverage = (batteryData.current + previousCurrent_) / 2;
+        totalAmpHoursUsed_ += currentAverage * timeDiff_;
+    }
+
+    previousTime_ = batteryData.time;
+
+    previousCurrent_ = batteryData.current;
+
+    // The section below is for calculating the time it takes to charge or deplete
+    int mSeconds;
+    timeWhenChargedOrDepleted_.setHMS(0,0,0,0);
+
+    if (isCharging())
+    {
+       mSeconds = (totalAmpHoursUsed_ / qAbs(previousCurrent_)) * HOURS_TO_MSECONDS_CONVERSION;
+       timeWhenChargedOrDepleted_ = timeWhenChargedOrDepleted_.addMSecs(mSeconds);
+    }
+    else
+    {
+        mSeconds = ((BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed_) / previousCurrent_) * HOURS_TO_MSECONDS_CONVERSION;
+        timeWhenChargedOrDepleted_ = timeWhenChargedOrDepleted_.addMSecs(mSeconds);
+    }
 }
+
