@@ -28,7 +28,7 @@ private:
     double voltage_;
     double current_;
     double hour_;
-    double ampHour_;
+    double totalAmpHour_;
     double averageCurrent_;
     double counter_;
     double initalAmpHour_;
