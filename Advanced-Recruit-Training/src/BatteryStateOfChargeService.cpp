@@ -39,7 +39,7 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     double hours;
     if (isCharging())
     {
-        hours = ampHoursUsed_ / (currentCurrent_ * -1);
+        hours = ampHoursUsed_ / qAbs(currentCurrent_);
     }
     else
     {
