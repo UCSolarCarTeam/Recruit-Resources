@@ -7,9 +7,6 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
-    const double MS_TO_HOURS = 3600000.0;
-    const double S_TO_HOURS = 3600.0;
-    const double HOUR_TO_M = 60.0;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -28,13 +25,14 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
 
-    return totalAmpHour_;
+    return ampHour_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
 
     if(current_<0){
+
         return true;
     }
     return false;
@@ -44,13 +42,13 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {    QTime charging;
      charging.setHMS(0,0,0,0);
 
-    if(isCharging()){
-    charging= charging.addMSecs(qAbs(totalAmpHour_/current_*MS_TO_HOURS));
+    if(isCharging()==true){
+    charging= charging.addMSecs(qAbs(ampHour_/current_*3600000));
 
      return charging;
     }
 
-   charging = charging.addMSecs(qAbs(( BATTERY_AMP_HOUR_CAPACITY-totalAmpHour_)/current_*MS_TO_HOURS));
+   charging = charging.addMSecs(qAbs(( BATTERY_AMP_HOUR_CAPACITY-ampHour_)/current_*3600000));
     return charging;
 }
 
@@ -61,10 +59,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     voltage_ = batteryData.voltage;
     current_ = batteryData.current;
 
-    hour_= batteryData.time.hour()
-            +batteryData.time.minute()/HOUR_TO_M
-            +batteryData.time.second()/S_TO_HOURS
-            +batteryData.time.msec()/MS_TO_HOURS;
+    hour_= batteryData.time.hour()+batteryData.time.minute()/60.0+batteryData.time.second()/3600.0+batteryData.time.msec()/3600000.0;
     //using running average of current to calculate amp hours
     if(counter_==0){    //the first hour read is stored in prevhour
     prevHour_=hour_;
@@ -72,5 +67,5 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 
     counter_++;
     averageCurrent_ =(averageCurrent_*(counter_-1.0)+current_)/counter_;
-    totalAmpHour_=initalAmpHour_+averageCurrent_*(hour_-prevHour_);
+    ampHour_=initalAmpHour_+averageCurrent_*(hour_-prevHour_);
 }
