@@ -61,20 +61,15 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
         return false;
     }
 
-    // time must be hh:mm:ss:zzz format
+    // check if time, voltage and current is valid
     QString timeString = sections.at(0);
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
-    if (!batteryData.time.isValid())
-    {
-        return false;
-    }
-
-    // if voltage or current not converted to double, ok boolean set to false
     bool voltageIsValid;
     bool currentIsValid;
     batteryData.voltage = sections.at(1).toDouble(&voltageIsValid);
     batteryData.current = sections.at(2).toDouble(&currentIsValid);
-    if (!voltageIsValid || !currentIsValid)
+
+    if (!batteryData.time.isValid() || !voltageIsValid || !currentIsValid)
     {
         return false;
     }

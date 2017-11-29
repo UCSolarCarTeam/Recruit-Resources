@@ -8,8 +8,9 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent), currentCurrent_(0),
-  ampHoursUsed_(BATTERY_AMP_HOUR_CAPACITY * (1 - (initialStateOfChargePercent_ / 100)))
+: initialStateOfChargePercent_(initialStateOfChargePercent)
+, currentCurrent_(0)
+, ampHoursUsed_(BATTERY_AMP_HOUR_CAPACITY * (1 - (initialStateOfChargePercent_ / 100)))
 {
 }
 
