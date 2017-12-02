@@ -9,7 +9,7 @@ sudo apt-get -qq update
 sudo apt-get -q --yes  install cmake software-properties-common build-essential mesa-common-dev libgl1-mesa-dev git-all gitk sublime-text-installer neovim putty
 sudo cp init.vim ~/.config/nvim/
 
-sudo apt-get -q -o Dpkg::Options::="--force-condef" -o Dpkg::Options::="--force-confold" --yes --force-yes upgrade
+#sudo apt-get -q -o Dpkg::Options::="--force-condef" -o Dpkg::Options::="--force-confold" --yes --force-yes upgrade
 
 echo "Installing Git Repositores in ~/Documents/SolarCar"
 mkdir -p ~/Documents/SolarCar
@@ -19,11 +19,11 @@ git clone https://github.com/UCSolarCarTeam/Epsilon-Dashboard.git
 git clone https://github.com/UCSolarCarTeam/Epsilon-Raspberry.git
 git clone https://github.com/UCSolarCarTeam/Epsilon-Onboard-Media-Control.git
 git clone https://github.com/UCSolarCarTeam/Epsilon-Embedded-Software.git
-git clone https://github.com/UCSolarCarTeam/Recruit-Resources.git  #
-git clone https://github.com/UCSolarCarTeam/Epsilon-Hermes.git  #
-git clone https://github.com/UCSolarCarTeam/Epsilon-Telemetry-Test-Tool.git  #
-git clone https://github.com/UCSolarCarTeam/BackupCamera.git  #
-git clone https://github.com/UCSolarCarTeam/Epsilon-Telemetry-Server.git  #
+git clone https://github.com/UCSolarCarTeam/Recruit-Resources.git
+git clone https://github.com/UCSolarCarTeam/Epsilon-Hermes.git
+git clone https://github.com/UCSolarCarTeam/Epsilon-Telemetry-Test-Tool.git
+git clone https://github.com/UCSolarCarTeam/BackupCamera.git
+git clone https://github.com/UCSolarCarTeam/Epsilon-Telemetry-Server.git
 
 (cd ~/Documents/SolarCar/Epsilon-OnBoard-Media-Control/
 sudo chmod 755 make-all
