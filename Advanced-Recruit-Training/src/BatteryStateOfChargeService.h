@@ -26,6 +26,6 @@ private:
     const double initialStateOfChargePercent_;
 
     // Add your necessary variables here
-    BatteryData lastPoint;
+    BatteryData lastDataPoint_;
     double remainingAmphours_;
 };

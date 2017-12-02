@@ -59,7 +59,17 @@ bool LogFileReader::readAll(const QString& fileName)
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     { // check for exact format "hh:mm:ss.zzz, voltage, current"
-        QRegExp rxItem("(^([0-1]\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d\\d\\d, \\d+\\.\\d+, (-\\d|\\d)+\\.\\d+$)");
+        // time must be hh:mm:ss.zzz
+        QString regexHour = "([0-1]\\d|2[0-3])", regexMinSec = "[0-5]\\d", regexMSec = "\\d+";
+        QString regexTime = regexHour + ":" + regexMinSec + ":" + regexMinSec + "\\." + regexMSec;
+
+        // voltage must be a positive number, current can be any number
+        QString regexVoltage = "\\d+.\\d+", regexCurrent = "(-\\d|\\d)+\\.\\d+";
+
+        // putting it all together
+        QString regexItem = QString("(^%1, %2, %3$)").arg(regexTime, regexVoltage, regexCurrent);
+
+        QRegExp rxItem(regexItem);
         if (rxItem.indexIn(line) == -1) {
             return false;
         }
