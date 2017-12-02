@@ -4,7 +4,14 @@ sudo chmod +x qt-installer-noninteractive.qs
 sudo chmod +x init.vim
 
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
-sudo add-apt-repository -y ppa:webupd8team/sublime-text-3 #UPDATE TO NEWER VERSION
+#sudo add-apt-repository -y ppa:webupd8team/sublime-text-3 #UPDATE TO NEWER VERSION
+
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+sudo apt-get install apt-transport-https
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update
+sudo apt-get install sublime-text
+
 sudo apt-get -qq update
 sudo apt-get -q --yes  install cmake software-properties-common build-essential mesa-common-dev libgl1-mesa-dev git-all gitk sublime-text-installer neovim putty
 sudo cp init.vim ~/.config/nvim/
