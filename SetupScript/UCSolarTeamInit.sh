@@ -4,12 +4,12 @@ sudo chmod +x qt-installer-noninteractive.qs
 sudo chmod +x init.vim
 
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
-sudo add-apt-repository -y ppa:webupd8team/sublime-text-3
+sudo add-apt-repository -y ppa:webupd8team/sublime-text-3 #UPDATE TO NEWER VERSION
 sudo apt-get -qq update
 sudo apt-get -q --yes  install cmake software-properties-common build-essential mesa-common-dev libgl1-mesa-dev git-all gitk sublime-text-installer neovim putty
 sudo cp init.vim ~/.config/nvim/
 
-#sudo apt-get -q -o Dpkg::Options::="--force-condef" -o Dpkg::Options::="--force-confold" --yes --force-yes upgrade
+sudo apt-get -q -o Dpkg::Options::="--confdef" -o Dpkg::Options::="--confold" --yes --force-yes upgrade
 
 echo "Installing Git Repositores in ~/Documents/SolarCar"
 mkdir -p ~/Documents/SolarCar
