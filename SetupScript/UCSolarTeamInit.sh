@@ -19,11 +19,11 @@ git clone https://github.com/UCSolarCarTeam/Epsilon-Dashboard.git
 git clone https://github.com/UCSolarCarTeam/Epsilon-Raspberry.git
 git clone https://github.com/UCSolarCarTeam/Epsilon-Onboard-Media-Control.git
 git clone https://github.com/UCSolarCarTeam/Epsilon-Embedded-Software.git
-git clone https://github.com/UCSolarCarTeam/Recruit-Resources.git
-git clone https://github.com/UCSolarCarTeam/Epsilon-Hermes.git
-git clone https://github.com/UCSolarCarTeam/Epsilon-Telemetry-Test-Tool.git
-git clone https://github.com/UCSolarCarTeam/BackupCamera.git
-git clone https://github.com/UCSolarCarTeam/Epsilon-Telemetry-Server.git
+git clone https://github.com/UCSolarCarTeam/Recruit-Resources.git  #
+git clone https://github.com/UCSolarCarTeam/Epsilon-Hermes.git  #
+git clone https://github.com/UCSolarCarTeam/Epsilon-Telemetry-Test-Tool.git  #
+git clone https://github.com/UCSolarCarTeam/BackupCamera.git  #
+git clone https://github.com/UCSolarCarTeam/Epsilon-Telemetry-Server.git  #
 
 (cd ~/Documents/SolarCar/Epsilon-OnBoard-Media-Control/
 sudo chmod 755 make-all

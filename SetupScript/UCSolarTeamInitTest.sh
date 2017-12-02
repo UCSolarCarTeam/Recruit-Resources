@@ -8,50 +8,38 @@ nvim --version
 qmake --version
 go version)
 
-echo "Testing Delta-Telemetry-Test-Tool"
-(cd ~/Documents/SolarCar/Delta-Telemetry-Test-Tool/src
+echo "Testing Epsilon-Telemetry-Test-Tool"
+(cd ~/Documents/SolarCar/Epsilon-Telemetry-Test-Tool
 qmake 
 make)
 
-echo "Testing Epsilon-Embedded-Test-Tool"
-(cd ~/Documents/SolarCar/Epsilon-Embedded-Test-Tool/EmVer/
-chmod +x emverTest.sh
-./emverTest.sh)
+echo "Testing Epsilon-Dashboard"
+(cd ~/Documents/SolarCar/Epsilon-Dashboard
+qmake 
+make)
 
 echo "Testing Epsilon-Onboard-Media-Control"
 (cd ~/Documents/SolarCar/Epsilon-Onboard-Media-Control/
 make)
 
-(cd ~/Documents/SolarCar/
-sudo ./make-all)
-
-echo "Testing Delta-Hermes"
-(cd ~/Documents/SolarCar/DeltaHermes/Delta-Hermes/
-qmake
-make)
-
-(cd ~/Documents/SolarCar/DeltaHermes/Delta-Hermes/Tests/
+echo "Testing Recruit-Resources"
+(cd ~/Documents/SolarCar/Recruit-Resources/Advanced-Training/src
 qmake
 make)
 
 echo "Testing Epsilon-Hermes"
-(cd ~/Documents/SolarCar/EpsilonHermes/Epsilon-Hermes/
+(cd ~/Documents/SolarCar/Epsilon-Hermes/
 qmake
 make)
 
-(cd ~/Documents/SolarCar/EpsilonHermes/Epsilon-Hermes/Tests/
+(cd ~/Documents/SolarCar/Epsilon-Hermes/Tests/
 qmake 
 make)
 
-echo "Testing Delta-Desktop-Client-Telemetry"
-(cd ~/Documents/SolarCar/DeltaDesktopClientTelemetry/Delta-Desktop-Client-Telemetry/
-qmake
-make)
-
 echo "Testing BackupCamera"
-(cd ~/Documents/SolarCar/BackupCamera/Backup-Camera/
+(cd ~/Documents/SolarCar/BackupCamera/src
 make)
 
-echo "Testing Delta-Telemetry-Server"
-(cd ~/Documents/SolarCar/DeltaTelemetryServer/Delta-Telemetry-Server/
+echo "Testing Epsilon-Telemetry-Server"
+(cd ~/Documents/SolarCar/Epsilon-Telemetry-Server/
 go build)
