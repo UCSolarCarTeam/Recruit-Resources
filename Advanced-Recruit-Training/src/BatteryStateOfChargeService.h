@@ -1,7 +1,6 @@
 #pragma once
 
 #include "I_BatteryStateOfChargeService.h"
-#include "BatteryData.h"
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
 public:

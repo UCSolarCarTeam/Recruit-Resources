@@ -1,7 +1,5 @@
 #include "BatteryStateOfChargeService.h"
-#include <QFile>
-#include <QString>
-#include <QTextStream>
+#include "BatteryData.h"
 
 namespace
 {
@@ -42,19 +40,20 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     QTime timeTochargedOrDepleted(0,0,0,0);
-    double time;
 
     if(isCharging())
     {
-     time = totalAmpHour_/current_;
-     time *= MILLISECONDS_TO_HOURS;
-     timeTochargedOrDepleted = timeTochargedOrDepleted.addMSecs(qAbs(time));
+     double timeToCharge;
+     timeToCharge = totalAmpHour_ / current_;
+     timeToCharge *= MILLISECONDS_TO_HOURS;
+     timeTochargedOrDepleted = timeTochargedOrDepleted.addMSecs(qAbs(timeToCharge));
+
      return timeTochargedOrDepleted;
     }
-    time = BATTERY_AMP_HOUR_CAPACITY-totalAmpHour_;
-    time /= current_;
-    time *= MILLISECONDS_TO_HOURS;
-    timeTochargedOrDepleted = timeTochargedOrDepleted.addMSecs(qAbs(time));
+    double timeToDepletion;
+    timeToDepletion = (BATTERY_AMP_HOUR_CAPACITY-totalAmpHour_) / current_;
+    timeToDepletion *= MILLISECONDS_TO_HOURS;
+    timeTochargedOrDepleted = timeTochargedOrDepleted.addMSecs(qAbs(timeToDepletion));
 
     return timeTochargedOrDepleted;
 }
