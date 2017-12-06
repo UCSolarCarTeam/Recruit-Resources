@@ -31,7 +31,8 @@ private:
     double totalAmpHour_;
     double averageCurrent_;
     double counter_;
-    double initalAmpHour_;
+    double initialAmpHour_;
     double prevHour_;
+    bool isFirstTime_;
 
 };
