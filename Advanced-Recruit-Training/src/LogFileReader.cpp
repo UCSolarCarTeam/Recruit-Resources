@@ -80,6 +80,5 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
        return false;
     }
 
-
     return true;
 }
