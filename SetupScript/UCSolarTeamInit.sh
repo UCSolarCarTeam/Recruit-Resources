@@ -12,7 +12,7 @@ echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sou
 sudo apt-get update
 sudo apt-get install sublime-text
 
-sudo apt-get -qq update
+#sudo apt-get -qq update
 sudo apt-get -q --yes  install cmake software-properties-common build-essential mesa-common-dev libgl1-mesa-dev git-all gitk sublime-text-installer neovim putty
 sudo cp init.vim ~/.config/nvim/
 
@@ -56,15 +56,15 @@ echo "Installing QT into Home/Qt/"
 (sudo mkdir /etc/xdg/qtchooser
 sudo cp default.conf /etc/xdg/qtchooser/)
 
-(cd /tmp/solarcar/
-echo "Installing QWT Plot in /usr/local"
-sudo wget -q https://downloads.sourceforge.net/project/qwt/qwt/6.1.3/qwt-6.1.3.tar.bz2
-sudo tar -xvf  qwt-6.1.3.tar.bz2
-sudo mv qwt-6.1.3/ /usr/local/
-cd /usr/local/qwt-6.1.3/
-$HOME/Qt/5.5/gcc_64/bin/qmake qwt.pro
-sudo make
-sudo make install)
+#(cd /tmp/solarcar/
+#echo "Installing QWT Plot in /usr/local"
+#sudo wget -q https://downloads.sourceforge.net/project/qwt/qwt/6.1.3/qwt-6.1.3.tar.bz2
+#sudo tar -xvf  qwt-6.1.3.tar.bz2
+#sudo mv qwt-6.1.3/ /usr/local/
+#cd /usr/local/qwt-6.1.3/
+#$HOME/Qt/5.5/gcc_64/bin/qmake qwt.pro
+#sudo make
+#sudo make install)
 
 (cd /tmp/solarcar/
 echo "Installing golang in /usr/local"
