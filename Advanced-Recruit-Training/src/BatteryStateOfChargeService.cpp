@@ -5,12 +5,13 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double MS_IN_HOUR = 3600000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
-    ampHoursUsed_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent;
+    ampHoursUsed_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / 100;
 }
 
 // Empty since children will be destroyed
@@ -20,7 +21,7 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return BATTERY_AMP_HOUR_CAPACITY - ampHoursUsed_;
+    return ampHoursUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
@@ -35,14 +36,15 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     double hoursTillChargedOrDepleted;
+    QTime msDuration(0,0,0,0);
 
-    hoursTillChargedOrDepleted = ampHoursUsed_ / dataPoint_.current;
     if (isCharging()) {
-       hoursTillChargedOrDepleted *= -1;
+        hoursTillChargedOrDepleted = ampHoursUsed_ / dataPoint_.current * -1;
+    } else {
+        hoursTillChargedOrDepleted = (BATTERY_AMP_HOUR_CAPACITY - ampHoursUsed_) / dataPoint_.current;
     }
 
-    QTime msDuration;
-    msDuration.addMSecs(hoursTillChargedOrDepleted * 3600000);
+    msDuration = msDuration.addMSecs(hoursTillChargedOrDepleted * MS_IN_HOUR);
     return msDuration;
 }
 
@@ -53,9 +55,9 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     // Hint: There are many different ways that the totalAmpHoursUsed can be updated
     // i.e: Taking a running average of your data values, using most recent data points, etc.
 
-    double averageCurrent = dataPoint_.current + batteryData.current / 2;
-    double timeDifferenceHours = dataPoint_.time.msecsTo(batteryData.time) / 3600000;
-    ampHoursUsed_ = averageCurrent * timeDifferenceHours;
+    double averageCurrent = (dataPoint_.current + batteryData.current) / 2;
+    double timeDifferenceHours = (double) dataPoint_.time.msecsTo(batteryData.time) / MS_IN_HOUR;
+    ampHoursUsed_ += averageCurrent * timeDifferenceHours;
 
-    dataPoint = batteryData;
+    dataPoint_ = batteryData;
 }
