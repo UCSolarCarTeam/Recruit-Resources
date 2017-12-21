@@ -1,5 +1,4 @@
 #include "BatteryStateOfChargeService.h"
-#include <QDebug>
 #include "BatteryData.h"
 
 namespace
