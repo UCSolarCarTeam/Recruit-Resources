@@ -25,7 +25,8 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if (dataPoint_.current < 0) {
+    if (dataPoint_.current < 0)
+    {
        return true;
     }
     return false;
@@ -34,26 +35,21 @@ bool BatteryStateOfChargeService::isCharging() const
 // Amphours used divided by current or remaining amphours divided by current
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    double hoursTillChargedOrDepleted;
-    QTime msDuration(0,0,0,0);
+    double msDuration;
+    QTime hoursTillChargedOrDepleted(0, 0, 0, 0);
 
     if (isCharging()) {
-        hoursTillChargedOrDepleted = ampHoursUsed_ / dataPoint_.current * -1;
+        msDuration = ampHoursUsed_ / qAbs(dataPoint_.current);
     } else {
-        hoursTillChargedOrDepleted = (BATTERY_AMP_HOUR_CAPACITY - ampHoursUsed_) / dataPoint_.current;
+        msDuration = (BATTERY_AMP_HOUR_CAPACITY - ampHoursUsed_) / dataPoint_.current;
     }
 
-    msDuration = msDuration.addMSecs(hoursTillChargedOrDepleted * MS_IN_HOUR);
-    return msDuration;
+    hoursTillChargedOrDepleted = hoursTillChargedOrDepleted.addMSecs(msDuration * MS_IN_HOUR);
+    return hoursTillChargedOrDepleted;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData);
-    // This is where you can update your variables
-    // Hint: There are many different ways that the totalAmpHoursUsed can be updated
-    // i.e: Taking a running average of your data values, using most recent data points, etc.
-
     double averageCurrent = (dataPoint_.current + batteryData.current) / 2;
     double timeDifferenceHours = (double) dataPoint_.time.msecsTo(batteryData.time) / MS_IN_HOUR;
     ampHoursUsed_ += averageCurrent * timeDifferenceHours;
