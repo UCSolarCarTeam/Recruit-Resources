@@ -34,7 +34,8 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
         QTextStream(stdout) << "Time till fully charged: "
                             << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz")
                             << endl;
-    } else
+    }
+    else
     {
         QTextStream(stdout) << "Time till fully depleted: "
                             << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz")
