@@ -25,7 +25,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if (previous_data_point.current < 0)
+    if (previousDataPoint_.current < 0)
     {
        return true;
     }
@@ -40,11 +40,11 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
     if (isCharging())
     {
-        msDuration = ampHoursUsed_ / qAbs(previous_data_point.current);
+        msDuration = ampHoursUsed_ / qAbs(previousDataPoint_.current);
     }
     else
     {
-        msDuration = (BATTERY_AMP_HOUR_CAPACITY - ampHoursUsed_) / previous_data_point.current;
+        msDuration = (BATTERY_AMP_HOUR_CAPACITY - ampHoursUsed_) / previousDataPoint_.current;
     }
 
     hoursTillChargedOrDepleted = hoursTillChargedOrDepleted.addMSecs(msDuration * MS_IN_HOUR);
@@ -53,9 +53,9 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    double averageCurrent = (previous_data_point.current + batteryData.current) / 2;
-    double timeDifferenceHours = (double) previous_data_point.time.msecsTo(batteryData.time) / MS_IN_HOUR;
+    double averageCurrent = (previousDataPoint_.current + batteryData.current) / 2;
+    double timeDifferenceHours = (double) previousDataPoint_.time.msecsTo(batteryData.time) / MS_IN_HOUR;
     ampHoursUsed_ += averageCurrent * timeDifferenceHours;
 
-    previous_data_point = batteryData;
+    previousDataPoint_ = batteryData;
 }

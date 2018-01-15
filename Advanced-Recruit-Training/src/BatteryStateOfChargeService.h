@@ -25,5 +25,5 @@ private:
     const double initialStateOfChargePercent_;
 
     double ampHoursUsed_;
-    BatteryData previous_data_point;
+    BatteryData previousDataPoint_;
 };
