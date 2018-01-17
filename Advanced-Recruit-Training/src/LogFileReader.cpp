@@ -58,21 +58,22 @@ bool LogFileReader::readAll(const QString& fileName)
  * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    { // check for exact format "hh:mm:ss.zzz, voltage, current"
-        // time must be hh:mm:ss.zzz
-        QString regexHour = "([0-1]\\d|2[0-3])", regexMinSec = "[0-5]\\d", regexMSec = "\\d+";
-        QString regexTime = regexHour + ":" + regexMinSec + ":" + regexMinSec + "\\." + regexMSec;
+    // check for exact format "hh:mm:ss.zzz, voltage, current"
+    // time must be hh:mm:ss.zzz
+    static const QString regexHour = "([0-1]\\d|2[0-3])";
+    static const QString regexMinSec = "[0-5]\\d";
+    static const QString regexMSec = "\\d+";
+    static const QString regexTime = regexHour + ":" + regexMinSec + ":" + regexMinSec + "\\." + regexMSec;
 
-        // voltage must be a positive number, current can be any number
-        QString regexVoltage = "\\d+.\\d+", regexCurrent = "(-\\d|\\d)+\\.\\d+";
+    // voltage must be a positive number, current can be any number
+    static const QString regexVoltage = "\\d+.\\d+";
+    static const QString regexCurrent = "(-\\d|\\d)+\\.\\d+";
 
-        // putting it all together
-        QString regexItem = QString("(^%1, %2, %3$)").arg(regexTime, regexVoltage, regexCurrent);
-
-        QRegExp rxItem(regexItem);
-        if (rxItem.indexIn(line) == -1) {
-            return false;
-        }
+    // putting it all together
+    static const QString regexItem = QString("(^%1, %2, %3$)").arg(regexTime, regexVoltage, regexCurrent);
+    static const QRegExp rxItem(regexItem);
+    if (rxItem.indexIn(line) == -1) {
+        return false;
     }
 
     QStringList sections = line.split(BATDATA_DELIMITER);
