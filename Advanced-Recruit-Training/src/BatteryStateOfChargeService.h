@@ -24,5 +24,11 @@ private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
 
-    // Add your necessary variables here
+    double amphoursUsed;
+    double previousCurrent;
+    double averageCurrent;
+    bool check1;
+
+    QTime previousTime;
+
 };

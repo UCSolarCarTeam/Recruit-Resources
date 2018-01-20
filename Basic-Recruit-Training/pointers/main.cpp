@@ -9,6 +9,7 @@ In the function MySwap you will swap the values of the two arguments so the valu
 
 using namespace std;
 
+void My_swap(int *a, int *b);
 void foo(int *a, int b);
 void bar(int *a, int b);
 
@@ -17,31 +18,40 @@ int main()
     int x = 3;
     int y = 4;
     int *p = &x;
+    int *b1 = &y;
 
-    //TODO in the line below predict what what is going to be output
-    cout << "Predicted value of p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    // p stores the address of x, which x equals "3".
+    //cout << "Predicted value of p: "   /*memory location of x=3*/ << endl;
     cout << "Actual value of p: " << p << endl;
-    cout << "Predicted value &x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    //cout << "Predicted value &x:  " /*memory location of x=3*/ << endl;
     cout << "Actual value &x: " << &x << endl;
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+   // cout << "Predicted value of *p: " /* 3*/ << endl;
     cout << "Actual value of *p: " << *p << endl;
-    
+    cout << "Actual value x: " << x << endl;
+
     foo(p, x);
-    
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+        cout << "Actual value x: " << x << endl;
+
+
+
+    //cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    //cout << "Predicted value of x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of x: " << x << endl;
     foo(p, y);
 
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    //cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of y: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    //cout << "Predicted value of y: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of y: " << y << endl;
 
 
+   My_swap (p, b1);
+   cout <<"Actual value for p after swap is :"<<*p<<endl;
+   cout <<"Actual value for y after swap is :"<<*b1<<endl;
+
     //start writing MySwap here
-    
+
     return 0;
 }
 
@@ -49,7 +59,14 @@ int main()
 {
    *a = 42;
    b = 78;
+
 }
+
+void My_swap(int *a, int *b){
+    int temp = *a; // print *a = nubmer
+      *a     = *b;
+      *b = temp;  //b is storing the address of temp
+    }
 
 void var(int *a, int b)
 {
