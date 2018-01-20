@@ -4,6 +4,7 @@ This script initializes a Linux Mint Machine for UCSolarCarTeam members. Any deb
 ##Dependencies
 - Qt 5.5  
   * This is the framework that the team uses for most projects. 
+    Using a script to install doesn't link to applications. To install Qt, go to https://www.qt.io/download and download the opensource version. During installation,you only need to install Qt 5.5, Desktop gcc 64-bit and the tools.
    
 - QwtPlot in /usr/local/  
   * Provides lots of GUI Components that can be used for plotting graphs, etc.   
