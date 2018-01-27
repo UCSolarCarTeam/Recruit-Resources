@@ -27,6 +27,7 @@ private:
     double amphoursUsed;
     double previousCurrent;
     double averageCurrent;
+    double current;
     bool check1;
 
     QTime previousTime;

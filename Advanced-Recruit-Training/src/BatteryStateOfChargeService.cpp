@@ -1,7 +1,6 @@
 #include "BatteryData.h"
 #include "BatteryStateOfChargeService.h"
-#include <QTextStream>
-#include <QDebug>
+
 
 
 namespace
@@ -14,6 +13,7 @@ BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfCh
 , amphoursUsed(0)
 , previousCurrent(0)
 , averageCurrent(0)
+,current(0)
 ,check1(false)
 
 {
@@ -32,9 +32,11 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-if(averageCurrent<0){
+if(current<0)
+{
     return true;
-}else
+}
+else
 {return false;}
 
 }
@@ -46,15 +48,12 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     double timeUntilDepletion;
 
    QTime charged  (0,0,0,0);
-   timeUntilCharged= (amphoursUsed/averageCurrent)*3600*1000;
+   timeUntilCharged= (amphoursUsed / current)*(3600 * 1000);
 
    charged = charged.addMSecs(timeUntilCharged);
-
-
-
    QTime depletion (0,0,0,0);
-   timeUntilDepletion=((BATTERY_AMP_HOUR_CAPACITY-amphoursUsed)*3600000)/averageCurrent;
-   depletion = depletion.addMSecs(timeUntilDepletion);
+   timeUntilDepletion=((BATTERY_AMP_HOUR_CAPACITY-amphoursUsed)*3600000)/current;
+   depletion = depletion.addMSecs(qAbs(timeUntilDepletion));
 
    if (isCharging()==true){
         return charged;
@@ -62,27 +61,20 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
         return depletion;
     }
 
-
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
-{
-
-
-
-
-
-
-
-
+     {
      double initialAmountOfAmphours = (initialStateOfChargePercent_/100) * BATTERY_AMP_HOUR_CAPACITY;
-
-    if(check1)
-    {
+     current = batteryData.current;
+     if(check1)
+     {
     averageCurrent = (batteryData.current+previousCurrent)/2;
+
     double timeIntervel = (double)previousTime.msecsTo(batteryData.time);
     double hours = timeIntervel/3600000;
     amphoursUsed += averageCurrent * hours;
+
 
 
     }
