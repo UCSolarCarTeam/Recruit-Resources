@@ -35,15 +35,14 @@ int main(int argc, char *argv[])
         parser.showHelp();
         return -1;
     }
-    double initialStateOfCharge = initialStateOfChargeString.toDouble();
+        double initialStateOfCharge = initialStateOfChargeString.toDouble();
+        LogFileReader logFileReader;
+        BatteryStateOfChargeService batteryStateOfChargeService(initialStateOfCharge);
+        BatteryStateDisplayService batteryStateOfChargeDisplayService(logFileReader, batteryStateOfChargeService);
 
-    LogFileReader logFileReader;
-    BatteryStateOfChargeService batteryStateOfChargeService(initialStateOfCharge);
-    BatteryStateDisplayService batteryStateOfChargeDisplayService(logFileReader, batteryStateOfChargeService);
+        logFileReader.readAll(filename);
 
-    logFileReader.readAll(filename);
 
-    // Quit the program when it is done.
-    QTimer::singleShot(0, &app, SLOT(quit()));
-    return app.exec();
+       QTimer::singleShot(0, &app, SLOT(quit()));
+        return app.exec();
 };
