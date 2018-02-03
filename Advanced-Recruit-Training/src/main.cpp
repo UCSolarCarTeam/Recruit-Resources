@@ -39,10 +39,7 @@ int main(int argc, char *argv[])
         LogFileReader logFileReader;
         BatteryStateOfChargeService batteryStateOfChargeService(initialStateOfCharge);
         BatteryStateDisplayService batteryStateOfChargeDisplayService(logFileReader, batteryStateOfChargeService);
-
         logFileReader.readAll(filename);
-
-
        QTimer::singleShot(0, &app, SLOT(quit()));
         return app.exec();
 };

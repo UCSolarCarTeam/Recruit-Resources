@@ -3,6 +3,7 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const int magicNumber = 3600000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -11,9 +12,10 @@ BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfCh
 , previousCurrent(0)
 , averageCurrent(0)
 , current(0)
-, Firsttime(false)
+, firstTime(false)
 
 {
+    initialAmountOfAmphours_ = (initialStateOfChargePercent_/100) * BATTERY_AMP_HOUR_CAPACITY;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -43,11 +45,11 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     double timeUntilDepletion;
 
     QTime charged  (0,0,0,0);
-    timeUntilCharged= (amphoursUsed / current)*(3600 * 1000);
+    timeUntilCharged= (amphoursUsed / current)*(magicNumber);
 
     charged = charged.addMSecs(timeUntilCharged);
     QTime depletion (0,0,0,0);
-    timeUntilDepletion=((BATTERY_AMP_HOUR_CAPACITY-amphoursUsed)*3600000)/current;
+    timeUntilDepletion=((BATTERY_AMP_HOUR_CAPACITY-amphoursUsed)*magicNumber)/current;
     depletion = depletion.addMSecs(qAbs(timeUntilDepletion));
 
    if (isCharging()==true){
@@ -59,9 +61,9 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
      {
-        double initialAmountOfAmphours = (initialStateOfChargePercent_/100) * BATTERY_AMP_HOUR_CAPACITY;
+
         current = batteryData.current;
-     if(Firsttime)
+     if(firstTime)
      {
         averageCurrent = (batteryData.current+previousCurrent)/2;
         double timeIntervel = (double)previousTime.msecsTo(batteryData.time);
@@ -70,9 +72,9 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     }
     else
      {
-         amphoursUsed = initialAmountOfAmphours;
+         amphoursUsed = initialAmountOfAmphours_;
      }
-Firsttime =true;
+firstTime =true;
       previousTime=batteryData.time;
       previousCurrent= batteryData.current;
     }
