@@ -28,8 +28,7 @@ private:
     double previousCurrent;
     double averageCurrent;
     double current;
-    bool check1;
-
+    bool Firsttime;
     QTime previousTime;
 
 };

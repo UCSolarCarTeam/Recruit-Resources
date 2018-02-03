@@ -11,7 +11,7 @@ BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfCh
 , previousCurrent(0)
 , averageCurrent(0)
 , current(0)
-, check1(false)
+, Firsttime(false)
 
 {
 }
@@ -61,7 +61,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
      {
         double initialAmountOfAmphours = (initialStateOfChargePercent_/100) * BATTERY_AMP_HOUR_CAPACITY;
         current = batteryData.current;
-     if(check1)
+     if(Firsttime)
      {
         averageCurrent = (batteryData.current+previousCurrent)/2;
         double timeIntervel = (double)previousTime.msecsTo(batteryData.time);
@@ -72,7 +72,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
      {
          amphoursUsed = initialAmountOfAmphours;
      }
-check1 =true;
+Firsttime =true;
       previousTime=batteryData.time;
       previousCurrent= batteryData.current;
     }
