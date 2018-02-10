@@ -1,1 +1,119 @@
 = RabbitMQ
+
+RabbitMQ is a message broker that accepts and forwards messages in the car. One of the pi's in the car will be running hermes which will create a JSON packet from serial data from the imbedded systems.
+A RabbitMQ system is made up of three components:
+
+* The producer
+* The queue
+* The consumer
+
+=== The Producer
+Any program that sends a message with RabbitMQ is considered to be a producer. In our system the primary Raspberry Pi is the producer.
+A producer never sends messages directly to a queue.
+
+=== The Queue
+As messages are sent between applications with RabbitMQ, they are stored in a queue. The queue effectively acts as a large message buffer. Many producers can send messages to a queue, and many consumers can try to receive messages from a single queue.
+
+=== The Consumer
+A program that mostly waits to receive messages.
+
+=== Telemetry Server
+The JSON packet will be sent from the main pi to the telemetry server on the telemetry website where it is stored in a database.
+If there is no wifi that the car can use, the data will instead be sent to the host computer.
+The telemetry server 
+
+
+=== Raspberry Pi
+Both Raspberry Pi's are consumers.
+The secondary pi uses the packets for the debug display.
+The primary pi uses the packet for the dashboard display.
+
+=== Host Computer
+The same host packets that are sent to the telemetry server are also sent to the host computer.
+
+== Sending Messages
+
+=== Declare Exchange
+
+To send a message we first need a socket connection, so we need to specify our IP address, part number, and exchange name.
+
+ipAddress_ is the address of the socket we connecting to, and port_ is its port number.
+For our purposes the exchange name will be HermesExchange.
+In hermes these are specified in the settings interface.
+ipAddress_ and exchangeName_ are of type QString and port_ is of type quint16.
+
+We will be usng the Amqp Client for C++ so be sure to include all of the necessary header files.
+
+To declare an exchange we will need this.
+
+[source,c++]
+----
+do{
+    try
+    {
+        channel_ = AmqpClient::Channel::Create(ipAddress_.toStdString(), port_);
+    }
+    catch(std::exception&)
+    {
+    //handle exceptions
+    }
+while(channel_ == NULL);
+channel_ -> DeclareExchange(exchangeName_.toStdString(), amqpClient::Channel::EXCHANGE_TYPE_FANOUT);
+----
+
+=== Sending A Message
+
+We will be sending messages of type QByteArray.
+First the QByteArray needs to be converted to a usable data packet for the Amqp client.
+We do the conversion on a QByteArray called pkt as follows
+
+[source,c++]
+----
+AmqpClient::BasicMessage::ptr_t mq_msq = AmqpClient::BasicMessage::Create(QTextCodec::codecForMib(106)->toUnicode(pkt).toStdString());
+----
+
+Now we have the packet called mq_msg that will be forwarded as follows.
+
+[source,c++]
+----
+try
+{
+    channel_->BasicPublish(exchangeName_.toStdString(), "", mq_msg);
+}
+catch(exception)
+{
+    //handle exceptions for failed forward or broker connection terminated
+}
+----
+
+If an exception is caught by the broker connection terminating, you should try to set up the channel again.
+
+=== Receiving A Message
+
+We handle the incoming packet as a Json packet. 
+Here is how we use Json objects to handle incoming data
+
+[source,c++]
+----
+QJsonParseError err;
+QJsonObject parsedData = QJsonDocument::fromJson(data, &err).object();
+if(err.error != QJsonParseError::NoError)
+{
+    qDebug() << err.errorString();
+    emit invalidDataReceived();
+}
+else
+{
+    emit dataReceived(parseData);
+}
+----
+
+Next we will need to read the data of the Json packet. 
+For this example we will say that the incoming data is of type QJsonObject& and is for driver controls.
+
+[source,c++]
+----
+QJsonValue value = data.value(JsonFormat::DRIVERCONTROLS);
+----
+
+This will put the data from the packet with the label DRIVERCONTROLS.
