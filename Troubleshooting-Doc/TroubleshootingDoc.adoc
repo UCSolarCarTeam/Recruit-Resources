@@ -1,0 +1,61 @@
+= Schulich Epsilon Software Troubleshooting Document
+
+This document contains a high-level overview of Schulich Epsilon's onboard programs.
+
+== Epsilon-Onboard-Media-Control
+
+=== Overview:
+This program is Schulich Epsilon's onboard media controller.
+The program operates on a raspberry pi and runs a music player that will play songs on the pi inside the car.
+The music player is operated through a touch screen located in the center of the car.
+
+== Epsilon-Dashboard
+=== Overview:
+This program operates Schulich Epsilon's dashboard. 
+It is responsible for displaying all important information regarding the car's systems to the driver. 
+The dashboard program runs on and receives data from the main raspberry pi.
+There are 3 configurations that the dashboard can be run in:
+
+==== Race mode:
+The display mode that is used when the car is racing, the race mode dashboard only occupies one display to conserve power.
+
+==== Display mode:
+The default display mode, shows speed, turn signals etc.
+
+==== Debug mode:
+Display mode used for debugging the dashboard or other systems, it displays all the car's information.
+
+== Epsilon-Embedded-Software
+=== Overview:
+Schulich Epsilon has 4 embedded programs which operate on their respective boards.
+All the boards communicate using the CAN messaging protocol.
+
+==== Epsilon CCS:
+The central communication system for Schulich Epsilon.
+The CCS receives all the CAN messages from the car's embedded systems and converts them into serial data.
+The serial data is then passed on to the main raspberry pi. The CCS is also responsible for controlling the car's horn.
+
+==== EpsilonDriverControls:
+The driver controls program is responsible for all the physical controls within the car such as the pedals or control buttons. 
+The control board will interpret physical input from the car's controls and create a CAN message that will be passed to the rest of the systems.
+
+==== EpsilonLights:
+Controls the car's light systems such as turn signals and warning lights. 
+The program will receive messages from the driver control board or Aux BMS board and activate the appropriate lights.
+
+==== EpsilonAuxBMS:
+The auxiliary battery monitoring system is responsible for controlling the car's auxiliary battery.
+It enables all the car's systems to run from the aux battery (excluding the main motors) without using the main battery.
+
+== Epsilon-Hermes
+=== Overview:
+This program is responsible for communicating information from the car's embedded systems with the onboard raspberry pi. 
+Hermes will receive serial data from the CCS board and convert it into JSON format.
+Hermes also adds the JSON data to a RabbitMQ server which then forwards the information to other RabbitMQ servers.
+The use of RabbitMQ servers enables multiple computers to receive and interpret the information.
+
+
+== Epsilon-Telemetry-Test-Tool
+=== Overview:
+This program us a tool used to test the telemetry protocols of Schulich Epsilon.
+Test messages are sent using the test-tool and can be used to test other programs and ensure that they are receiving/processing telemetry information properly.
