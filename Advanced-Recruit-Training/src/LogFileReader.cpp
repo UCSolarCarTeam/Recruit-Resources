@@ -71,11 +71,11 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 
     if(!batteryData.time.isValid()){
         return false;
- }
-    if(voltageOk==false){
+    }
+    if(!voltageOk){
         return false;
     }
-    if(currentOk==false){
+    if(!currentOk){
         return false;
     }
     return true;
