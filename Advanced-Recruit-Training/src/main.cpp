@@ -35,15 +35,11 @@ int main(int argc, char *argv[])
         parser.showHelp();
         return -1;
     }
-    double initialStateOfCharge = initialStateOfChargeString.toDouble();
-
-    LogFileReader logFileReader;
-    BatteryStateOfChargeService batteryStateOfChargeService(initialStateOfCharge);
-    BatteryStateDisplayService batteryStateOfChargeDisplayService(logFileReader, batteryStateOfChargeService);
-
-    logFileReader.readAll(filename);
-
-    // Quit the program when it is done.
-    QTimer::singleShot(0, &app, SLOT(quit()));
-    return app.exec();
+        double initialStateOfCharge = initialStateOfChargeString.toDouble();
+        LogFileReader logFileReader;
+        BatteryStateOfChargeService batteryStateOfChargeService(initialStateOfCharge);
+        BatteryStateDisplayService batteryStateOfChargeDisplayService(logFileReader, batteryStateOfChargeService);
+        logFileReader.readAll(filename);
+       QTimer::singleShot(0, &app, SLOT(quit()));
+        return app.exec();
 };
