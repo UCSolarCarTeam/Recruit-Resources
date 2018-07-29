@@ -85,10 +85,11 @@ To load the `.elf` file onto the board, enter the `build/` directory.
 
 . Plug in the Probe to the board and into your computer.
 Determine where the probe is located on your computer, usually `/dev/ttyACM<X>`, where `<X>` is a number.
+It can be located with `ls /dev/tty*`.
 Typically, there are two devices listed there. 
 Make note of the lowest value number.
 
-. Use the command  sudo arm-none-eabi-gdb `<project>.elf`
+. Use the command  `sudo arm-none-eabi-gdb <project>.elf`
 
 . Scan for the probe with `target extended-remote /dev/ttyACM<X>`, using the value earlier.
 
