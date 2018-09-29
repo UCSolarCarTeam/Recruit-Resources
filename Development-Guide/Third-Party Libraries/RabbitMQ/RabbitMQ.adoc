@@ -89,9 +89,7 @@ Uset the following command to have root access:
 
 Copy the config file to the config directory:
 
-`cp [location of rabbitmq.config] /etc/rabbitmq/`
-
-`cp rabbitmq.config /etc/rabbitmq/` If it's in your local directory. 
+`cp Development-Guide/Third-Party Libraries/RabbitMQ/rabbitmq.config /etc/rabbitmq`
 
 ==== 3) Restart
 Your system needs to be restarted to load the config file:
