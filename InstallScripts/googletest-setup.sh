@@ -13,6 +13,11 @@ then
 else
 (
   cd /tmp
+  if [ -d "googletest" ] ; then
+       echo "Cleaning tmp/googletest"
+       rm googletest/ -r
+  fi
+
   git clone https://github.com/google/googletest.git
   cp -r googletest/googletest/include/gtest /usr/local/include
   cp -r googletest/googlemock/include/gmock /usr/local/include
