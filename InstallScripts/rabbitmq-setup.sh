@@ -29,8 +29,12 @@ echo 'deb http://www.rabbitmq.com/debian/ testing main' | tee /etc/apt/sources.l
 	then
 		echo "Rabbitmq already installed"
 	else
+		if [ -d "rabbitmq-c" ] ; then
+			echo "Cleaning tmp/rabbitmq-c"
+			rm rabbitmq-c/ -r
+		fi
 		git clone https://github.com/alanxz/rabbitmq-c
-		mkdir rabbitmq-c/build && cd rabbitmq-c/build 
+		mkdir rabbitmq-c/build && cd rabbitmq-c/build
 		cmake ..
 		cmake --build .
 		sudo cp librabbitmq/*.a /usr/local/lib/
@@ -41,9 +45,14 @@ echo 'deb http://www.rabbitmq.com/debian/ testing main' | tee /etc/apt/sources.l
 (
 	cd /tmp/
 	if ls /usr/local/lib/libSimpleAmqpClient.* 1> /dev/null 2>&1 && [ -d /usr/local/include/SimpleAmqpClient ];
-	then 
+	then
 		echo "SimpleAmqpClient already installed"
 	else
+                if [ -d "SimpleAmqpClient" ] ; then
+                        echo "Cleaning tmp/SimpleAmqpClient"
+                        rm SimpleAmqpClient/ -r
+                fi
+
 		git clone https://github.com/alanxz/SimpleAmqpClient
 		mkdir -p SimpleAmqpClient/build
 		cd SimpleAmqpClient/build
