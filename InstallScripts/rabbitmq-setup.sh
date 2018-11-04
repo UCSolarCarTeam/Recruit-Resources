@@ -8,7 +8,7 @@ echo 'deb http://www.rabbitmq.com/debian/ testing main' | tee /etc/apt/sources.l
 
 (
 	apt-get update
-	apt-get install -y rabbitmq-server \
+	apt-get install -y --force-yes rabbitmq-server \
 		cmake \
 		libboost-dev \
 		openssl \
