@@ -17,3 +17,14 @@ BatteryData::BatteryData(QTime t, double v, double c)
 BatteryData::~BatteryData()
 {
 }
+
+BatteryData& BatteryData::operator= (const BatteryData& rhs)
+{
+    if(this != &rhs)
+    {
+        time = rhs.time;
+        voltage = rhs.voltage;
+        current = rhs.current;
+    }
+    return *this;
+}

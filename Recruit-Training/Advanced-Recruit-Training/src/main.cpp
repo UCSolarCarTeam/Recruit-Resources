@@ -1,17 +1,15 @@
 #include <QCommandLineParser>
 #include <QCoreApplication>
 #include <QTimer>
-
+#include <iostream>
 #include "BatteryStateDisplayService.h"
 #include "BatteryStateOfChargeService.h"
 #include "LogFileReader.h"
-
 int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName("Battery Life Predictor");
     QCoreApplication::setApplicationVersion("0.1");
-
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();
