@@ -17,3 +17,19 @@ BatteryData::BatteryData(QTime t, double v, double c)
 BatteryData::~BatteryData()
 {
 }
+
+
+QTime BatteryData::GetTime()
+{
+    return time;
+}
+
+double BatteryData::GetVoltage()
+{
+    return voltage;
+}
+
+double BatteryData::GetCurrent()
+{
+    return current;
+}
