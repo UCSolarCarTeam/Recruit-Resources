@@ -1,9 +1,15 @@
 #include <QTextStream>
+#include <iomanip>
 
 #include "BatteryData.h"
 #include "BatteryStateDisplayService.h"
 #include "I_BatteryDataSource.h"
 #include "I_BatteryStateOfChargeService.h"
+
+namespace
+{
+    const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
+}
 
 BatteryStateDisplayService::BatteryStateDisplayService(
     const I_BatteryDataSource& batteryDataSource,
@@ -25,9 +31,8 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 {
     batteryStateOfChargeService_.addData(batteryData);
 
-    QTextStream(stdout) << "Voltage: " << batteryData.voltage
-        << " Current: " << batteryData.current
-        << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << endl;
-
-    // TODO: Print out time until the battery is fully charged or depleted.
+    QTextStream(stdout)      << "Voltage (V): " << qSetFieldWidth(10) << left << batteryData.voltage
+        << qSetFieldWidth(0) << " Current (A): " << (!batteryStateOfChargeService_.isCharging() ? " " : "") << qSetFieldWidth(!batteryStateOfChargeService_.isCharging() ? 9 : 10) << batteryData.current
+        << qSetFieldWidth(0) << " Total Ah used: " << qSetFieldWidth(10) << batteryStateOfChargeService_.totalAmpHoursUsed()
+        << qSetFieldWidth(0) << " Time until " << (batteryStateOfChargeService_.isCharging() ? "charged:  " : "depleted: ") << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString(STRING_TIME_FORMAT) << endl;
 }
