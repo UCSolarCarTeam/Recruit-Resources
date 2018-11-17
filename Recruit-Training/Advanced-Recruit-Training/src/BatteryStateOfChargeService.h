@@ -31,6 +31,6 @@ private:
     QTime prevTime;
     double hourCharge;
     double hourDep;
-    QTime holdC;
-    QTime holdD;
+    QTime timeUntilCharged;
+    QTime timeUntilDepleted;
 };

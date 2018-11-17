@@ -9,8 +9,8 @@ BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfCh
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
     ampHourUsed=0.0;
-    holdC = QTime(0,0,0,0);
-    holdD = QTime(0,0,0,0);
+    timeUntilCharged = QTime(0,0,0,0);
+    timeUntilDepleted = QTime(0,0,0,0);
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -30,9 +30,9 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     if(isCharging_){
-        return holdC;
+        return timeUntilCharged;
     }else{
-        return holdD;
+        return timeUntilDepleted;
 
     }
 }
@@ -43,6 +43,8 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     // This is where you can update your variables
     // Hint: There are many different ways that the totalAmpHoursUsed can be updated
     // i.e: Taking a running average of your data values, using most recent data points, etc.
+    const double ms_hour_conversion = 3600000.0;
+    const int percent_to_decimal = 100;
     if(batteryData.current<0){
         isCharging_=true;
     }else{
@@ -50,10 +52,10 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     }
 
     if(ampHourUsed==0.0){
-        ampHourUsed=BATTERY_AMP_HOUR_CAPACITY*(initialStateOfChargePercent_/100);
+        ampHourUsed=BATTERY_AMP_HOUR_CAPACITY*(initialStateOfChargePercent_/percent_to_decimal);
     }
     else{
-        ampHourUsed+=((prevCurr+batteryData.current)/2)*((prevTime.msecsTo(batteryData.time))/3600000.0) ;
+        ampHourUsed+=((prevCurr+batteryData.current)/2)*((prevTime.msecsTo(batteryData.time))/ms_hour_conversion) ;
     }
     prevCurr = batteryData.current;
     prevTime = batteryData.time;
@@ -62,10 +64,10 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
         hourCharge = hourCharge*-1;
     }
     hourDep = (BATTERY_AMP_HOUR_CAPACITY-ampHourUsed)/batteryData.current;
-    QTime hourC = QTime(0,0,0,0);
-    QTime hourD = QTime(0,0,0,0);
-    hourC = hourC.addMSecs((int)(hourCharge*3600000.0));
-    hourD = hourD.addMSecs((int)(hourDep*3600000.0));
-    holdC = hourC;
-    holdD = hourD;
+    QTime hourUntilCharged = QTime(0,0,0,0);
+    QTime hourUntilDepleted = QTime(0,0,0,0);
+    hourUntilCharged = hourUntilCharged.addMSecs((int)(hourCharge*ms_hour_conversion));
+    hourUntilDepleted = hourUntilDepleted.addMSecs((int)(hourDep*ms_hour_conversion));
+    timeUntilCharged = hourUntilCharged;
+    timeUntilDepleted = hourUntilDepleted;
 }
