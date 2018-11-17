@@ -29,6 +29,7 @@ private:
 
     // Add your necessary variables here
     double latestCurrent_;
-    QTime latestTime_;
+    QTime  latestTime_;
     double ampHoursUsed_;
+    bool   containsData_;
 };
