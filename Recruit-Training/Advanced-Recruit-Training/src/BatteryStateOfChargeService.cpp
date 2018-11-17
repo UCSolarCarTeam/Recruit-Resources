@@ -2,6 +2,8 @@
 #include <QTextStream>
 namespace
 {
+    const int DAY_IN_HOURS = 24;
+    const double CONVERSION_FROM_HOURS_TO_MILLISECONDS = 3600000.0;
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
 }
 
@@ -35,16 +37,16 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     double temp = (totalAmpHoursUsed_/batteryData_.current);
     if(temp<0)
         temp = -temp;
-    while(temp>=24)
-        temp -= 24;
-    temp *= 3600000.0;
+    while(temp>=DAY_IN_HOURS)
+        temp -= DAY_IN_HOURS;
+    temp *= CONVERSION_FROM_HOURS_TO_MILLISECONDS;
     return QTime::fromMSecsSinceStartOfDay((int)temp);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    double diffhour = batteryData_.time.msecsTo(batteryData.time)/3600000.0;
-    double changeInAmphours = ((batteryData.current+batteryData_.current)/2)*(diffhour);
+    double diffHour = batteryData_.time.msecsTo(batteryData.time)/CONVERSION_FROM_HOURS_TO_MILLISECONDS;
+    double changeInAmphours = ((batteryData.current+batteryData_.current)/2)*(diffHour);
 
     batteryData_ = batteryData;
     totalAmpHoursUsed_ += changeInAmphours;
