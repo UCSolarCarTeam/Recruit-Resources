@@ -3,6 +3,8 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double MS_HOUR_CONVERSION = 3600000.0;
+    const int PERCENT_TO_DECIMAL = 100;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -31,9 +33,9 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     if(isCharging_){
         return timeUntilCharged;
-    }else{
+    }
+    else{
         return timeUntilDepleted;
-
     }
 }
 
@@ -43,19 +45,18 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     // This is where you can update your variables
     // Hint: There are many different ways that the totalAmpHoursUsed can be updated
     // i.e: Taking a running average of your data values, using most recent data points, etc.
-    const double ms_hour_conversion = 3600000.0;
-    const int percent_to_decimal = 100;
     if(batteryData.current<0){
         isCharging_=true;
-    }else{
+    }
+    else{
         isCharging_=false;
     }
 
     if(ampHourUsed==0.0){
-        ampHourUsed=BATTERY_AMP_HOUR_CAPACITY*(initialStateOfChargePercent_/percent_to_decimal);
+        ampHourUsed=BATTERY_AMP_HOUR_CAPACITY*(initialStateOfChargePercent_/PERCENT_TO_DECIMAL);
     }
     else{
-        ampHourUsed+=((prevCurr+batteryData.current)/2)*((prevTime.msecsTo(batteryData.time))/ms_hour_conversion) ;
+        ampHourUsed+=((prevCurr+batteryData.current)/2)*((prevTime.msecsTo(batteryData.time))/MS_HOUR_CONVERSION) ;
     }
     prevCurr = batteryData.current;
     prevTime = batteryData.time;
@@ -66,8 +67,8 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     hourDep = (BATTERY_AMP_HOUR_CAPACITY-ampHourUsed)/batteryData.current;
     QTime hourUntilCharged = QTime(0,0,0,0);
     QTime hourUntilDepleted = QTime(0,0,0,0);
-    hourUntilCharged = hourUntilCharged.addMSecs((int)(hourCharge*ms_hour_conversion));
-    hourUntilDepleted = hourUntilDepleted.addMSecs((int)(hourDep*ms_hour_conversion));
+    hourUntilCharged = hourUntilCharged.addMSecs((int)(hourCharge*MS_HOUR_CONVERSION));
+    hourUntilDepleted = hourUntilDepleted.addMSecs((int)(hourDep*MS_HOUR_CONVERSION));
     timeUntilCharged = hourUntilCharged;
     timeUntilDepleted = hourUntilDepleted;
 }
