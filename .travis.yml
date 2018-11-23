@@ -13,7 +13,7 @@ install:
      - rm astyle -rf
 script:
      - "! (astyle *.h *.cpp -r --dry-run --options=astylerc | grep Formatted)"
-     - cd Advanced-Recruit-Training/src 
+     - cd Recruit-Training/Advanced-Recruit-Training/src 
      - qmake
      - make
 
