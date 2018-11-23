@@ -52,10 +52,6 @@ bool LogFileReader::readAll(const QString& fileName)
     return true;
 }
 
-/* File input is a csv file in the format of hh:mm:ss:zzz, voltage, current.
- * Negative current values denote a charging battery.
- * Need to implement error checking for the correct number of values and
- * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
 
