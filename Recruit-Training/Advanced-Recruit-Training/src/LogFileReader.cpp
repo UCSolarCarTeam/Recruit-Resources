@@ -58,28 +58,44 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 {
     QStringList sections = line.split(BATDATA_DELIMITER);
     if(sections.size()!=3)
+    {
         return false;
+    }
     QString timeString = sections.at(0);
     QStringList timesplits = timeString.split(":");
     if(timesplits.size()!=3)
+    {
         return false;
+    }
     bool okay = false;
     timesplits.at(0).toInt(&okay);//hour
-    if(okay == false || timesplits.at(0).size() != 2) return false;
-
+    if(okay == false || timesplits.at(0).size() != 2)
+    {
+        return false;
+    }
     timesplits.at(1).toInt(&okay);//minute
-    if(okay ==false || timesplits.at(1).size() != 2) return false;
+    if(okay ==false || timesplits.at(1).size() != 2)
+    {
+        return false;
+    }
 
     timesplits.at(2).toDouble(&okay);//seconds
-    if(okay == false|| timesplits.at(2).size() != 6 || timesplits.at(2).at(2) != '.') {
+    if(okay == false|| timesplits.at(2).size() != 6 || timesplits.at(2).at(2) != '.')
+    {
         return false;
     }
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
     sections.at(1).toDouble(&okay);
-    if(okay==false) return false;
+    if(okay==false)
+    {
+        return false;
+    }
     sections.at(2).toDouble(&okay);
-    if(okay == false)return false;
+    if(okay == false)
+    {
+        return false;
+    }
     batteryData.voltage = sections.at(1).toDouble();
 
     batteryData.current = sections.at(2).toDouble();
