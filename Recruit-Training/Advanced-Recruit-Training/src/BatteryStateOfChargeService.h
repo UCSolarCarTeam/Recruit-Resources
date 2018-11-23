@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 
 #include "I_BatteryStateOfChargeService.h"
 
@@ -22,7 +22,8 @@ public:
 
 private:
     // Convention is to have an _ after private members
-    const double initialStateOfChargePercent_;
 
+    const double initialStateOfChargePercent_;
+    double initialAmpHours_;
     // Add your necessary variables here
 };

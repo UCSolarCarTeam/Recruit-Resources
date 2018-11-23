@@ -60,6 +60,27 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     QStringList sections = line.split(BATDATA_DELIMITER);
 
     QString timeString = sections.at(0);
+
+    /*
+    for(int i =0; i < 13; i++){
+        if(i == 2 || i == 5 || i == 8){
+            if(timeString.at(i) != ':'){
+                return false;
+            }
+        } else {
+            if(timeString.at(i) > '9' || timeString.at(i) < '0') {
+                return false;
+            }
+        }
+    }
+    */
+
+    QTime time = QTime::fromString(timeString, STRING_TIME_FORMAT);
+
+    if(!time.isValid()){
+        return false;
+    }
+
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
     batteryData.voltage = sections.at(1).toDouble();

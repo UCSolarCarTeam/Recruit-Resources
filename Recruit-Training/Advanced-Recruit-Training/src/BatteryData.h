@@ -9,6 +9,10 @@ struct BatteryData
     virtual ~BatteryData();
 
     QTime time;
-    double voltage; // in V note all units should be stored in SI units
-    double current; // in A
+    QTime prevTime;
+    double voltage; // in V note all units should be stored in SI units - Current
+    double current; // in A - Current
+    double prevCurrent;
+
+
 };
