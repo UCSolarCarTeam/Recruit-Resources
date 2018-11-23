@@ -31,5 +31,5 @@ private:
     double latestCurrent_;
     QTime  latestTime_;
     double ampHoursUsed_;
-    bool   containsData_;
+    bool containsData_;
 };

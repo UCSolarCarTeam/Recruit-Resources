@@ -7,13 +7,12 @@ namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
     const int    HOURS_TO_MS               = 3600000;
-    const int    HOURS_IN_DAY              = 24;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
-    ampHoursUsed_ = 0.0;
+    ampHoursUsed_ = BATTERY_AMP_HOUR_CAPACITY * (initialStateOfChargePercent / 100);
     containsData_ = false;
 }
 
@@ -34,31 +33,30 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    double temp;                                    // Stores temporary values of the total part of the time (i.e. 3600 seconds)
+    double hoursUntilComplete, milliUntilComplete;
 
-    // Store temp as hours
     if(isCharging())
-        // Time Until Charged = Amphours Used (Ah) / Average Current (A)
-        temp = totalAmpHoursUsed() / -latestCurrent_;
+        hoursUntilComplete = totalAmpHoursUsed() / -latestCurrent_;
     else
-        // Time Until Depleted = (Amphour Capacity (Ah) - Amphours Used (Ah)) / Average Current (A)
-        temp = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / latestCurrent_;
+        hoursUntilComplete = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / latestCurrent_;
 
-    temp = fmod(temp, HOURS_IN_DAY) * HOURS_TO_MS;
+    milliUntilComplete = hoursUntilComplete * HOURS_TO_MS;
 
-    return QTime(0, 0, 0, 0).addMSecs(static_cast<int>(temp));
+    return QTime(0, 0, 0, 0).addMSecs(static_cast<int>(milliUntilComplete));
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    if(!containsData_) {
-        // Set the initial amphours used (battery's Amphour capacity (Ah) * state of charge (%))
-        ampHoursUsed_ = BATTERY_AMP_HOUR_CAPACITY * (initialStateOfChargePercent_ / 100);
-        containsData_ = true;
-    } else
-        // Add the change in amphours (average current (A) * difference in time (h))
-        ampHoursUsed_ += (latestCurrent_ + batteryData.current)/2 * (latestTime_.msecsTo(batteryData.time) / static_cast<double>(HOURS_TO_MS));
+    if(containsData_)
+    {
+        double averageCurrent = (latestCurrent_ + batteryData.current) / 2,
+               milliSinceLastData = latestTime_.msecsTo(batteryData.time),
+               hoursSinceLastData = milliSinceLastData / static_cast<double>(HOURS_TO_MS);
 
+        ampHoursUsed_ += averageCurrent * hoursSinceLastData;
+    }
+    else
+        containsData_ = true;
 
     latestCurrent_ = batteryData.current;
     latestTime_ = batteryData.time;

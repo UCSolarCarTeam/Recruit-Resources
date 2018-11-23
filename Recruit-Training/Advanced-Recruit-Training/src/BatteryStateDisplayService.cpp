@@ -1,5 +1,4 @@
 #include <QTextStream>
-#include <iomanip>
 
 #include "BatteryData.h"
 #include "BatteryStateDisplayService.h"

@@ -9,7 +9,6 @@ namespace
 {
     const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
     const QString BATDATA_DELIMITER= ", ";
-    const int COLUMNS = 3;
 }
 
 LogFileReader::LogFileReader()
@@ -61,27 +60,21 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     if(sections.length() != 3)
         return false;
 
+    bool valid, voltageValid, currentValid;
+
     QString timeString = sections.at(0);
     QTime time = QTime::fromString(timeString, STRING_TIME_FORMAT);
-    if(!time.isValid())
-        return false;
 
-    bool *valid = new bool();
+    double voltage = sections.at(1).toDouble(&voltageValid);
+    double current = sections.at(2).toDouble(&currentValid);
 
-    double voltage = sections.at(1).toDouble(valid);
-    if(!*valid)
-        return false;
+    valid = (time.isValid() && voltageValid && currentValid);
 
-    double current = sections.at(2).toDouble(valid);
-    if(!*valid)
-        return false;
-
-    delete valid;
-
-    batteryData.time = time;
-    batteryData.voltage = voltage;
-    batteryData.current = current;
-
-    return true;
-
+    if(valid)
+    {
+        batteryData.time = time;
+        batteryData.voltage = voltage;
+        batteryData.current = current;
+    }
+    return valid;
 }
