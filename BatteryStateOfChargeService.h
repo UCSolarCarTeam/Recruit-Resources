@@ -23,13 +23,13 @@ public:
 private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
-    bool is_charging;
-    double previous_current;
-    double hour_charge;
-    double hour_used;
-    double amp_hour_used;
-    QTime previous_time;
-    QTime time_til_charged;
-    QTime time_til_depleted;
+    bool isCharging_;
+    double previousCurrent_;
+    double hourCharge_;
+    double hourUsed_;
+    double ampHourUsed_;
+    QTime previousTime_;
+    QTime timeTilCharged_;
+    QTime timeTilDepleted_;
 
 };

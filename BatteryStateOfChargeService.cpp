@@ -9,9 +9,9 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
-    amp_hour_used = 0.0;
-    time_til_charged = QTime (0,0,0,0);
-    time_til_depleted = QTime (0,0,0,0);
+    ampHourUsed_ = 0.0;
+    timeTilCharged_ = QTime (0,0,0,0);
+    timeTilDepleted_ = QTime (0,0,0,0);
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -20,54 +20,63 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return amp_hour_used;
+    return ampHourUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-return is_charging;
+    return isCharging_;
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-   if(is_charging)
-      return time_til_charged;
+   if(isCharging_)
+   {
+      return timeTilCharged_;
+   }
+
    else
-      return time_til_depleted;
+   {
+      return timeTilDepleted_;
+   }
 
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    const double ms2hour = 1/3600000.0;
-    const double per2dec = 0.01;
-        if(amp_hour_used == 0.0)
+    const double MILLISECONDS_TO_HOURS = 1/3600000.0;
+    const double PERCENT_TO_DECIMAL = 0.01;
+        if(ampHourUsed_ == 0.0)
         {
-             amp_hour_used = BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_*per2dec;
+             ampHourUsed_ = BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_*PERCENT_TO_DECIMAL;
         }
-        else{
-             amp_hour_used+= ((previous_current+batteryData.current)/2)*((previous_time).msecsTo(batteryData.time)*ms2hour);
+        else
+        {
+             ampHourUsed_ += ((previousCurrent_+batteryData.current)/2)*((previousTime_).msecsTo(batteryData.time)*MILLISECONDS_TO_HOURS);
         }
 
-    if(batteryData.current >= 0){
-        is_charging = false;
+    if(batteryData.current >= 0)
+    {
+        isCharging_ = false;
     }
-    else{
-        is_charging = true;
+    else
+    {
+        isCharging_ = true;
     }
 
-    previous_current = batteryData.current;
-    previous_time = batteryData.time;
-    hour_charge = amp_hour_used/batteryData.current;
-    if(hour_charge<0){
-        hour_charge *= -1;
+    previousCurrent_ = batteryData.current;
+    previousTime_ = batteryData.time;
+    hourCharge_ = ampHourUsed_/batteryData.current;
+    if(hourCharge_<0)
+    {
+        hourCharge_ *= -1;
     }
-    hour_used = (BATTERY_AMP_HOUR_CAPACITY-amp_hour_used)/batteryData.current;
-    QTime hour_til_charged = QTime (0,0,0,0);
-    QTime hour_til_depleted = QTime (0,0,0,0);
+    hourUsed_ = (BATTERY_AMP_HOUR_CAPACITY-ampHourUsed_)/batteryData.current;
+    QTime hourTilCharged = QTime (0,0,0,0);
+    QTime hourTilDepleted = QTime (0,0,0,0);
 
-    hour_til_charged = hour_til_charged.addMSecs((int)(hour_charge/ms2hour));
-    hour_til_depleted = hour_til_depleted.addMSecs((int)(hour_used/ms2hour));
-    time_til_charged = hour_til_charged;
-    time_til_depleted = hour_til_depleted;
+    hourTilCharged = hourTilCharged.addMSecs((int)(hourCharge_/MILLISECONDS_TO_HOURS));
+    hourTilDepleted = hourTilDepleted.addMSecs((int)(hourUsed_/MILLISECONDS_TO_HOURS));
+    timeTilCharged_ = hourTilCharged;
+    timeTilDepleted_ = hourTilDepleted;
 }
