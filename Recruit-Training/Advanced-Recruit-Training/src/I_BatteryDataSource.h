@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+//struct BatteryData;
 #include "BatteryData.h"
 
 class I_BatteryDataSource : public QObject

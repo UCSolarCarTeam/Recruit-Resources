@@ -5,6 +5,10 @@
 #include "I_BatteryDataSource.h"
 #include "I_BatteryStateOfChargeService.h"
 
+namespace
+{
+  const double MAX_AMP_HOURS = 123.0;
+}
 BatteryStateDisplayService::BatteryStateDisplayService(
     const I_BatteryDataSource& batteryDataSource,
     I_BatteryStateOfChargeService& batteryStateOfChargeService)
@@ -23,21 +27,18 @@ BatteryStateDisplayService::~BatteryStateDisplayService()
 
 void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& batteryData)
 {
-    if (batteryStateOfChargeService_.totalAmpHoursUsed()< 123.0)
+    if (batteryStateOfChargeService_.totalAmpHoursUsed() < MAX_AMP_HOURS)
     {
         batteryStateOfChargeService_.addData(batteryData);
+        QString temp;
+        if (batteryStateOfChargeService_.isCharging())
+          temp = ", Time until charged: ";
+        else
+          temp = ", Time until depleted: ";
 
-        QTextStream(stdout) << "Voltage: " << batteryData.voltage
-            << ", Current: " << batteryData.current
+        QTextStream(stdout) << "Voltage: " << batteryData.voltage_
+            << ", Current: " << batteryData.current_
             << ", Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed()
-            << ", Time until battery charged/depleted: "
-            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << endl;
-
+            << temp << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << endl;
     }
-     else
-        return;
-
-    // TODO: Print out time until the battery is fully charged or depleted.
-
-
 }

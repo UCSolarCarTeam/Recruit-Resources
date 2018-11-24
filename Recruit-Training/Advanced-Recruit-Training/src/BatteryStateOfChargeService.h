@@ -23,13 +23,16 @@ public:
 private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
+    bool firstRun_;
 
     // Add your necessary variables here
-    double current;
-    double voltage;
-    QTime time;
+    double current_;
+    double voltage_;
+    QTime time_;
 
-    double last_current;
-    QTime last_time;
-    double currentAmpHourUsed;
+    double lastCurrent_;
+    QTime lastTime_;
+    double currentAmpHourUsed_;
+
+
 };

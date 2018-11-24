@@ -1,21 +1,18 @@
 #include "BatteryStateOfChargeService.h"
+#include "BatteryData.h"
 #include <QTextStream>
+#include <cmath>
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double CONVERT_MS_TO_HR = 3600000.0;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent)
+: initialStateOfChargePercent_(initialStateOfChargePercent), current_(0.0), voltage_(0.0),
+time_(QTime(0,0,0,0)), lastCurrent_(0.0), lastTime_(QTime(0,0,0,0)), firstRun_(true),
+currentAmpHourUsed_((initialStateOfChargePercent_/100.0) * BATTERY_AMP_HOUR_CAPACITY)
 {
-    last_current = 0.0;
-    last_time = QTime(0,0,0,0);
-
-    current = 0.0;
-    voltage = 0.0;
-    time = QTime(0,0,0,0);
-
-    currentAmpHourUsed = 0; //(initialStateOfChargePercent/100.0) * BATTERY_AMP_HOUR_CAPACITY;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -24,31 +21,35 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return currentAmpHourUsed;
+    return currentAmpHourUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if (current < 0)
-        return true;
-    else
-        return false;
-
+  return current_ < 0 ? true : false;
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
    double remainingHours;
    if (isCharging())
-       remainingHours = currentAmpHourUsed/current;
+   {
+      remainingHours = currentAmpHourUsed_/current_;
+   }
    else
-       remainingHours = (BATTERY_AMP_HOUR_CAPACITY - currentAmpHourUsed)/current;
+   {
+      remainingHours = (BATTERY_AMP_HOUR_CAPACITY - currentAmpHourUsed_)/current_;
+   }
 
    if (remainingHours < 0)
-          remainingHours = remainingHours * -1;
+   {
+      remainingHours = remainingHours * -1;
+   }
 
-   while (remainingHours > 24) //get rid of multiplication factor
-       remainingHours = remainingHours - 24.0;
+  if (remainingHours > 24) //get rid of multiplication factor
+  {
+    remainingHours = fmod(remainingHours, 24.0);
+  }
 
    int hours = int(remainingHours);
    double actual_minutes = (remainingHours - hours) * 60.0;
@@ -58,39 +59,29 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
    int ms = int((actual_seconds - seconds) * 1000.0);
 
    return  QTime(hours, minute, seconds, ms);
-
 }
-
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    //Q_UNUSED(batteryData);
     // This is where you can update your variables
     // Hint: There are many different ways that the totalAmpHoursUsed can be updated
-    // i.e: Taking a running average of your data values, using most recent data points, etc.
-    if (currentAmpHourUsed == 0.0)
+    // i.e: Taking a running average of your data values, using most recent data points, etc.   
+
+    if (firstRun_)
     {
-        last_time = batteryData.time;
-        last_current = batteryData.current;
-
-        current = batteryData.current;
-        voltage = batteryData.voltage;
-        time = batteryData.time;
-
-        currentAmpHourUsed = (initialStateOfChargePercent_/100.0) * BATTERY_AMP_HOUR_CAPACITY;
+        firstRun_ = false;
+        lastTime_ = batteryData.time_;
+        lastCurrent_ = batteryData.current_;
     }
-      else
-      {
-        last_time = time;
-        last_current = current;
+    else
+    {
+      lastTime_ = time_;
+      lastCurrent_ = current_;
 
-        current = batteryData.current;
-        voltage = batteryData.voltage;
-        time = batteryData.time;
-
-        double changeInAmpHours = ((current + last_current)/2.0) * (last_time.msecsTo(time)/(60.0*60.0*1000.0));
-
-        currentAmpHourUsed = currentAmpHourUsed + changeInAmpHours;
-        }
-
+      double changeInAmpHours = ((batteryData.current_ + lastCurrent_)/2.0) * (lastTime_.msecsTo(batteryData.time_)/CONVERT_MS_TO_HR);
+      currentAmpHourUsed_ = currentAmpHourUsed_ + changeInAmpHours;
+    }
+    current_ = batteryData.current_;
+    voltage_ = batteryData.voltage_;
+    time_ = batteryData.time_;
 }

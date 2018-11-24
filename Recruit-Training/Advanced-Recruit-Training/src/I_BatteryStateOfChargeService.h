@@ -1,8 +1,8 @@
 #pragma once
 
 #include <QTime>
-#include "BatteryData.h"
-//struct BatteryData;
+//#include "BatteryData.h"
+struct BatteryData;
 
 class I_BatteryStateOfChargeService
 {
