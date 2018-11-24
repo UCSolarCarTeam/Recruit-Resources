@@ -13,6 +13,4 @@ struct BatteryData
     double voltage; // in V note all units should be stored in SI units - Current
     double current; // in A - Current
     double prevCurrent;
-
-
 };

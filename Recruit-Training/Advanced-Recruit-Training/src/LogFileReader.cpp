@@ -54,7 +54,18 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     QString timeString = sections.at(0);
     QTime time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
-    if(!time.isValid()){
+    if(!time.isValid())
+    {
+        return false;
+    }
+
+    if(sections.at(2).contains("[a-zA-Z]+"))
+    {
+        return false;
+    }
+
+    if(sections.at(1).contains("[a-zA-Z]+") || sections.at(1).toDouble() < 0)
+    {
         return false;
     }
 
