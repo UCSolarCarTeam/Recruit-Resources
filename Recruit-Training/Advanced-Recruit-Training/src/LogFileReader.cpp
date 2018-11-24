@@ -9,7 +9,6 @@ namespace
 {
     const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
     const QString BATDATA_DELIMITER= ", ";
-    const int COLUMNS = 3;
 }
 
 LogFileReader::LogFileReader()
@@ -59,7 +58,8 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 {
 
     QStringList sections = line.split(BATDATA_DELIMITER);
-    if(sections.length() != 3){
+    if(sections.length() != 3)
+    {
         return false;
     }
 

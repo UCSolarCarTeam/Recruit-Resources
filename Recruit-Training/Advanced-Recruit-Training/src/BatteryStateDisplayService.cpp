@@ -6,7 +6,8 @@
 #include "I_BatteryStateOfChargeService.h"
 #include "LogFileReader.h"
 
-namespace {
+namespace
+{
    const QString STRING_TIME_FORMAT = "hh:mm:ss.zzz";
 }
 
@@ -34,6 +35,4 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
         << " Current: " << batteryData.current
         << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed()
         << " Time until " << (batteryStateOfChargeService_.isCharging() ? "charged: " : "depleted: ") << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString(STRING_TIME_FORMAT) << endl;
-
-    // TODO: Print out time until the battery is fully charged or depleted.
 }

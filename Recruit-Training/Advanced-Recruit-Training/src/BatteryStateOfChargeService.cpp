@@ -53,23 +53,24 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
     if (totalAmpHoursUsed_ == 0.0 && firstRun_)
-        {
-            totalAmpHoursUsed_ = (initialStateOfChargePercent_/100.0) * BATTERY_AMP_HOUR_CAPACITY;
-            previousTime_ = batteryData.time;
-            newTime_ = batteryData.time;
-            previousCurrent_ = batteryData.current;
-            newCurrent_ = batteryData.current;
-            firstRun_ = false;
-        }
+    {
+
+        totalAmpHoursUsed_ = (initialStateOfChargePercent_/100.0) * BATTERY_AMP_HOUR_CAPACITY;
+        previousTime_ = batteryData.time;
+        newTime_ = batteryData.time;
+        previousCurrent_ = batteryData.current;
+        newCurrent_ = batteryData.current;
+        firstRun_ = false;
+    }
     else
-         {
-            previousTime_ = newTime_;
-            newTime_ = batteryData.time;
-            previousCurrent_ = newCurrent_;
-            newCurrent_ = batteryData.current;
-            averageCurrent_ = (newCurrent_ + previousCurrent_) / 2.0;
-            changeInTime_ = (previousTime_.msecsTo(newTime_)) / (MILLISECONDS_IN_AN_HOUR);
-            changeInAmpHours_ = (averageCurrent_ * changeInTime_);
-            totalAmpHoursUsed_ += changeInAmpHours_;
+    {
+        previousTime_ = newTime_;
+        newTime_ = batteryData.time;
+        previousCurrent_ = newCurrent_;
+        newCurrent_ = batteryData.current;
+        averageCurrent_ = (newCurrent_ + previousCurrent_) / 2.0;
+        changeInTime_ = (previousTime_.msecsTo(newTime_)) / (MILLISECONDS_IN_AN_HOUR);
+        changeInAmpHours_ = (averageCurrent_ * changeInTime_);
+        totalAmpHoursUsed_ += changeInAmpHours_;
          }
 }
