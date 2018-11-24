@@ -5,13 +5,12 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
-    const double MILLISECONDS = 3600000.0;
+    const double MILLISECONDS_IN_AN_HOUR = 3600000.0;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent)
+: initialStateOfChargePercent_(initialStateOfChargePercent), totalAmpHoursUsed_(0.0), firstRun_(true)
 {
-    totalAmpHoursUsed_ = 0.0;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -34,32 +33,33 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     double tempTime;
-    if(isCharging()){
+    if(isCharging())
+    {
         tempTime = (totalAmpHoursUsed_/newCurrent_);
+        tempTime = tempTime * -1;
     }
-    else{
+    else
+    {
         tempTime = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed_)/newCurrent_;
     }
-    if(tempTime < 0.0){
-        tempTime = tempTime*-1;
-    }
-    QTime timeWhenChargedorDepleted = QTime(0,0,0,0);
 
-    timeWhenChargedorDepleted = timeWhenChargedorDepleted.addMSecs((int)(tempTime*MILLISECONDS));
+    QTime timeWhenChargedOrDepleted(0,0,0,0);
 
-    return timeWhenChargedorDepleted;
+    timeWhenChargedOrDepleted = timeWhenChargedOrDepleted.addMSecs((int)(tempTime * MILLISECONDS_IN_AN_HOUR));
+
+    return timeWhenChargedOrDepleted;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    //Q_UNUSED(batteryData);
-    if (totalAmpHoursUsed_ == 0.0)
+    if (totalAmpHoursUsed_ == 0.0 && firstRun_)
         {
             totalAmpHoursUsed_ = (initialStateOfChargePercent_/100.0) * BATTERY_AMP_HOUR_CAPACITY;
             previousTime_ = batteryData.time;
             newTime_ = batteryData.time;
             previousCurrent_ = batteryData.current;
             newCurrent_ = batteryData.current;
+            firstRun_ = false;
         }
     else
          {
@@ -67,11 +67,9 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
             newTime_ = batteryData.time;
             previousCurrent_ = newCurrent_;
             newCurrent_ = batteryData.current;
-            changeInAmpHours_ = ((newCurrent_ + previousCurrent_)/2.0) * (previousTime_.msecsTo(newTime_)/(MILLISECONDS));
+            averageCurrent_ = (newCurrent_ + previousCurrent_) / 2.0;
+            changeInTime_ = (previousTime_.msecsTo(newTime_)) / (MILLISECONDS_IN_AN_HOUR);
+            changeInAmpHours_ = (averageCurrent_ * changeInTime_);
             totalAmpHoursUsed_ += changeInAmpHours_;
          }
-
-    // This is where you can update your variables
-    // Hint: There are many different ways that the totalAmpHoursUsed can be updated
-    // i.e: Taking a running average of your data values, using most recent data points, etc.
 }

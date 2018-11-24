@@ -29,13 +29,12 @@ private:
     double previousCurrent_;
     double previousVoltage_;
     QTime previousTime_;
-    double tempTimeUntilCharge_;
-    double tempTimeUntilDepletion_;
-    QTime timeUntilCharge_;
-    QTime timeUntilDepletion_;
     double newCurrent_;
     double newVoltage_;
     QTime newTime_;
     double changeInAmpHours_;
     double totalAmpHoursUsed_;
+    double averageCurrent_;
+    double changeInTime_;
+    bool firstRun_;
 };
