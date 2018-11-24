@@ -30,7 +30,9 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const //using the most r
 
     return totalAmpHours;
 }
-
+BatteryStateOfChargeService::~BatteryStateOfChargeService() //destructor
+{
+}
 bool BatteryStateOfChargeService::isCharging() const
 {
     return current < 0;
