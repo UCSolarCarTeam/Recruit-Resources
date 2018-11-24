@@ -39,7 +39,6 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
    {
       return timeTilDepleted_;
    }
-
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
@@ -74,7 +73,6 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     hourUsed_ = (BATTERY_AMP_HOUR_CAPACITY-ampHourUsed_)/batteryData.current;
     QTime hourTilCharged = QTime (0,0,0,0);
     QTime hourTilDepleted = QTime (0,0,0,0);
-
     hourTilCharged = hourTilCharged.addMSecs((int)(hourCharge_/MILLISECONDS_TO_HOURS));
     hourTilDepleted = hourTilDepleted.addMSecs((int)(hourUsed_/MILLISECONDS_TO_HOURS));
     timeTilCharged_ = hourTilCharged;
