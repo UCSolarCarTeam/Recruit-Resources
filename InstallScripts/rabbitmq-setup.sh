@@ -3,12 +3,22 @@ if [ "$(id -u)" != "0" ]; then
     echo "Permission Denied. Please run as root"
     exit 1
 fi
+if [ -f /etc/os-release ]; then
+   . /etc/os-release
+   CODENAME=$VERSION_CODENAME
+else
+   CODENAME=$(lsb_release -sc)
+fi
 
-echo 'deb http://www.rabbitmq.com/debian/ testing main' | tee /etc/apt/sources.list.d/rabbitmq.list
+apt-key adv --keyserver "hkps.pool.sks-keyservers.net" --recv-keys "0x6B73A36E6026DFCA"
+wget -O - "https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc" | sudo apt-key add -
 
+echo "deb https://dl.bintray.com/rabbitmq/debian $CODENAME main erlang" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
 (
 	apt-get update
-	apt-get install -y --force-yes rabbitmq-server \
+	apt-get install -y \
+		erlang-nox \
+		rabitmq-server \
 		cmake \
 		libboost-dev \
 		openssl \
