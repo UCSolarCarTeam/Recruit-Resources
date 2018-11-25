@@ -18,7 +18,7 @@ echo "deb https://dl.bintray.com/rabbitmq/debian $CODENAME main erlang" | sudo t
 	apt-get update
 	apt-get install -y \
 		erlang-nox \
-		rabitmq-server \
+		rabbitmq-server \
 		cmake \
 		libboost-dev \
 		openssl \
