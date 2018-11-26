@@ -12,7 +12,8 @@ then
   echo 'googletest & googlemock already installed'
 else
 (
-  cd /tmp
+ apt install build-essential -y
+ cd /tmp
   if [ -d "googletest" ] ; then
        echo "Cleaning tmp/googletest"
        rm googletest/ -r
