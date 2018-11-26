@@ -5,7 +5,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 if [ -f /etc/os-release ]; then
    . /etc/os-release
-   CODENAME=$VERSION_CODENAME
+   CODENAME=$UBUNTU_CODENAME
 else
    CODENAME=$(lsb_release -sc)
 fi
