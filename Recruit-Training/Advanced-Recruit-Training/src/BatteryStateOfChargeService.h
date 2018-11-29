@@ -23,15 +23,8 @@ public:
 
 private:
     const double initialStateOfChargePercent_;
-    double previousCurrent_;
-    double previousVoltage_;
-    QTime previousTime_;
-    double newCurrent_;
-    double newVoltage_;
-    QTime newTime_;
-    double changeInAmpHours_;
-    double totalAmpHoursUsed_;
-    double averageCurrent_;
-    double changeInTime_;
+    double presentCurrent_;
     bool firstRun_;
+    double totalAmpHoursUsed_;
+    QTime presentTime_;
 };

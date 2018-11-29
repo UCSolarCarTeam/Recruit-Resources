@@ -9,7 +9,8 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent), totalAmpHoursUsed_(0.0), firstRun_(true)
+: initialStateOfChargePercent_(initialStateOfChargePercent)
+, firstRun_(true)
 {
 }
 
@@ -24,7 +25,8 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(newCurrent_ < 0){
+    if(presentCurrent_ < 0)
+    {
         return true;
     }
     return false;
@@ -35,12 +37,12 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     double tempTime;
     if(isCharging())
     {
-        tempTime = (totalAmpHoursUsed_/newCurrent_);
+        tempTime = (totalAmpHoursUsed_ / presentCurrent_);
         tempTime = tempTime * -1;
     }
     else
     {
-        tempTime = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed_)/newCurrent_;
+        tempTime = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed_) / presentCurrent_;
     }
 
     QTime timeWhenChargedOrDepleted(0,0,0,0);
@@ -52,25 +54,31 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    if (totalAmpHoursUsed_ == 0.0 && firstRun_)
-    {
+    double previousCurrent_;
+    QTime previousTime_;
+    double changeInTime_;
+    double averageCurrent_;
+    double changeInAmpHours_;
 
-        totalAmpHoursUsed_ = (initialStateOfChargePercent_/100.0) * BATTERY_AMP_HOUR_CAPACITY;
-        previousTime_ = batteryData.time;
-        newTime_ = batteryData.time;
-        previousCurrent_ = batteryData.current;
-        newCurrent_ = batteryData.current;
+    if (firstRun_)
+    {
+        totalAmpHoursUsed_ = (initialStateOfChargePercent_ / 100.0) * BATTERY_AMP_HOUR_CAPACITY;
+
         firstRun_ = false;
     }
-    else
-    {
-        previousTime_ = newTime_;
-        newTime_ = batteryData.time;
-        previousCurrent_ = newCurrent_;
-        newCurrent_ = batteryData.current;
-        averageCurrent_ = (newCurrent_ + previousCurrent_) / 2.0;
-        changeInTime_ = (previousTime_.msecsTo(newTime_)) / (MILLISECONDS_IN_AN_HOUR);
-        changeInAmpHours_ = (averageCurrent_ * changeInTime_);
-        totalAmpHoursUsed_ += changeInAmpHours_;
-         }
+
+    previousTime_ = presentTime_;
+    presentTime_ = batteryData.time;
+
+    previousCurrent_ = presentCurrent_;
+    presentCurrent_ = batteryData.current;
+
+    averageCurrent_ = (presentCurrent_ + previousCurrent_) / 2.0;
+
+    changeInTime_ = (previousTime_.msecsTo(presentTime_)) / (MILLISECONDS_IN_AN_HOUR);
+
+    changeInAmpHours_ = (averageCurrent_ * changeInTime_);
+
+    totalAmpHoursUsed_ += changeInAmpHours_;
+
 }
