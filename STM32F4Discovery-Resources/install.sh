@@ -52,6 +52,7 @@ if [ ! -d "/opt/gcc4mbed" ]; then
         echo "export PATH=\$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/" >> ~/.profile
     fi
     export PATH=$PATH:/opt/gcc4mbed/gcc-arm-none-eabi/bin/
+	ln -s /opt/gcc4mbed/gcc-arm-none-eabi/bin/arm-none-eabi-gdb /usr/local/bin/arm-none-eabi-gdb
 else
     echo "*** ARM compiler already installed"
 fi
