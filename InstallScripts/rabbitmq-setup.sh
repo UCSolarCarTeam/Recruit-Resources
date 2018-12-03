@@ -30,7 +30,14 @@ echo $CODENAME
 apt-key adv --keyserver "hkps.pool.sks-keyservers.net" --recv-keys "0x6B73A36E6026DFCA"
 wget -O - "https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc" | sudo apt-key add -
 
-echo "deb https://dl.bintray.com/rabbitmq/debian $CODENAME main erlang" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
+rm /etc/apt/sources.list.d/bintray.rabbitmq.list
+if [ CODENAME="trusty" ]; then
+	CODENAME=testing
+else
+	echo "deb https://dl.bintray.com/rabbitmq-erlang/debian $CODENAME erlang" | tee -a /etc/apt/sources.list.d/bintray.rabbitmq.list
+fi
+echo "deb https://dl.bintray.com/rabbitmq/debian $CODENAME main" | tee -a /etc/apt/sources.list.d/bintray.rabbitmq.list
+
 (
 	apt-get update
 	apt-get install -y \
