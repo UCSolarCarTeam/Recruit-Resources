@@ -3,13 +3,30 @@ if [ "$(id -u)" != "0" ]; then
     echo "Permission Denied. Please run as root"
     exit 1
 fi
+
+#UBUNTU_CODENAME is avaliable in newer versions of os-release
 if [ -f /etc/os-release ]; then
    . /etc/os-release
    CODENAME=$UBUNTU_CODENAME
+   # For older versions of os-release
+   if [ CODENAME="" ]; then
+   case $VERSION_ID in 
+   	"14.04")
+		CODENAME=trusty
+		;;
+	"16.04")
+		CODENAME=xenial
+		;;
+	"18.04")
+		CODENAME=bionic	
+		;;
+	esac
+   fi
 else
+   # In the event the distro does not come with os-release 
    CODENAME=$(lsb_release -sc)
 fi
-
+echo $CODENAME
 apt-key adv --keyserver "hkps.pool.sks-keyservers.net" --recv-keys "0x6B73A36E6026DFCA"
 wget -O - "https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc" | sudo apt-key add -
 
