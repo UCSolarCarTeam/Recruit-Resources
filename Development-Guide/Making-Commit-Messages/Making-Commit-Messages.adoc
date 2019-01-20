@@ -40,6 +40,19 @@ _If applied, this commit will <your subject line here>_
 The summary should be in paragraph form and should discuss the _whys_ of the change,
 linking to any documentation or references depending on how complicated the change is.
 
+#### Changing commit messages
+
+You can edit your commit history through rebasing. 
+If you want to change the history of the last 3 commits, run:
+`git rebase HEAD~3 -i`
+
+Multiple options will appear, including the ability to reword commit messages, 
+squash commits together, and more. 
+See https://robots.thoughtbot.com/git-interactive-rebase-squash-amend-rewriting-history[this link] for more comprehensive documentation on rebasing.
+
+This tool will help you keep the commit history of your branch clean.
+However, it can be incredibly dangerous. *NEVER change the commit history of the master branch for any reason.* 
+
 ### Further Reading:
 * https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53
 * https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
