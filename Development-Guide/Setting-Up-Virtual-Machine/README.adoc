@@ -1,0 +1,47 @@
+= Steps to Setup a Virtual Machine on VirtualBox
+
+. Download the latest https://www.virtualbox.org/wiki/Downloads[version of VirtualBox]
++
+. Download the http://www.debian.org/[debian network installer image]. 
+   * You can install a different operating system by downloading a different network installer image 
+   * Recommended: debian-8.2.0-amd64-netinst.iso
++
+. Open VirtualBox and create a new VM
+   * In the name field enter the desired name for the VM ex. "_Debian for Pi_"
+   * In the type field choose *Linux*
+   * In the version field choose *Debian (64-bit)*
+   * Set the memory size to *2GB (2000MB)* (recommended size, can be changed later if needed)
+   * Choose "_create a virtual hard disk now_"
+   * Select VDI (VirtualBox Disk Image)
+   * Proceed with the default settings 
++   
+. Insert the Debian install DVD image into the VM storage
+   * Select the VM created above and navigate to the settings icon in the menu bar
+   * Then navigate to the storage icon in the new window and then _Controller : IDE_ 
+      ** Click on the DVD image, it should say empty at this point
+      ** Under _optical drive_ select the image downloaded in step 2
++
+. Power on the VM and select install from the installer boot menu
+   * https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/[More information on install settings and configuration]
++
+. Go into _Activities_ and find _Terminal_ 
+   * Type the command `su`
+   * Next use the command `apt-get install sudo` (this will allow you to install git later)
+   * Next type in the command `nano /etc/sudoers`
+   * Scroll down to the line  `%sudo  ALL=(ALL:ALL) ALL`
+         * Below that line type in: `<yourusernamehere>  ALL=(ALL:ALL) ALL`
+   * Press  "Ctrl+x" then press "y" and then press [enter] to exit and save the file
+   * To check if "_sudo_" is working:
+         ** Type in the following command `sudo ls`
+         ** type in your password
+         ** If the output looks like the following, _sudo_ was installed successfully:
+              *** `Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos`
+   * Next run the command `sudo apt-get build-essential` (enables commands such as `g++`)
++ 
+. Installing git
+   * Type in the command, `sudo apt-get install update`
+   * Followed by, `sudo apt-get install git`
++
+. Now the desired repository can be cloned through the terminal
+
+https://www.privateinternetaccess.com/archive/forum/discussion/18063/debian-8-1-0-jessie-sudo-fix-not-installed-by-default[More information on installing sudo commands]
