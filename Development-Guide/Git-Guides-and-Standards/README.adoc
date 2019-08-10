@@ -1,0 +1,9 @@
+# Table of Contents
+
+<<Basic-Git-Guide.adoc#,Basic Git Guide>>
+
+<<Making-Pull-Requests.adoc#, Making Pull Requests>> 
+
+<<Branching-Standards.adoc#, Branching Standards>>
+
+<<Commit-Messages.adoc#, Making Commit Messages>>

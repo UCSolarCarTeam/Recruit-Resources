@@ -38,6 +38,8 @@ Make sure to write a descriptive commit message!
 
 After pushing, your changes should be updated on the Server (Github).
 
+== Other Useful Commands
+* `git branch -M <new-branch-name>` - renames a branch.
 == Further Resources
 
 There are some great Git guides floating around. Check out these:

@@ -4,7 +4,7 @@ To ensure proper commit history as more contributors work through projects,
 please follow these standards:
 
 ```
-Short (72 chars or less) summary
+Short (72 chars or less) summary.
 
 More detailed explanatory text. Wrap it to 72 characters. The blank
 line separating the summary from the body is critical (unless you omit
@@ -20,6 +20,8 @@ Further paragraphs come after blank lines.
 - Typically a hyphen or asterisk is used for the bullet, followed by a
   single space. Use a hanging indent.
 ```
+
+Your commit title should be phrased so it can answer the question "If this commit is applied, it will..."
 
 ### Example commit message
 
