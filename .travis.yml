@@ -1,12 +1,12 @@
 sudo: required
 before_install:
      - sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
-     - sudo apt-add-repository -y ppa:beineri/opt-qt542-trusty
+     - sudo apt-add-repository -y ppa:beineri/opt-qt-5.12.0-bionic
      - sudo apt-get -qq update
 install:
-     - sudo apt-get -qq install g++-4.8 libc6-i386 qt54tools qt54svg qt54webkit qt54serialport
-     - PATH="/opt/qt54/bin:$PATH"
-     - qt54-env.sh 
+     - sudo apt-get -qq install g++-4.8 libc6-i386 qt512tools qt512svg qt512webkit qt512serialport
+     - PATH="/opt/qt512/bin:$PATH"
+     - qt512-env.sh 
      - wget 'https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/astyle'
      - tar -zxvf astyle
      - (cd ./astyle/build/gcc && make release && sudo make install)
