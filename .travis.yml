@@ -5,7 +5,7 @@ before_install:
      - sudo apt-add-repository -y ppa:beineri/opt-qt-5.12.0-bionic
      - sudo apt-get -qq update
 install:
-     - sudo apt-get -qq install g++-4.8 libc6-i386 qt512tools qt512svg qt512webkit qt512serialport
+     - sudo apt-get -qq install g++-4.8 libc6-i386 qt512tools qt512svg  qt512webengine qt512serialport
      - PATH="/opt/qt512/bin:$PATH"
      - qt512-env.sh 
      - wget 'https://s3-us-west-2.amazonaws.com/ucsolarteam.hostedfiles/astyle'
