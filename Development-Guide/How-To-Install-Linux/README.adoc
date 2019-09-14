@@ -66,6 +66,11 @@ Pros | Cons
 
 ***If you have a powerful PC and want to take the risk of the performance reduction, feel free to use this option.**
 
+**Recommended distros are**
+
+   	* https://www.linuxmint.com/download.php[Linux Mint (19.2)]
+   	* http://releases.ubuntu.com/19.04/[Ubuntu (19.04)]
+      
 ### How to install Linux on a Virtual Machine 
 Follow the instructions and/or watch the videos below.
 
