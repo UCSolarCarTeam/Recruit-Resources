@@ -4,7 +4,7 @@ To ensure proper commit history as more contributors work through projects,
 please follow these standards:
 
 ```
-Short (72 chars or less) summary.
+<JIRA-Issue-Number> Short (72 chars or less) summary.
 
 More detailed explanatory text. Wrap it to 72 characters. The blank
 line separating the summary from the body is critical (unless you omit
@@ -21,26 +21,28 @@ Further paragraphs come after blank lines.
   single space. Use a hanging indent.
 ```
 
-Your commit title should be phrased so it can answer the question "If this commit is applied, it will..."
-
-### Example commit message
-
-```
-Change the units of cell voltages from mV to V
-
-Based on testing and feedback....
-```
-
 #### Subject line
 
-The subject line should be able to describe the effects of the patch:
+The subject line should prefixed with the issue number (if applicable), and be able to answer the question:
 
 _If applied, this commit will <your subject line here>_
 
 #### Information in commit messages
 
-The summary should be in paragraph form and should discuss the _whys_ of the change,
-linking to any documentation or references depending on how complicated the change is.
+The summary should be in paragraph form and should discuss the _whys_ of the change, for example, why the specific bug occurred or why this particular change works.
+
+Documentation or references can be linked depending on how complicated the change is.
+
+If the developer & reviewer agree that the change is trivial or simple enough that just the subject line is explanatory, then an extra paragraph is not needed.
+
+### Example commit message
+
+```
+SFT-234 Change the units of cell voltages from mV to V
+
+Based on testing and feedback, it was found that it works better on the displays for the voltages to be displayed in V than mV.
+
+```
 
 #### Changing commit messages
 
@@ -53,7 +55,15 @@ squash commits together, and more.
 See https://robots.thoughtbot.com/git-interactive-rebase-squash-amend-rewriting-history[this link] for more comprehensive documentation on rebasing.
 
 This tool will help you keep the commit history of your branch clean.
-However, it can be incredibly dangerous. *NEVER change the commit history of the master branch for any reason.* 
+However, it can be incredibly dangerous. *NEVER change the commit history of the master branch (or any shared branch) for any reason.* 
+
+#### Linking to JIRA
+
+To link to an item on JIRA, simply include the issue number somewhere in the commit message.
+
+Each commit needs to have a reference to the JIRA ticket for it to be shown on the issue page.
+
+There are also https://bigbrassband.com/git-integration-for-jira/documentation/smart-commits.html[various tags] that can be used in the commit message to enact different effects on JIRA issues. 
 
 ### Further Reading:
 * https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53
