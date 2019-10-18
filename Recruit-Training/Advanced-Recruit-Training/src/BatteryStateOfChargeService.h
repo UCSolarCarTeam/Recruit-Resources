@@ -11,10 +11,14 @@ public:
     /*Returns the total amp hours used*/
     double totalAmpHoursUsed() const;
 
-    /*Returns true if the battery is being charged, false if not.*/
+    /* The battery is charging if the battery current is negative
+     * The battery is depleting if the battery current is positive
+     * Returns true if the battery is being charged, false if not.*/
     bool isCharging() const;
 
-    /*Return the time remaining to when the battery is charged or depleted*/
+    /* Amphours used (Ah) divided by the current (A) is the time until charged
+     * Remaining Amphours (Ah) divided by the current (A) is the time until depletion
+     * Return the time remaining to when the battery is charged or depleted*/
     QTime timeWhenChargedOrDepleted() const;
 
     /*Update Variables*/

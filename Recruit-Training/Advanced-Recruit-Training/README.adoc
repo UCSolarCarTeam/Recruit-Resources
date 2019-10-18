@@ -26,22 +26,36 @@ You'll have to set the appropriate command line arguments in `Projects > Build &
 
 == Objective
 
-The goal of this project is to give new recuits a good starting point to learn the required skills to work on the other projects. 
-If you ever need any help with how to use Qt's functions, a good start would be to look at http://doc.qt.io/qt-5.6/reference-overview.html[Qt's reference manual]
+The goal of this project is to give new recruits a good starting point to learn the required skills to work on the other projects. 
+If you ever need any help with how to use Qt's functions, a good start would be to look at http://doc.qt.io/qt-5.6/reference-overview.html[Qt's reference manual]. 
+Another useful resource can be found at https://doc.qt.io/qt-5/qtcore-module.html#namespaces. 
+This lists and explains how to implement Qt core C++ classes, some of which (i.e. QTime) will need to be used to complete the training tasks. 
+Refer to the development resources folder for the style guide. 
+In this document you can find the stylistic conventions that are to be used throughout the program.
 
 === Tasks to Complete
 
- *  Complete the error checking in `LogFileReader::parseLine`. 
- The proper format of each line in batData.csv should be hh:mm:ss:zzz, so any other differences should be caught. 
- It should be able to catch all the errors in batDataFailure.csv.
+ *  Complete the error checking in `LogFileReader::parseLine`. The proper format of each line in batData.csv should be hh:mm:ss:zzz, so any other differences should be caught. 
+It should be able to catch all the errors in batDataFailure.csv. 
  *  Implement the functions of BatteryStateOfChargeService. 
- See the notes below on how to calculate the values.
- *  Print out the time until depleted or charged (found in BatteryStateOfChargeService) in `BatteryStateDisplayService::handleBatteryDataReceived`.
+The instructions for how to calculate the required values can be found in the values and calculations section below.
+ *  `BatteryStateDisplayService::handleBatteryDataReceived` can be found in BatteryStateOfChargeService. 
+In this function, the time until the battery is charged or depleted needs to be printed.
+ *  In order to print newly calculated values, the variables must be updated. 
+There are many different ways to do this. 
+This should be implemented within the addData function which can be found in BatteryStateOfChargeService.
 
-=== Values to Note for BatteryStateOfChargeService
+=== Values and Calculations to Note for BatteryStateOfChargeService
 
- *  The battery is charging when the battery current is negative, depleting when it is positive.
- *  The initial amount of Amphours used would be the Battery's Amphour capacity(Ah) multiplied by it's state of charge(%).
- *  The change in amphours used between two data points would be the average current(A) multiplied by the difference in time(h)
- *  The time until charge would be the Amphours used(Ah) divided by the current (A). 
- Similarily, the time until depletion would be the remaining amphours divided by the current.    
+ *  Refer to `BatteryStateOfChargeService.h` for the function descriptions.
+ *  In order to determine whether the battery is charging or depleting, the battery's current must be considered. 
+A positive current implies that the battery is charging whereas a negative current means that the battery is depleting. 
+ *  The initial amount of Amphours used can be calculated by multiplying the battery's amphour capacity (Ah) by the battery's state of charge (%).
+ *  In order to calculate the amphours used between two data points, the average current (A) can be multiplied by the difference in time (h).
+ *  The time until the battery is charged can be calculated by dividing the amphours used (Ah) by the current (A). 
+The time until depletion can be calculated by dividing the remaining amphours (Ah) by the current.
+
+=== Extra Information to Help with Task Completion
+
+ *  Within the namespace, define any variables or formats that will be used multiple times in the program (i.e. The format of each line in batData.csv).
+ *  Remember to include the header files in the corresponding cpp files as well as include Qt classes that have been implemented in the program (i.e. `#include <QTime>`).
