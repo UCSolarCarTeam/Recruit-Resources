@@ -17,5 +17,5 @@ script:
      - cd Recruit-Training/Advanced-Recruit-Training/src 
      - qmake
      - make
-
+Thomas was here
 language: cpp
