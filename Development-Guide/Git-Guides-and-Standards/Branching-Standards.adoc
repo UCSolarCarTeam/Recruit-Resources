@@ -12,9 +12,9 @@ As a result, *no one should ever force push to the master branch!*
 User branches are the most common kind of branch, that an individual user opens to work on a task. 
 These branches should be short lived as they should only be for small items.
 
-The naming for user branches will be along the lines of `user/<username>/<Issue Number>-Issue-Name`.
+The naming for user branches will be along the lines of `user/<username>/<JIRA-Issue Number>-Quick-Summary`.
 
-For example, `user/bill-luu/98-Improve-Git-Process`
+For example, `user/bill-luu/SFT-98-Improve-Git-Process`
 
 These branches should (normally) be merged using the *rebase and merge* option, to keep the commit history linear.
 
