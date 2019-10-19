@@ -60,4 +60,4 @@ The time until depletion can be calculated by dividing the remaining amphours (A
  *  Within the namespace, define any variables or formats that will be used multiple times in the program (i.e. The format of each line in batData.csv).
  *  Remember to include the header files in the corresponding cpp files as well as include Qt classes that have been implemented in the program (i.e. `#include <QTime>`).
  
- Shamin Rahman
+ Shamin Rahman.
