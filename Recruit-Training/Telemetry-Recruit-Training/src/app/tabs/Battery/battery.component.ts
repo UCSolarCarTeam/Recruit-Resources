@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BatteryService } from '../../_services/battery.service';
+import { Battery } from '../../_objects/battery';
 
 @Component({
   selector: 'app-battery',
@@ -6,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./battery.component.css']
 })
 export class BatteryComponent implements OnInit {
-  
-  ngOnInit() {
-  
+
+  private battery: Battery;
+
+  constructor(private bs: BatteryService) {
   }
-  
+
+  ngOnInit() {
+    this.battery = this.bs.getData();
+    console.log(this.battery);
+  }
+
 }
