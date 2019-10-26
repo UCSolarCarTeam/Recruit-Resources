@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+html, body {
+  height: 100%;
+  width: 100%;
+  min-height: 600px;
+}
+
+body {
+  margin: 0 auto;
+  /*background-image: url("assets/background.png");*/
+  background-color: rgb(5, 5, 5);
+  background-size: 100% 100%;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	font-family: Arial, sans-serif;
+	font-size: 1.2rem;
+	background-color: transparent;
+	color: #D5FEFF;
+	padding-bottom: 0.2em;
+	padding-top: .2em;
+	margin-top: 0.1em;
+	margin-bottom: 0.1em;
+	width: auto;
+}
+
+.subheader {
+	font-family: Arial, sans-serif;
+	font-size: 1rem;
+	background-color: #303030;
+	color: rgba(255, 255, 255, 0.75);
+	padding-bottom: 0.2em;
+	padding-top: .2em;
+	text-align: center;
+	margin-bottom: 15px;
+	width: auto;
+	border:1px solid #6B7F7F;
+}
