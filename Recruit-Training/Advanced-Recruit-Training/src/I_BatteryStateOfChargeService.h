@@ -13,4 +13,5 @@ public:
     virtual QTime timeWhenChargedOrDepleted() const = 0;
 
     virtual void addData(const BatteryData& batteryData) = 0;
+
 };
