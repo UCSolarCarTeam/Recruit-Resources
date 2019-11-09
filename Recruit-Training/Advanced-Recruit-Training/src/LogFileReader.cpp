@@ -2,14 +2,15 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
+#include <exception>
 
 #include "LogFileReader.h"
 
 namespace
 {
-    const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
-    const QString BATDATA_DELIMITER= ", ";
-    const int COLUMNS = 3;
+const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
+const QString BATDATA_DELIMITER= ", ";
+const int COLUMNS = 3;
 }
 
 LogFileReader::LogFileReader()
@@ -26,7 +27,7 @@ bool LogFileReader::readAll(const QString& fileName)
     if(!file.open(QIODevice::ReadOnly))
     {
         qDebug() << "Unable to open file" << fileName;
-        return false;
+        //return false;
     }
 
     QTextStream input(&file);
@@ -37,7 +38,7 @@ bool LogFileReader::readAll(const QString& fileName)
         if (!parseLine(line, batteryData))
         {
             qDebug() << "Error while parsing" << line;
-            // return false;
+            //return false;
         }
         else
         {
@@ -59,12 +60,22 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 {
     QStringList sections = line.split(BATDATA_DELIMITER);
 
-    QString timeString = sections.at(0);
-    batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
+    if(sections.size() != COLUMNS)
+        return false;
 
-    batteryData.voltage = sections.at(1).toDouble();
+    try
+    {
+        QString timeString = sections.at(0);
+        batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
-    batteryData.current = sections.at(2).toDouble();
+        batteryData.voltage = sections.at(1).toDouble();
+
+        batteryData.current = sections.at(2).toDouble();
+    }
+    catch(std::exception& e)
+    {
+        return false;
+    }
 
     return true;
 
