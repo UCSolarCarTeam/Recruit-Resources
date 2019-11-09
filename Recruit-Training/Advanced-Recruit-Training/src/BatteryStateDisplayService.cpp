@@ -28,12 +28,12 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 
     batteryStateOfChargeService_.addData(batteryData);
     int totalHours = batteryStateOfChargeService_.timeWhenChargedOrDepleted().hour()
-             + batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec();
+                     + batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec();
 
-    QTextStream(stdout)<< "Voltage: " << batteryData.voltage
-                      << " Current: " << batteryData.current
-                      << " Total Ah used: "
-                      << batteryStateOfChargeService_.totalAmpHoursUsed()<<endl;
+    QTextStream(stdout) << "Voltage: " << batteryData.voltage
+                        << " Current: " << batteryData.current
+                        << " Total Ah used: "
+                        << batteryStateOfChargeService_.totalAmpHoursUsed() << endl;
 
 
 
@@ -48,8 +48,8 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
     }
 
     QTextStream(stdout) << totalHours
-                            << " hours, "
-                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute()
-                            << " minutes, "
-                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second() << " seconds.\n" << endl;
+                        << " hours, "
+                        << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute()
+                        << " minutes, "
+                        << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second() << " seconds.\n" << endl;
 }

@@ -50,7 +50,7 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     hours = totalTimeHours;
     //Minute is whatever left over multiply by 60 (hours to minute)
     minutes = (totalTimeHours - hours) * HOURS_TO_MINUTES;
-    seconds = (totalTimeHours * HOURS_TO_MINUTES - hours* HOURS_TO_MINUTES - minutes) * MINUTES_TO_SECONDS;
+    seconds = (totalTimeHours * HOURS_TO_MINUTES - hours * HOURS_TO_MINUTES - minutes) * MINUTES_TO_SECONDS;
     overlapsHours = (hours / 24) * 24;
     hours -= overlapsHours;
     return QTime(hours, minutes, seconds, overlapsHours);
@@ -70,8 +70,9 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     timeNew_ = batteryData.time;
 
     double averageAmphour_ = (currentNew_ + currentOld_) / 2;
+
     if (!timeOld_.isNull())
     {
-        amphour_ += averageAmphour_ * timeOld_.msecsTo(timeNew_)/HOURS_TO_MILISECONDS;
+        amphour_ += averageAmphour_ * timeOld_.msecsTo(timeNew_) / HOURS_TO_MILISECONDS;
     }
 }
