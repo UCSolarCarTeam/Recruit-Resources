@@ -4,12 +4,7 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
-    const int milisecondsPerHour = 3600000;
-    const int milisecondsPerMinute = 60000;
-    const int milisecondsPerSecond = 1000;
-    const double minutesPerHour = 60.0;
-    const double secondsPerHour = 3600.0;
-    const double milisecondsPerHourDouble = 3600000.0;
+    const double MILLISECONDS_PER_HOUR = 3600000.0;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -53,7 +48,7 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
         hoursTillChargedOrDepleted = remainingAmpHours_ / data_.current;
     }
 
-    int milliseconds = hoursTillChargedOrDepleted * milisecondsPerHour;
+    int milliseconds = hoursTillChargedOrDepleted * MILLISECONDS_PER_HOUR;
     QTime result(0, 0, 0);
     return result.addMSecs(milliseconds);
 }
@@ -74,7 +69,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     QTime newTime = data_.time;
 
     int differenceInTimeMilis = oldTime_.msecsTo(newTime);
-    double differenceInHours = differenceInTimeMilis / milisecondsPerHourDouble;
+    double differenceInHours = differenceInTimeMilis / MILLISECONDS_PER_HOUR;
     double usedAmpHours = (newCurrent + oldCurrent_) / 2.0;
     usedAmpHours *= differenceInHours;
 
