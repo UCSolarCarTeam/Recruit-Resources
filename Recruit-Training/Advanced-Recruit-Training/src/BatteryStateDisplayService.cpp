@@ -8,13 +8,13 @@
 BatteryStateDisplayService::BatteryStateDisplayService(
     const I_BatteryDataSource& batteryDataSource,
     I_BatteryStateOfChargeService& batteryStateOfChargeService)
-: batteryStateOfChargeService_(batteryStateOfChargeService)
+    : batteryStateOfChargeService_(batteryStateOfChargeService)
 {
     // This function is what "connects" the signal to the slot. So whenever the
     // signals it emitted, the slot will be called and the signal arguements
     // will be passed into the slot.
     connect(&batteryDataSource, SIGNAL(batteryDataReceived(const BatteryData&)),
-        this, SLOT(handleBatteryDataReceived(const BatteryData&)));
+            this, SLOT(handleBatteryDataReceived(const BatteryData&)));
 }
 
 BatteryStateDisplayService::~BatteryStateDisplayService()
@@ -25,9 +25,25 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 {
     batteryStateOfChargeService_.addData(batteryData);
 
-    QTextStream(stdout) << "Voltage: " << batteryData.voltage
-        << " Current: " << batteryData.current
-        << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << endl;
+    if (batteryStateOfChargeService_.isCharging())
+    {
+        QTextStream(stdout) << "Voltage: " << batteryData.voltage
+                            << " Current: " << batteryData.current
+                            << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << " Time until fully charged: "
+                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().hour() + batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec()
+                            << " hours, " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute() << " minutes, "
+                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second() << " seconds." << endl;
+    }
+    else
+    {
+        QTextStream(stdout) << "Voltage: " << batteryData.voltage
+                            << " Current: " << batteryData.current
+                            << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << " Time until fully depleted: "
+                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().hour() + batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec()
+                            << " hours, " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute() << " minutes, "
+                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second() << " seconds." << endl;
+    }
 
     // TODO: Print out time until the battery is fully charged or depleted.
+
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "I_BatteryStateOfChargeService.h"
+#include "BatteryData.h"
+#include <QTime>
 
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
@@ -29,4 +31,10 @@ private:
     const double initialStateOfChargePercent_;
 
     // Add your necessary variables here
+    double amphour_;
+    double currentNew_;
+    double currentOld_;
+    QTime timeNew_;
+    QTime timeOld_;
+
 };
