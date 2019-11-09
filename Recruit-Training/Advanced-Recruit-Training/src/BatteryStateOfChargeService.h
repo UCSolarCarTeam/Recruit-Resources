@@ -33,8 +33,6 @@ private:
     // Add your necessary variables here
     double amphour_;
     double currentNew_;
-    double currentOld_;
     QTime timeNew_;
-    QTime timeOld_;
 
 };

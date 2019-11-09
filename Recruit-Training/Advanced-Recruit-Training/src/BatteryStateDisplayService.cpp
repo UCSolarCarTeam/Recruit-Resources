@@ -23,27 +23,33 @@ BatteryStateDisplayService::~BatteryStateDisplayService()
 
 void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& batteryData)
 {
+    /*Calculating the total amount of hour through adding the overlapHours stored in the milisecond space
+      to the the hours space*/
+
     batteryStateOfChargeService_.addData(batteryData);
+    int totalHours = batteryStateOfChargeService_.timeWhenChargedOrDepleted().hour()
+             + batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec();
+
+    QTextStream(stdout)<< "Voltage: " << batteryData.voltage
+                      << " Current: " << batteryData.current
+                      << " Total Ah used: "
+                      << batteryStateOfChargeService_.totalAmpHoursUsed()<<endl;
+
+
 
     if (batteryStateOfChargeService_.isCharging())
     {
-        QTextStream(stdout) << "Voltage: " << batteryData.voltage
-                            << " Current: " << batteryData.current
-                            << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << " Time until fully charged: "
-                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().hour() + batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec()
-                            << " hours, " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute() << " minutes, "
-                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second() << " seconds." << endl;
+        QTextStream(stdout) << "Time until fully charged: ";
+
     }
     else
     {
-        QTextStream(stdout) << "Voltage: " << batteryData.voltage
-                            << " Current: " << batteryData.current
-                            << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << " Time until fully depleted: "
-                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().hour() + batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec()
-                            << " hours, " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute() << " minutes, "
-                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second() << " seconds." << endl;
+        QTextStream(stdout) << "Time until fully depleted: ";
     }
 
-    // TODO: Print out time until the battery is fully charged or depleted.
-
+    QTextStream(stdout) << totalHours
+                            << " hours, "
+                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute()
+                            << " minutes, "
+                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second() << " seconds.\n" << endl;
 }
