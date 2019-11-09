@@ -39,11 +39,11 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     if(isCharging())
         totalHours = -1 * totalAmpHoursUsed() / current_;
     else
-        totalHours = (BATTERY_AMP_HOUR_CAPACITY-totalAmpHoursUsed()) / current_;
+        totalHours = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_;
 
     hours = (int)totalHours;
     minutes = (int)((totalHours - hours) * 60);
-    seconds = (int)((totalHours*60 - hours*60 - minutes) * 60);
+    seconds = (int)((totalHours * 60 - hours * 60 - minutes) * 60);
 
     //uses msec as a place holder for the remaining hours as the hours in QTime could only hold up to 24
     remainingHours = ((int)(totalHours/24)) * 24;
@@ -65,7 +65,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     timeNew_ = batteryData.time;
 
     if(timeOld_.isNull()) //checks if timeOld_ has no a value (first itteration)
-        ampHours_ += BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_/100;
+        ampHours_ += BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / 100;
     else
-        ampHours_ += (current_ * timeOld_.secsTo(timeNew_)/3600);
+        ampHours_ += (current_ * timeOld_.secsTo(timeNew_) / 3600);
 }
