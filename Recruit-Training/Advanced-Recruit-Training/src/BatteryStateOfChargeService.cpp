@@ -1,22 +1,21 @@
 #include "BatteryStateOfChargeService.h"
 #include "BatteryData.h"
-#include <iostream>
 
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
-    double remainingAmpHours;
-    int semaphore = 0;
-
-    double oldCurrent = 0;
-    QTime oldTime;
-
+    const int milisecondsPerHour = 3600000;
+    const int milisecondsPerMinute = 60000;
+    const int milisecondsPerSecond = 1000;
+    const double minutesPerHour = 60.0;
+    const double secondsPerHour = 3600.0;
+    const double milisecondsPerHourDouble = 3600000.0;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent)
+: initialStateOfChargePercent_(initialStateOfChargePercent), remainingAmpHours_(initialStateOfChargePercent_ /100.0 * BATTERY_AMP_HOUR_CAPACITY),
+  isFirstRun_(true), oldCurrent_(0)
 {
-    remainingAmpHours = initialStateOfChargePercent_ /100.0 * BATTERY_AMP_HOUR_CAPACITY;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -25,76 +24,65 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    //double initialAmpHours = initialStateOfChargePercent_ * BATTERY_AMP_HOUR_CAPACITY;
-
-    return BATTERY_AMP_HOUR_CAPACITY - remainingAmpHours;
+    return BATTERY_AMP_HOUR_CAPACITY - remainingAmpHours_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(data_.current < 0) return true;
-    return false;   //assuming positive current is not charging
+    if (data_.current < 0)
+    {
+        return true;
+    }
+    else
+    {
+       return false;
+    }
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    double hoursTill;
-    if(isCharging()){
-        hoursTill = 0.0 - (BATTERY_AMP_HOUR_CAPACITY - remainingAmpHours) / data_.current;
+    double hoursTillChargedOrDepleted;
+    if(isCharging())
+    {
+        hoursTillChargedOrDepleted = BATTERY_AMP_HOUR_CAPACITY - remainingAmpHours_;
+        hoursTillChargedOrDepleted /= data_.current;
+        hoursTillChargedOrDepleted = abs(hoursTillChargedOrDepleted);
     }
-    else{
-        hoursTill = remainingAmpHours / data_.current;
+    else
+    {
+        hoursTillChargedOrDepleted = remainingAmpHours_ / data_.current;
     }
 
-    int milliseconds = hoursTill * 3600000; int remainingMilis;
-    int hours = milliseconds / 3600000 % 24; remainingMilis = milliseconds % 3600000;
-    int minutes = remainingMilis / 60000 % 60; remainingMilis = milliseconds % 60000;
-    int seconds = remainingMilis / 1000 % 60; remainingMilis = milliseconds % 1000;
-    int mili = remainingMilis;
-
-    return QTime(hours, minutes, seconds, mili);
+    int milliseconds = hoursTillChargedOrDepleted * milisecondsPerHour;
+    QTime result(0, 0, 0);
+    return result.addMSecs(milliseconds);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    //Q_UNUSED(batteryData);
     data_ = batteryData;
 
-    if(!semaphore){
-        oldCurrent = abs(data_.current);
-        oldTime = data_.time;
-        semaphore = 1;
+    if(isFirstRun_)
+    {
+        oldCurrent_ = abs(data_.current);
+        oldTime_ = data_.time;
+        isFirstRun_ = false;
         return;
     }
 
     double newCurrent = abs(data_.current);
     QTime newTime = data_.time;
 
-    double oldHour = oldTime.hour();
-    double oldMinute = oldTime.minute();
-    double oldSec = oldTime.second();
-    double oldMili = oldTime.msec();
-
-    double newHour = newTime.hour();
-    double newMinute = newTime.minute();
-    double newSec = newTime.second();
-    double newMili = newTime.msec();
-
-    double totalHoursOld = oldHour + oldMinute / 60.0 + oldSec / 3600.0 + oldMili / 3600000.0;
-    double totalHoursNew = newHour + newMinute / 60.0 + newSec / 3600.0 + newMili / 3600000.0;
-    double totalHours = totalHoursNew - totalHoursOld;
-
-    double usedAmpHours = (newCurrent + oldCurrent) / 2.0 * totalHours;
+    int differenceInTimeMilis = oldTime_.msecsTo(newTime);
+    double differenceInHours = differenceInTimeMilis / milisecondsPerHourDouble;
+    double usedAmpHours = (newCurrent + oldCurrent_) / 2.0;
+    usedAmpHours *= differenceInHours;
 
     if(isCharging())
-        remainingAmpHours += usedAmpHours;
+        remainingAmpHours_ += usedAmpHours;
     else
-        remainingAmpHours -= usedAmpHours;
+        remainingAmpHours_ -= usedAmpHours;
 
-    oldCurrent = newCurrent;
-    oldTime = newTime;
-
-    // This is where you can update your variables
-    // Hint: There are many different ways that the totalAmpHoursUsed can be updated
-    // i.e: Taking a running average of your data values, using most recent data points, etc.
+    oldCurrent_ = newCurrent;
+    oldTime_ = newTime;
 }

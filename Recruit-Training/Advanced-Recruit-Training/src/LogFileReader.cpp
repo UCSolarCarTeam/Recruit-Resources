@@ -2,8 +2,6 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
-#include <iostream>
-
 #include "LogFileReader.h"
 
 namespace
@@ -69,16 +67,13 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     if(batteryData.time.isNull())
         return false;
 
-    //QString s = batteryData.time.toString(STRING_TIME_FORMAT);
-    //std::string x = s.toUtf8().constData();
-    //std::cout<<" x "<<x<<"    ** ";
+    bool ok1, ok2;
 
-    bool ok;
+    batteryData.voltage = sections.at(1).toDouble(&ok1);
+    batteryData.current = sections.at(2).toDouble(&ok2);
 
-    batteryData.voltage = sections.at(1).toDouble(&ok);
-    if(ok == false) return false;
-    batteryData.current = sections.at(2).toDouble(&ok);
-    if(ok == false) return false;
+    if(!ok1 || !ok2)
+        return false;
 
     return true;
 

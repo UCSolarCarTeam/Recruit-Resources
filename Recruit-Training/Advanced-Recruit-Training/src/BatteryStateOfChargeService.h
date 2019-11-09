@@ -29,5 +29,9 @@ private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
     BatteryData data_;
+    double remainingAmpHours_;
+    bool isFirstRun_;
+    double oldCurrent_;
+    QTime oldTime_;
     // Add your necessary variables here
 };
