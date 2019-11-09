@@ -27,7 +27,7 @@ bool LogFileReader::readAll(const QString& fileName)
     if(!file.open(QIODevice::ReadOnly))
     {
         qDebug() << "Unable to open file" << fileName;
-        //return false;
+        return false;
     }
 
     QTextStream input(&file);
@@ -38,7 +38,7 @@ bool LogFileReader::readAll(const QString& fileName)
         if (!parseLine(line, batteryData))
         {
             qDebug() << "Error while parsing" << line;
-            //return false;
+            return false;
         }
         else
         {
