@@ -8,7 +8,6 @@ html, body {
 
 body {
   margin: 0 auto;
-  /*background-image: url("assets/background.png");*/
   background-color: rgb(5, 5, 5);
   background-size: 100% 100%;
 }

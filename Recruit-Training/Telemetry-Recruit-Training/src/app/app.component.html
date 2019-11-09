@@ -1,4 +1,3 @@
-<app-leftpanel></app-leftpanel>
 <div class="tabs">
   <nav mat-tab-nav-bar class='sticky'>
     <a mat-tab-link
@@ -12,31 +11,8 @@
      [class]=getActiveClass(i)
      [disableRipple]="true"
     >
-     <mat-icon svgIcon="{{routeLink.icon}}" class="tab-icons"></mat-icon>
       {{routeLink.label}}
     </a>
   </nav>
   <router-outlet></router-outlet>
 </div>
-<app-rightpanel></app-rightpanel>
-<app-leftpanel></app-leftpanel>
-<div class="tabs">
-  <nav mat-tab-nav-bar class='sticky'>
-    <a mat-tab-link
-     *ngFor="let routeLink of routeLinks; let i = index;"
-     [routerLink]="routeLink.link"
-     routerLinkActive
-     #rla="routerLinkActive"
-     [active]="activeLinkIndex === i"
-     (click)="activeLinkIndex = i"
-     [routerLinkActiveOptions]="{exact: true}"
-     [class]=getActiveClass(i)
-     [disableRipple]="true"
-    >
-     <mat-icon svgIcon="{{routeLink.icon}}" class="tab-icons"></mat-icon>
-      {{routeLink.label}}
-    </a>
-  </nav>
-  <router-outlet></router-outlet>
-</div>
-<app-rightpanel></app-rightpanel>
