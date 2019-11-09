@@ -8,13 +8,13 @@
 BatteryStateDisplayService::BatteryStateDisplayService(
     const I_BatteryDataSource& batteryDataSource,
     I_BatteryStateOfChargeService& batteryStateOfChargeService)
-: batteryStateOfChargeService_(batteryStateOfChargeService)
+    : batteryStateOfChargeService_(batteryStateOfChargeService)
 {
     // This function is what "connects" the signal to the slot. So whenever the
     // signals it emitted, the slot will be called and the signal arguements
     // will be passed into the slot.
     connect(&batteryDataSource, SIGNAL(batteryDataReceived(const BatteryData&)),
-        this, SLOT(handleBatteryDataReceived(const BatteryData&)));
+            this, SLOT(handleBatteryDataReceived(const BatteryData&)));
 }
 
 BatteryStateDisplayService::~BatteryStateDisplayService()
@@ -26,8 +26,20 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
     batteryStateOfChargeService_.addData(batteryData);
 
     QTextStream(stdout) << "Voltage: " << batteryData.voltage
-        << " Current: " << batteryData.current
-        << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed() << endl;
+                        << " Current: " << batteryData.current
+                        << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed()<< endl;
 
     // TODO: Print out time until the battery is fully charged or depleted.
+    QTime displayTime = batteryStateOfChargeService_.timeWhenChargedOrDepleted();
+
+    if(batteryStateOfChargeService_.isCharging())
+        QTextStream(stdout)<<"Time until charge:";
+    else
+        QTextStream(stdout)<<"Time until depletion:";
+
+    QTextStream(stdout) <<"  Hours:"<< (displayTime.hour() + displayTime.msec())
+                        <<"  Min:" << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute()
+                        <<"  Sec:" << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second()
+                        << "\n" << endl;
+
 }
