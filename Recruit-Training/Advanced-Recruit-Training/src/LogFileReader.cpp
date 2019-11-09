@@ -38,7 +38,7 @@ bool LogFileReader::readAll(const QString& fileName)
         if (!parseLine(line, batteryData))
         {
             qDebug() << "Error while parsing" << line;
-            return false;
+
         }
         else
         {
@@ -59,23 +59,24 @@ bool LogFileReader::readAll(const QString& fileName)
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     QStringList sections = line.split(BATDATA_DELIMITER);
-
     if(sections.size() != COLUMNS)
         return false;
 
-    try
-    {
-        QString timeString = sections.at(0);
-        batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
+    QString timeString = sections.at(0);
+    batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
-        batteryData.voltage = sections.at(1).toDouble();
+    bool voltageOk;
+    bool currentOk;
 
-        batteryData.current = sections.at(2).toDouble();
-    }
-    catch(std::exception& e)
+    batteryData.voltage = sections.at(1).toDouble(&voltageOk);
+
+    batteryData.current = sections.at(2).toDouble(&currentOk);
+
+    if(!batteryData.time.isValid() || !voltageOk || !currentOk)
     {
         return false;
     }
+
 
     return true;
 
