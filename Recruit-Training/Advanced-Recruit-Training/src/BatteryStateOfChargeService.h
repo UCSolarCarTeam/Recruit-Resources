@@ -22,7 +22,7 @@ public:
      * Return the time remaining to when the battery is charged or depleted*/
     QTime timeWhenChargedOrDepleted() const;
 
-    /*Return the remaining hours*/
+    /*Return the remaining hours due size limit of hours in QTime*/
     int getRemainingHours() const;
 
     /*Update Variables*/
