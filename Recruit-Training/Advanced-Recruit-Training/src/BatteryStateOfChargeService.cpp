@@ -83,7 +83,6 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     minutes = (int)((totalHours - hours) * HMS_CONVERSION_FACTOR);
     seconds = (int)((totalHours * HMS_CONVERSION_FACTOR - hours * HMS_CONVERSION_FACTOR - minutes) * HMS_CONVERSION_FACTOR);
 
-    //uses msec as a place holder for the remaining hours as the hours in QTime could only hold up to 24
     remainingHours_ = ((int)(totalHours/24)) * 24;
     hours -= remainingHours_;
 
