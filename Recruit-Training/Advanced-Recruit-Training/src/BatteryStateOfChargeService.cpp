@@ -36,31 +36,14 @@ bool BatteryStateOfChargeService::isCharging() const
     }
 }
 
+int BatteryStateOfChargeService::getRemainingHours() const
+{
+    return remainingHours_;
+}
+
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    QTime time;
-    double totalHours;
-    int hours;
-    int remainingHours;
-    int minutes;
-    int seconds;
-
-    if(isCharging())
-        totalHours = qAbs(totalAmpHoursUsed() / currentNew_);
-    else
-        totalHours = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / currentNew_;
-
-    hours = (int)totalHours;
-    minutes = (int)((totalHours - hours) * HMS_CONVERSION_FACTOR);
-    seconds = (int)((totalHours * HMS_CONVERSION_FACTOR - hours * HMS_CONVERSION_FACTOR - minutes) * HMS_CONVERSION_FACTOR);
-
-    //uses msec as a place holder for the remaining hours as the hours in QTime could only hold up to 24
-    remainingHours = ((int)(totalHours/24)) * 24;
-    hours -= remainingHours;
-
-    time.setHMS(hours, minutes, seconds, remainingHours);
-
-    return time;
+    return timeTillChargeOrDepletion_;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
@@ -84,4 +67,25 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
         double avgCurrent = (currentOld + currentNew_) / 2;
         ampHours_ += (avgCurrent * timeOld.secsTo(timeNew_) / SECONDS_TO_HOURS);
     }
+
+    //calculate remaining time for charge or depletion
+    double totalHours;
+    int hours;
+    int minutes;
+    int seconds;
+
+    if(isCharging())
+        totalHours = qAbs(totalAmpHoursUsed() / currentNew_);
+    else
+        totalHours = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / currentNew_;
+
+    hours = (int)totalHours;
+    minutes = (int)((totalHours - hours) * HMS_CONVERSION_FACTOR);
+    seconds = (int)((totalHours * HMS_CONVERSION_FACTOR - hours * HMS_CONVERSION_FACTOR - minutes) * HMS_CONVERSION_FACTOR);
+
+    //uses msec as a place holder for the remaining hours as the hours in QTime could only hold up to 24
+    remainingHours_ = ((int)(totalHours/24)) * 24;
+    hours -= remainingHours_;
+
+    timeTillChargeOrDepletion_.setHMS(hours, minutes, seconds);
 }
