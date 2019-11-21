@@ -22,8 +22,11 @@ public:
      * Return the time remaining to when the battery is charged or depleted*/
     QTime timeWhenChargedOrDepleted() const;
 
+    int getRemainingHours() const;
+
     /*Update Variables*/
     void addData(const BatteryData& batteryData);
+    void setRemainingHours(int h);
 
 private:
     // Convention is to have an _ after private members
@@ -32,6 +35,7 @@ private:
     // Add your necessary variables here
     //double current_;
     double currentNew_;
-    double ampHours_ = 0;
+    double ampHours_;
     QTime timeNew_;
+    int remainingHours_;
 };
