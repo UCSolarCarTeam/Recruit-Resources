@@ -1,0 +1,12 @@
+<ng-template #elseBlock><img class="circle-items" src="../../../assets/RedCircle.png" alt="Red Circle" ></ng-template>
+	<div class="header">
+		<div class="alive-group">
+			<span *ngIf="battery.alive; else elseBlock"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+			<span class="alive-text">Alive</span>
+		</div>
+	</div>
+	
+<div class="battery-container-grid">
+	<p>
+	mppt works!
+	</p>
