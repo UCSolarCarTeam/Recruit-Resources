@@ -6,7 +6,7 @@ namespace
 {
 const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
 const int SECONDS_TO_HOURS = 3600;
-const int PERCENT_TO_DECMIMAL = 100;
+const int PERCENT_TO_DECIMAL = 100;
 const int HMS_CONVERSION_FACTOR = 60;
 }
 
@@ -74,9 +74,10 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     currentNew_ = batteryData.current;
     timeNew_ = batteryData.time;
 
-    if(timeOld.isNull()) //checks if timeOld has no a value (first itteration)
+    if(timeOld.isNull()) // first itteration
     {
-        ampHours_ += BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / PERCENT_TO_DECMIMAL;
+        ampHours_ = 0;
+        ampHours_ += BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / PERCENT_TO_DECIMAL;
     }
     else
     {
