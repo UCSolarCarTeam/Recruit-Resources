@@ -4,10 +4,11 @@
 
 namespace
 {
-const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
-const int SECONDS_TO_HOURS = 3600;
-const int PERCENT_TO_DECIMAL = 100;
-const int HMS_CONVERSION_FACTOR = 60;
+    const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const int SECONDS_TO_HOURS = 3600;
+    const int PERCENT_TO_DECIMAL = 100;
+    const int HMS_CONVERSION_FACTOR = 60;
+    const int HOURS_IN_A_DAY  = 24;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -48,9 +49,6 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    // This is where you can update your variables
-    // Hint: There are many different ways that the totalAmpHoursUsed can be updated
-    // i.e: Taking a running average of your data values, using most recent data points, etc.
     QTime timeOld = timeNew_;
     double currentOld = currentNew_;
 
@@ -59,8 +57,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 
     if(timeOld.isNull()) // first itteration
     {
-        ampHours_ = 0;
-        ampHours_ += BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / PERCENT_TO_DECIMAL;
+        ampHours_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / PERCENT_TO_DECIMAL;
     }
     else
     {
@@ -75,15 +72,19 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     int seconds;
 
     if(isCharging())
+    {
         totalHours = qAbs(totalAmpHoursUsed() / currentNew_);
+    }
     else
+    {
         totalHours = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / currentNew_;
+    }
 
     hours = (int)totalHours;
     minutes = (int)((totalHours - hours) * HMS_CONVERSION_FACTOR);
     seconds = (int)((totalHours * HMS_CONVERSION_FACTOR - hours * HMS_CONVERSION_FACTOR - minutes) * HMS_CONVERSION_FACTOR);
 
-    remainingHours_ = ((int)(totalHours/24)) * 24;
+    remainingHours_ = ((int)(totalHours / HOURS_IN_A_DAY)) * HOURS_IN_A_DAY;
     hours -= remainingHours_;
 
     timeTillChargeOrDepletion_.setHMS(hours, minutes, seconds);
