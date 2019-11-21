@@ -37,7 +37,7 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
     else
         QTextStream(stdout)<<"Time until depletion:";
 
-    QTextStream(stdout) <<"  Hours:" << (displayTime.hour() + displayTime.msec())
+    QTextStream(stdout) <<"  Hours:" << (displayTime.hour() + batteryStateOfChargeService_.getRemainingHours())
                         <<"  Min:" << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute()
                         <<"  Sec:" << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second()
                         << "\n" << endl;
