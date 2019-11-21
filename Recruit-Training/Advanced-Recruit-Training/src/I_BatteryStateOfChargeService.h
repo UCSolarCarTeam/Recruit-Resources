@@ -12,5 +12,7 @@ public:
     virtual bool isCharging() const = 0;
     virtual QTime timeWhenChargedOrDepleted() const = 0;
 
+    virtual int getRemainingHours() const = 0;
+
     virtual void addData(const BatteryData& batteryData) = 0;
 };
