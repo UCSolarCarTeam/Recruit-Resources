@@ -11,7 +11,7 @@ class BatteryStateDisplayService : public QObject
     Q_OBJECT
 public:
     BatteryStateDisplayService(const I_BatteryDataSource& batteryDataSource,
-        I_BatteryStateOfChargeService& batteryStateOfChargeService);
+                               I_BatteryStateOfChargeService& batteryStateOfChargeService);
     virtual ~BatteryStateDisplayService();
 
 // Slots are what receive the signals. They can be private, protected or public

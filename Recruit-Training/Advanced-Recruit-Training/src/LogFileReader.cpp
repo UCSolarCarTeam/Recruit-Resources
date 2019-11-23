@@ -2,9 +2,6 @@
 #include <QFile>
 #include <QString>
 #include <QTextStream>
-#include <iostream>
-#include <exception>
-
 #include "LogFileReader.h"
 
 

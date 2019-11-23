@@ -25,11 +25,7 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 {
     /*Calculating the total amount of hour through adding the overlapHours stored in the milisecond space
       to the the hours space*/
-
     batteryStateOfChargeService_.addData(batteryData);
-    int totalHours = batteryStateOfChargeService_.timeWhenChargedOrDepleted().hour()
-                     + batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec();
-
     QTextStream(stdout) << "Voltage: " << batteryData.voltage
                         << " Current: " << batteryData.current
                         << " Total Ah used: "
@@ -47,9 +43,11 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
         QTextStream(stdout) << "Time until fully depleted: ";
     }
 
-    QTextStream(stdout) << totalHours
+    QTextStream(stdout) << batteryStateOfChargeService_.getHours()
                         << " hours, "
                         << batteryStateOfChargeService_.timeWhenChargedOrDepleted().minute()
                         << " minutes, "
-                        << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second() << " seconds.\n" << endl;
+                        << batteryStateOfChargeService_.timeWhenChargedOrDepleted().second()
+                        << "." << batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec()
+                        << " seconds\n" << endl;
 }

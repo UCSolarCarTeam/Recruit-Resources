@@ -6,7 +6,7 @@
 #include "BatteryStateOfChargeService.h"
 #include "LogFileReader.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     QCoreApplication app(argc, argv);
     QCoreApplication::setApplicationName("Battery Life Predictor");
@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
 
     QCommandLineOption filenameOption(QStringList() << "f" << "filename",
-            QCoreApplication::translate("main", "Name of csv log file of battery data"),
-            QCoreApplication::translate("main", "filename"));
+                                      QCoreApplication::translate("main", "Name of csv log file of battery data"),
+                                      QCoreApplication::translate("main", "filename"));
     parser.addOption(filenameOption);
 
     QCommandLineOption initialStateOfChargeOption(QStringList() << "i" << "initStateOfCharge",
@@ -30,11 +30,13 @@ int main(int argc, char *argv[])
 
     QString filename = parser.value(filenameOption);
     QString initialStateOfChargeString = parser.value(initialStateOfChargeOption);
+
     if (filename.isNull() || initialStateOfChargeString.isNull())
     {
         parser.showHelp();
         return -1;
     }
+
     double initialStateOfCharge = initialStateOfChargeString.toDouble();
 
     LogFileReader logFileReader;

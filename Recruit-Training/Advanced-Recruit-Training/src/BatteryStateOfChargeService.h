@@ -2,7 +2,6 @@
 
 #include "I_BatteryStateOfChargeService.h"
 #include "BatteryData.h"
-#include <QTime>
 
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
@@ -23,16 +22,26 @@ public:
      * Return the time remaining to when the battery is charged or depleted*/
     QTime timeWhenChargedOrDepleted() const;
 
+    int getHours() const;
+
     /*Update Variables*/
     void addData(const BatteryData& batteryData);
+
 
 private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
 
     // Add your necessary variables here
+    int totalHours_;
     double amphour_;
-    double currentNew_;
-    QTime timeNew_;
+    double current_;
+    QTime time;
+
+    int hours_;
+    int minutes_;
+    int seconds_;
+    int miliseconds_;
+    double totalTimeHours_;
 
 };

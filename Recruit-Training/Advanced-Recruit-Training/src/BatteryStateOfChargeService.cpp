@@ -1,18 +1,20 @@
 #include "BatteryStateOfChargeService.h"
-#include <QTextStream>
+
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
     const int HOURS_TO_MILISECONDS = 3600000;
     const int HOURS_TO_MINUTES = 60;
     const int MINUTES_TO_SECONDS = 60;
+    const int SECONDS_TO_MILISECONDS = 1000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
     : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
     amphour_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / 100;
-    currentNew_ = 0;
+    current_ = 0;
+    totalHours_ = 0;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -26,53 +28,53 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return (currentNew_ < 0);
+    return (current_ < 0);
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    int hours;
-    int minutes;
-    int seconds;
-    int overlapsHours;
-    double totalTimeHours;
-
-    if (isCharging())
-    {
-        totalTimeHours =  abs(amphour_ / currentNew_);
-    }
-    else
-    {
-        totalTimeHours =  (BATTERY_AMP_HOUR_CAPACITY - amphour_) / currentNew_;
-    }
-
-    //Rounding the total time (in hours) down
-    hours = totalTimeHours;
-    //Minute is whatever left over multiply by 60 (hours to minute)
-    minutes = (totalTimeHours - hours) * HOURS_TO_MINUTES;
-    seconds = (totalTimeHours * HOURS_TO_MINUTES - hours * HOURS_TO_MINUTES - minutes) * MINUTES_TO_SECONDS;
-    overlapsHours = (hours / 24) * 24;
-    hours -= overlapsHours;
-    return QTime(hours, minutes, seconds, overlapsHours);
+    return QTime(0, minutes_, seconds_, miliseconds_);
 }
 
-//Use "one time use" variable as a local variable
+int BatteryStateOfChargeService::getHours() const
+{
+    return hours_;
+}
+
+
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    Q_UNUSED(batteryData)
     // This is where you can update your variables
     // Hint: There are many different ways that the totalAmpHoursUsed can be updated
     // i.e: Taking a running average of your data values, using most recent data points, etc.
-    double currentOld_ = currentNew_;
-    currentNew_ = batteryData.current;
+    double currentOld_ = current_;
+    current_ = batteryData.current;
 
-    QTime timeOld_ = timeNew_;
-    timeNew_ = batteryData.time;
+    QTime timeOld_ = time;
+    time = batteryData.time;
 
-    double averageAmphour_ = (currentNew_ + currentOld_) / 2;
+    double averageAmphour_ = (current_ + currentOld_) / 2;
 
+    //timeOld_ would be null for the first entry of data
     if (!timeOld_.isNull())
     {
-        amphour_ += averageAmphour_ * timeOld_.msecsTo(timeNew_) / HOURS_TO_MILISECONDS;
+        amphour_ += averageAmphour_ * timeOld_.msecsTo(time) / HOURS_TO_MILISECONDS;
     }
+
+    //Calculation of the time until charged/depleted
+    if (isCharging())
+    {
+        totalTimeHours_ =  abs(amphour_ / current_);
+    }
+    else
+    {
+        totalTimeHours_ =  (BATTERY_AMP_HOUR_CAPACITY - amphour_) / current_;
+    }
+
+    //Rounding the total time (in hours) down
+    hours_ = totalTimeHours_;
+    //Minute is whatever left over multiply by 60 (hours to minute)
+    minutes_ = (totalTimeHours_ - hours_) * HOURS_TO_MINUTES;
+    seconds_ = ((totalTimeHours_ - hours_) * HOURS_TO_MINUTES - minutes_) * MINUTES_TO_SECONDS;
+    miliseconds_ = (((totalTimeHours_ - hours_) * HOURS_TO_MINUTES - minutes_) * MINUTES_TO_SECONDS - seconds_) * SECONDS_TO_MILISECONDS;
 }
