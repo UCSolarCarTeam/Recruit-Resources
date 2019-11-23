@@ -1,12 +1,147 @@
 <ng-template #elseBlock><img class="circle-items" src="../../../assets/RedCircle.png" alt="Red Circle" ></ng-template>
-	<div class="header">
-		<div class="alive-group">
-			<span *ngIf="battery.alive; else elseBlock"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
-			<span class="alive-text">Alive</span>
-		</div>
+
+<div class = "header">
+	<div class = "title-group">
+		<span class = "title-text">
+			mppt works!
+		</span>
 	</div>
-	
-<div class="battery-container-grid">
-	<p>
-	mppt works!
-	</p>
+</div>
+
+<div class="mppt-container-grid">
+	<div>
+		<div class ="subheader">Unit 0</div>
+		<div class = "grid-container-sub">
+			<div > 
+				<div class = "subheader">Channel 0</div>
+				<div class = "grid-container"> 
+					<span class="item">
+						<span *ngIf="mppt0.alive; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>				
+						<span class = "item"> HeartBeat Status </span>
+					</span>
+				</div>
+				<div class = "grid-container dataset"> 
+					<div class="item">
+						Temperature
+						<div class="data">{{mppt0.temperature}} ºC</div>
+					</div>
+
+					<div class="item">
+						Array Current
+						<div class="data">{{mppt0.arrayCurrent}} A</div>
+					</div>
+
+					<div class="item">
+						Array Voltage
+						<div class="data">{{mppt0.arrayVoltage}} V</div>
+					</div>
+
+					<div class="item">
+						Battery Voltage
+						<div class="data">{{mppt0.batteryVoltage}} V</div>
+					</div>
+				</div>
+			</div>
+
+			<div>
+				<div class = "subheader">Channel 1</div>
+				<div class = "grid-container"> 
+					<span class="item">
+						<span *ngIf="mppt1.alive; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>				
+						<span class = "item"> HeartBeat Status </span>
+					</span>
+				</div>
+				<div class = "grid-container dataset"> 
+					<div class="item">
+						Temperature
+						<div class="data">{{mppt1.temperature}} ºC</div>
+					</div>
+
+					<div class="item">
+						Array Current
+						<div class="data">{{mppt1.arrayCurrent}} A</div>
+					</div>
+
+					<div class="item">
+						Array Voltage
+						<div class="data">{{mppt1.arrayVoltage}} V</div>
+					</div>
+
+					<div class="item">
+						Battery Voltage
+						<div class="data">{{mppt1.batteryVoltage}} V</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div>
+		<div class ="subheader">Unit 1</div>
+		<div class = "grid-container-sub">
+			<div > 
+				<div class = "subheader">Channel 0</div>
+				<div class = "grid-container"> 
+					<span class="item">
+						<span *ngIf="mppt2.alive; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>				
+						<span class = "item"> HeartBeat Status </span>
+					</span>
+				</div>
+				<div class = "grid-container dataset"> 
+					<div class="item">
+						Temperature
+						<div class="data">{{mppt2.temperature}} ºC</div>
+					</div>
+
+					<div class="item">
+						Array Current
+						<div class="data">{{mppt2.arrayCurrent}} A</div>
+					</div>
+
+					<div class="item">
+						Array Voltage
+						<div class="data">{{mppt2.arrayVoltage}} V</div>
+					</div>
+
+					<div class="item">
+						Battery Voltage
+						<div class="data">{{mppt2.batteryVoltage}} V</div>
+					</div>
+				</div>
+			</div>
+
+			<div>
+				<div class = "subheader">Channel 1</div>
+				<div class = "grid-container"> 
+					<span class="item">
+						<span *ngIf="mppt3.alive; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>				
+						<span class = "item"> HeartBeat Status </span>
+					</span>
+				</div>
+				<div class = "grid-container dataset"> 
+					<div class="item">
+						Temperature
+						<div class="data">{{mppt3.temperature}} ºC</div>
+					</div>
+
+					<div class="item">
+						Array Current
+						<div class="data">{{mppt3.arrayCurrent}} A</div>
+					</div>
+
+					<div class="item">
+						Array Voltage
+						<div class="data">{{mppt3.arrayVoltage}} V</div>
+					</div>
+
+					<div class="item">
+						Battery Voltage
+						<div class="data">{{mppt3.batteryVoltage}} V</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>

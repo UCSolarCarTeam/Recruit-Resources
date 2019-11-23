@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
         index: 1
       }
     ];
-  }
+  } 
 
   ngOnInit(): void {
     this.router.events.subscribe((res) => {
