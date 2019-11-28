@@ -6,6 +6,13 @@
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
 public:
+    int hoursInteger;
+    int minutes;
+    double seconds;
+    int miliseconds;
+    double totalTimeHoursDouble;
+
+
     explicit BatteryStateOfChargeService(double initialStateOfChargePercent);
     virtual ~BatteryStateOfChargeService();
 
@@ -37,11 +44,4 @@ private:
     double amphour_;
     double current_;
     QTime time;
-
-    int hours_;
-    int minutes_;
-    int seconds_;
-    int miliseconds_;
-    double totalTimeHours_;
-
 };
