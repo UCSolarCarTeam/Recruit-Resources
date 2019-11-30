@@ -6,13 +6,6 @@
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
 public:
-    int hoursInteger;
-    int minutes;
-    double seconds;
-    int miliseconds;
-    double totalTimeHoursDouble;
-
-
     explicit BatteryStateOfChargeService(double initialStateOfChargePercent);
     virtual ~BatteryStateOfChargeService();
 
@@ -29,7 +22,6 @@ public:
      * Return the time remaining to when the battery is charged or depleted*/
     QTime timeWhenChargedOrDepleted() const;
 
-    int getHours() const;
 
     /*Update Variables*/
     void addData(const BatteryData& batteryData);
@@ -40,7 +32,6 @@ private:
     const double initialStateOfChargePercent_;
 
     // Add your necessary variables here
-    int totalHours_;
     double amphour_;
     double current_;
     QTime time;

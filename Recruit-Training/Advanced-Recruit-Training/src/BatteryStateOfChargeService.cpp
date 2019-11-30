@@ -5,9 +5,8 @@ namespace
 {
 const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
 const int HOURS_TO_MILISECONDS = 3600000;
-const int MINUTES_TO_SECONDS = 60;
+const int MINUTES_TO_MILISECONDS = 60000;
 const int SECONDS_TO_MILISECONDS = 1000;
-const int HOURS_TO_SECONDS = 3600;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -15,7 +14,6 @@ BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfCh
 {
     amphour_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / 100;
     current_ = 0;
-    totalHours_ = 0;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -36,12 +34,6 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     return QTime(0, minutes, seconds, miliseconds);
 }
-
-int BatteryStateOfChargeService::getHours() const
-{
-    return hoursInteger;
-}
-
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
@@ -73,13 +65,12 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     }
 
     //Calculating the Time
-    seconds = totalTimeHoursDouble*HOURS_TO_SECONDS;
-
+    miliseconds = totalTimeHoursDouble * HOURS_TO_MILISECONDS;
     hoursInteger = floor(totalTimeHoursDouble);
-
-    seconds = seconds - (hoursInteger*HOURS_TO_SECONDS);
-    minutes = floor(seconds/MINUTES_TO_SECONDS);
-    seconds = seconds - minutes*MINUTES_TO_SECONDS;
-    miliseconds = (seconds - floor(seconds))*SECONDS_TO_MILISECONDS;
-    seconds = floor(seconds);
+    miliseconds = miliseconds - (hoursInteger * HOURS_TO_MILISECONDS);
+    minutes = floor(miliseconds / MINUTES_TO_MILISECONDS);
+    miliseconds = miliseconds - (minutes * MINUTES_TO_MILISECONDS);
+    seconds = floor(miliseconds / SECONDS_TO_MILISECONDS);
+    miliseconds = miliseconds - (seconds * SECONDS_TO_MILISECONDS);
+    miliseconds = floor(miliseconds);
 }
