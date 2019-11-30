@@ -2,6 +2,7 @@
 
 In order to work on the telemetry recruit training, you will need to install Angular CLI and a text editor such as Sublime.
 Refer to `web-app` and `server` in `Epsilon-Telemetry-server` on github. 
+You can view the current telemetry web page at `138.197.206.227`.
 Sublime can be downloaded from https://www.sublimetext.com/.
 
 == Running the project

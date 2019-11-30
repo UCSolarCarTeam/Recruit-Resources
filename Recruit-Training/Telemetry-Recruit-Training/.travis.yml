@@ -8,10 +8,7 @@ addons:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - (cd web-app && npm install)
-  - (cd server && npm install)
+  - (cd app && npm install)
 
 script:
-  - (cd web-app && npm run lint)
-  - (cd server && npm run test)
-  - (cd server && npm run lint)
+  - (cd app && npm run lint)
