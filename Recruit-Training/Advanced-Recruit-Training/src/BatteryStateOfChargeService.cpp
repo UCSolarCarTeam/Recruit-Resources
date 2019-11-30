@@ -1,19 +1,22 @@
 #include "BatteryStateOfChargeService.h"
 #include "BatteryData.h"
-#include "QTime"
+#include <math.h>
 
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
     const int SECONDS_TO_HOURS = 3600;
     const int PERCENT_TO_DECIMAL = 100;
-    const int HMS_CONVERSION_FACTOR = 60;
+    const int MILLISECONDS_IN_HOUR = 3600000;
+    const int MILLISECONDS_IN_MINUTE = 60000;
+    const int MILLISECONDS_IN_SECOND = 1000;
     const int HOURS_IN_A_DAY  = 24;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
     : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
+    ampHours_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / PERCENT_TO_DECIMAL;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -27,14 +30,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(currentNew_ < 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (currentNew_ < 0);
 }
 
 int BatteryStateOfChargeService::getRemainingHours() const
@@ -55,11 +51,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     currentNew_ = batteryData.current;
     timeNew_ = batteryData.time;
 
-    if(timeOld.isNull()) // first itteration
-    {
-        ampHours_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / PERCENT_TO_DECIMAL;
-    }
-    else
+    if(!timeOld.isNull())
     {
         double avgCurrent = (currentOld + currentNew_) / 2;
         ampHours_ += (avgCurrent * timeOld.secsTo(timeNew_) / SECONDS_TO_HOURS);
@@ -70,6 +62,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     int hours;
     int minutes;
     int seconds;
+    int milliseconds;
 
     if(isCharging())
     {
@@ -80,12 +73,27 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
         totalHours = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / currentNew_;
     }
 
-    hours = (int)totalHours;
-    minutes = (int)((totalHours - hours) * HMS_CONVERSION_FACTOR);
-    seconds = (int)((totalHours * HMS_CONVERSION_FACTOR - hours * HMS_CONVERSION_FACTOR - minutes) * HMS_CONVERSION_FACTOR);
+    milliseconds = totalHours * MILLISECONDS_IN_HOUR;
 
-    remainingHours_ = ((int)(totalHours / HOURS_IN_A_DAY)) * HOURS_IN_A_DAY;
+    hours = floor(totalHours);
+    milliseconds -= hours * MILLISECONDS_IN_HOUR;
+
+    minutes = floor(milliseconds / MILLISECONDS_IN_MINUTE);
+    milliseconds -= minutes * MILLISECONDS_IN_MINUTE;
+
+    seconds = floor(milliseconds / MILLISECONDS_IN_SECOND);
+    milliseconds -= seconds * MILLISECONDS_IN_SECOND;
+
+    if((hours - HOURS_IN_A_DAY) >= 0) // if 24 hours or more
+    {
+        remainingHours_ = hours - (HOURS_IN_A_DAY - 1);
+    }
+    else
+    {
+        remainingHours_ = 0;
+    }
+
     hours -= remainingHours_;
 
-    timeTillChargeOrDepletion_.setHMS(hours, minutes, seconds);
+    timeTillChargeOrDepletion_.setHMS(hours, minutes, seconds, milliseconds);
 }
