@@ -1,0 +1,121 @@
+<ng-template #elseBlock><img class="circle-items" src="../../../assets/RedCircle.png" alt="Red Circle" ></ng-template>
+	<div class="header">
+		<div class="alive-group">
+			<span *ngIf="battery.alive; else elseBlock"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+			<span class="alive-text">Alive</span>
+		</div>
+	</div>
+<div class="battery-container-grid">
+		<div>
+			<div class ="subheader">BMS Relay Status Flags</div>
+			<div class = "grid-container">
+				<span class="item">
+					<span *ngIf="battery.bmsRelayStatusFlags.dischargeRelayEnabled; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span class="item">Discharge Relay Enabled</span>
+				</span>
+				<span class="item">
+					<span *ngIf="battery.bmsRelayStatusFlags.isReadySignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span class="item">Is Ready</span>
+				</span>
+				<span class="item">
+					<span *ngIf="battery.bmsRelayStatusFlags.chargeRelayEnabled; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span class="item">Charge Relay Enabled</span>
+				</span>
+				<span class="item">
+					<span *ngIf="battery.bmsRelayStatusFlags.isChargingSignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span class="item">Is Charging</span>
+				</span>
+				<span class="item">
+					<span *ngIf="battery.bmsRelayStatusFlags.chargerSafetyEnabled; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span class="item">Charger Safety Enabled</span>
+				</span>
+				<span class="item">
+					<span *ngIf="battery.bmsRelayStatusFlags.malfunctionIndicatorActive; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span class="item">Malfunction Indicator Active</span>
+				</span>
+				<span class="item">
+					<span *ngIf="battery.bmsRelayStatusFlags.isReadySignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span class="item">Multipurpose Input Signal</span>
+				</span>
+				<span class="item">
+					<span *ngIf="battery.bmsRelayStatusFlags.alwaysOnSignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span class="item">Always On</span>
+				</span>
+			</div>
+		</div>
+		<div>
+			<div class ="subheader">Fan</div>
+			<div class="grid-container dataset">
+				<div class="item">
+						Fan Voltage
+						<div class="data">{{battery.fanVoltage}} V</div>
+				</div>
+				<div class="item">
+						Fan Speed
+						<div class="data">{{battery.fanSpeed}}</div>
+				</div>
+				<div class="item grid-span-row">
+					Requested Fan Speed
+					<div class="data">{{battery.requestedFanSpeed}}</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class ="dataset">
+			<div class="subheader">Temperature</div>
+			<div class="grid-container dataset">
+				<div class="item">
+					High Temperature
+					<div class="data">{{battery.highTemperature}} ºC</div>
+				</div>
+				<div class="item">
+					High Thermistor ID
+					<div class="data">{{battery.highThermistorId}}</div>
+				</div>
+				<div class="item">
+					Low Temperature
+					<div class="data">{{battery.lowTemperature}} ºC</div>
+				</div>
+				<div class="item">
+					Low Thermistor ID
+					<div class="data">{{battery.lowThermistorId}}</div>
+				</div>
+				<div class="item">
+					Average Temperature
+					<div class="data">{{battery.averageTemperature}} ºC</div>
+				</div>
+				<div class="item">
+					Internal Temperature
+					<div class="data">{{battery.internalTemperature}}</div>
+				</div>
+			</div>
+		</div>
+		<div class ="dataset">
+			<div class="subheader">Cell</div>
+			<div class="grid-container dataset">
+				<div class="item">
+					Low Cell Voltage
+					<div class="data">{{battery.lowCellVoltage}} V</div>
+				</div>
+				<div class="item">
+					Low Cell Voltage ID
+					<div class="data">{{battery.lowCellVoltageId}}</div>
+				</div>
+				<div class="item">
+					High Cell Voltage
+					<div class="data">{{battery.highCellVoltage}} V</div>
+				</div>
+				<div class="item">
+					High Cell Voltage ID
+					<div class="data">{{battery.highCellVoltageId}}</div>
+				</div>
+				<div class="item">
+					Average Cell Voltage
+					<div class="data">{{battery.averageCellVoltage}} V</div>
+				</div>
+				<div class="item">
+					Populated Cells
+					<div class="data">{{battery.populatedCells}}</div>
+				</div>
+			</div>
+		</div>

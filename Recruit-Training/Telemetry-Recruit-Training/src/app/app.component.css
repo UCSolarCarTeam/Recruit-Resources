@@ -1,0 +1,34 @@
+:host {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  overflow: auto;
+}
+
+.tabs {
+  margin: 0.5% 6px;
+  display: inline-block;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.mat-tab-link {
+  line-height: 30px !important;
+  height: 3em !important;
+  min-width: 15% !important;
+  border: 1px solid #7e7e7e;
+  color: white;
+  font-size: 18px;
+}
+
+.mat-tab-nav-bar {
+  margin: 0 auto;
+  background-color: #212121;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
