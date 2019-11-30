@@ -56,9 +56,21 @@
     white-space: nowrap;
     padding-top: 10px;
 }
+.item-heartbeat {
+    font-family: Arial, sans-serif;
+    color: black;
+    font-size: 0.8rem;
+    margin-left: 1.2em;
+    margin-right: 1px;
+    margin-bottom: 1em;
+    white-space: nowrap;
+    padding-top: 10px;
+}
 
 .ifs {
+    display: inline-block;
     width: 10px;
+    padding-right: 10px;
 }
 
 .circle-items {

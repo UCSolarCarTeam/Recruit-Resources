@@ -3,6 +3,7 @@
 }
 .alive-text {
   margin-left: 0.2em;
+  color: black;
 }
 .circle-items {
   float: left;
