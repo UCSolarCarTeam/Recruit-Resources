@@ -56,16 +56,31 @@ bool LogFileReader::readAll(const QString& fileName)
  * Need to implement error checking for the correct number of values and
  * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
-{
+{  
     QStringList sections = line.split(BATDATA_DELIMITER);
 
+    if(sections.size() != COLUMNS)
+        return false;
+
     QString timeString = sections.at(0);
+
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
-    batteryData.voltage = sections.at(1).toDouble();
+    bool validDoubleVoltage;
 
-    batteryData.current = sections.at(2).toDouble();
+    bool validDoubleCurrent;
+
+    batteryData.voltage = sections.at(1).toDouble(&validDoubleVoltage);
+
+    batteryData.current = sections.at(2).toDouble(&validDoubleCurrent);
+
+    if(validDoubleVoltage == false || validDoubleCurrent == false)
+        return false;
+
+    bool validTime =  QTime::isValid(batteryData.time.hour(), batteryData.time.minute(), batteryData.time.second() + batteryData.time.msec()/1000);
+
+    if(validTime == false)
+        return false;
 
     return true;
-
 }
