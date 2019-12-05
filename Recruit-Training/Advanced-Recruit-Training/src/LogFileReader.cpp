@@ -10,6 +10,7 @@ namespace
     const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
     const QString BATDATA_DELIMITER= ", ";
     const int COLUMNS = 3;
+
 }
 
 LogFileReader::LogFileReader()
@@ -57,15 +58,41 @@ bool LogFileReader::readAll(const QString& fileName)
  * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
+
     QStringList sections = line.split(BATDATA_DELIMITER);
 
+    if(sections.length() != COLUMNS){
+        return false;
+    }
+
     QString timeString = sections.at(0);
-    batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
+/*
+    if(timeString[2] != ":" || timeString[5] != ":" || timeString[8] != "."){
+        return false;
+    }
+    for(int i = 0; i < timeString.length(); i++){
+        if(timeString[i] == "a"){   //maybe change this later to be less hardcoded
+            return false;
+        }
 
-    batteryData.voltage = sections.at(1).toDouble();
+    }*/
 
-    batteryData.current = sections.at(2).toDouble();
+//Qtime isValid thing, add seconds and milliseconds/1000
 
-    return true;
+
+    QTime time1 = QTime::fromString(timeString, STRING_TIME_FORMAT);
+    batteryData.time = time1;
+    bool isTimeValid = QTime::isValid(time1.hour(), time1.minute(), (time1.second() + (time1.msec()/1000)));
+    bool flag1;
+    bool flag2;
+    batteryData.voltage = sections.at(1).toDouble(&flag1);
+    batteryData.current = sections.at(2).toDouble(&flag2);
+    if(flag1 && flag2 && isTimeValid){
+        return true;
+    }else{
+        return false;
+    }
+
+
 
 }
