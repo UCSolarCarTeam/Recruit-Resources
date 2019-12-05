@@ -32,7 +32,12 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    return QTime(0, minutes, seconds, miliseconds);
+    return QTime(0, minutes_, seconds_, miliseconds_);
+}
+
+int BatteryStateOfChargeService::getHours() const
+{
+    return hoursInteger_;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
@@ -43,17 +48,18 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     double currentOld_ = current_;
     current_ = batteryData.current;
 
-    QTime timeOld_ = time;
-    time = batteryData.time;
+    QTime timeOld = time_;
+    time_ = batteryData.time;
 
     double averageAmphour_ = (current_ + currentOld_) / 2;
 
     //timeOld_ would be null for the first entry of data
-    if (!timeOld_.isNull())
+    if (!timeOld.isNull())
     {
-        amphour_ += averageAmphour_ * timeOld_.msecsTo(time) / HOURS_TO_MILISECONDS;
+        amphour_ += averageAmphour_ * timeOld.msecsTo(time_) / HOURS_TO_MILISECONDS;
     }
 
+    double totalTimeHoursDouble;
     //Calculation of the time until charged/depleted
     if (isCharging())
     {
@@ -65,12 +71,12 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     }
 
     //Calculating the Time
-    miliseconds = totalTimeHoursDouble * HOURS_TO_MILISECONDS;
-    hoursInteger = floor(totalTimeHoursDouble);
-    miliseconds = miliseconds - (hoursInteger * HOURS_TO_MILISECONDS);
-    minutes = floor(miliseconds / MINUTES_TO_MILISECONDS);
-    miliseconds = miliseconds - (minutes * MINUTES_TO_MILISECONDS);
-    seconds = floor(miliseconds / SECONDS_TO_MILISECONDS);
-    miliseconds = miliseconds - (seconds * SECONDS_TO_MILISECONDS);
-    miliseconds = floor(miliseconds);
+    miliseconds_ = totalTimeHoursDouble * HOURS_TO_MILISECONDS;
+    hoursInteger_ = floor(totalTimeHoursDouble);
+    miliseconds_ = miliseconds_ - (hoursInteger_ * HOURS_TO_MILISECONDS);
+    minutes_ = floor(miliseconds_ / MINUTES_TO_MILISECONDS);
+    miliseconds_ = miliseconds_ - (minutes_ * MINUTES_TO_MILISECONDS);
+    seconds_ = floor(miliseconds_ / SECONDS_TO_MILISECONDS);
+    miliseconds_ = miliseconds_ - (seconds_ * SECONDS_TO_MILISECONDS);
+    miliseconds_ = floor(miliseconds_);
 }

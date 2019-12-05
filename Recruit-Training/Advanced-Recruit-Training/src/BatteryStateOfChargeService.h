@@ -26,13 +26,20 @@ public:
     /*Update Variables*/
     void addData(const BatteryData& batteryData);
 
+    /*Return Hours*/
+    int getHours() const;
+
 
 private:
     // Convention is to have an _ after private members
-    const double initialStateOfChargePercent_;
+    const double initialStateOfChargePercent_; 
+    int hoursInteger_;
+    int minutes_;
+    int seconds_;
+    double miliseconds_;
 
     // Add your necessary variables here
     double amphour_;
     double current_;
-    QTime time;
+    QTime time_;
 };
