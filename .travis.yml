@@ -1,9 +1,14 @@
+language: cpp
+
 dist: bionic
+
 sudo: required
+
 before_install:
      - sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
      - sudo apt-add-repository -y ppa:beineri/opt-qt-5.12.0-bionic
      - sudo apt-get -qq update
+
 install:
      - sudo apt-get -qq install g++-4.8 libc6-i386 qt512tools qt512svg  qt512webengine qt512serialport
      - PATH="/opt/qt512/bin:$PATH"
@@ -12,10 +17,24 @@ install:
      - tar -zxvf astyle
      - (cd ./astyle/build/gcc && make release && sudo make install)
      - rm astyle -rf
+
 script:
      - "! (astyle *.h *.cpp -r --dry-run --options=astylerc | grep Formatted)"
-     - cd Recruit-Training/Advanced-Recruit-Training/src 
-     - qmake
-     - make
+     - (cd Recruit-Training/Advanced-Recruit-Training/src && qmake)
+     - (cd Recruit-Training/Advanced-Recruit-Training/src && make)
 
-language: cpp
+language: node_js
+node_js:
+  - "10"
+
+addons:
+  firefox: "latest"
+
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - (cd app && npm install)
+
+script:
+  - (cd app && npm run lint)
+  
