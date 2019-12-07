@@ -60,12 +60,29 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     QStringList sections = line.split(BATDATA_DELIMITER);
 
     QString timeString = sections.at(0);
+
+    if (sections.size() != COLUMNS)
+    {
+        return false;
+    }
+
+    bool validVoltage = false;
+    bool validCurrent = false;
+
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
+    batteryData.voltage = sections.at(1).toDouble(&validVoltage);
+    batteryData.current = sections.at(2).toDouble(&validCurrent);
 
-    batteryData.voltage = sections.at(1).toDouble();
+    bool validTime = QTime::isValid(batteryData.time.hour(), batteryData.time.minute(), batteryData.time.second() + batteryData.time.msec()/1000);
 
-    batteryData.current = sections.at(2).toDouble();
 
-    return true;
+    if (validTime && validVoltage && validCurrent)
+    {
+        return true;
+    } else
+    {
+        return false;
+    }
+
 
 }
