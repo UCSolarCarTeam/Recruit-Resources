@@ -35,7 +35,7 @@ addons:
 
 before_script:
   - export DISPLAY=:99.0
-  - (cd app && npm install)
+  - (cd Recruit-Training/Telemetry-Recruit-Training/src/app && npm install)
 
 script:
-  - (cd app && npm run lint)
+  - (cd Recruit-Training/Telemetry-Recruit-Training/src/app && npm run lint)
