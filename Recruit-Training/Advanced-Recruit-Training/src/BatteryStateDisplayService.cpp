@@ -31,6 +31,7 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
     if(milisec < 100){
         addZero = "0";
     }
+
     if(milisec < 10){
         addZero = "00";
     }

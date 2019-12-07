@@ -66,18 +66,7 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     }
 
     QString timeString = sections.at(0);
-/*
-    if(timeString[2] != ":" || timeString[5] != ":" || timeString[8] != "."){
-        return false;
-    }
-    for(int i = 0; i < timeString.length(); i++){
-        if(timeString[i] == "a"){   //maybe change this later to be less hardcoded
-            return false;
-        }
 
-    }*/
-
-//Qtime isValid thing, add seconds and milliseconds/1000
 
 
     QTime time1 = QTime::fromString(timeString, STRING_TIME_FORMAT);
