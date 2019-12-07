@@ -34,7 +34,7 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
    double hoursTillChargedOrDepleted, msTillChargedorDepleted;
-   int hours, minutes, seconds, miliseconds;
+   int hours, minutes, seconds, milisecond;
 
    if (isCharging())
         hoursTillChargedOrDepleted = abs(totalAmpHoursUsed_ / currentNow_);
@@ -55,9 +55,9 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
    seconds = floor(msTillChargedorDepleted / MS_IN_SECONDS);
    msTillChargedorDepleted -= seconds * MS_IN_SECONDS;
 
-   miliseconds = floor(msTillChargedorDepleted);
+   milisecond = floor(msTillChargedorDepleted);
 
-   QTime timeRemaining(hours, minutes, seconds, miliseconds);
+   QTime timeRemaining(hours, minutes, seconds, milisecond);
    return timeRemaining;
 }
 
