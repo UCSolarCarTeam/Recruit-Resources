@@ -28,14 +28,14 @@ public:
 private:
     const double initialStateOfChargePercent_;
 
-    double currentOld_ = 0;
-    double currentNow_ = 0;
-    double currentAverage_ = 0;
+    double currentOld_;
+    double currentNow_;
+    double currentAverage_;
 
-    double totalAmpHoursUsed_ = 0;
-    double initialAmpHoursUsed_ = 0;
+    double totalAmpHoursUsed_;
+    double initialAmpHoursUsed_;
 
     QTime timeOld_;
     QTime timeNow_;
-    double timeDiffMSec_ = 0;
+    double timeDiffMSec_;
 };

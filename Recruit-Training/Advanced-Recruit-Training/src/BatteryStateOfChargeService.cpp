@@ -15,6 +15,14 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
+    currentOld_ = 0;
+    currentNow_ = 0;
+    currentAverage_ = 0;
+
+    totalAmpHoursUsed_ = 0;
+    initialAmpHoursUsed_ = 0;
+
+    timeDiffMSec_ = 0;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -34,7 +42,7 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
    double hoursTillChargedOrDepleted, msTillChargedorDepleted;
-   int hours, minutes, seconds, milisecond;
+   int hours, minutes, seconds, milliseconds;
 
    if (isCharging())
         hoursTillChargedOrDepleted = abs(totalAmpHoursUsed_ / currentNow_);
@@ -55,9 +63,9 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
    seconds = floor(msTillChargedorDepleted / MS_IN_SECONDS);
    msTillChargedorDepleted -= seconds * MS_IN_SECONDS;
 
-   milisecond = floor(msTillChargedorDepleted);
+   milliseconds = floor(msTillChargedorDepleted);
 
-   QTime timeRemaining(hours, minutes, seconds, milisecond);
+   QTime timeRemaining(hours, minutes, seconds, milliseconds);
    return timeRemaining;
 }
 
