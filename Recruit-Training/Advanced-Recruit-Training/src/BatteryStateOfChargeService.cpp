@@ -1,7 +1,6 @@
 #include "BatteryStateOfChargeService.h"
 #include "BatteryData.h"
 #include <QTime>
-#include <QTextStream>
 
 namespace
 {
