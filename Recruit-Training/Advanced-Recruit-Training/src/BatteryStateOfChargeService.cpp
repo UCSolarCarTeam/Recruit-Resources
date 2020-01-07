@@ -13,7 +13,7 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent),
   currentAmphoursUsed_(0),
-  totalAmphoursUsed_((initialStateOfChargePercent_ * BATTERY_AMP_HOUR_CAPACITY)/100)
+  totalAmphoursUsed_((initialStateOfChargePercent_ * BATTERY_AMP_HOUR_CAPACITY) / 100)
 {
 }
 
@@ -37,13 +37,14 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
         if(isCharging())
         {
-            totalHoursRemaining = totalAmpHoursUsed() / current_ * -1;
+            totalHoursRemaining = abs(totalAmpHoursUsed() / current_);
         }
         else
         {
             totalHoursRemaining = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_;
         }
 
+        //If the totalHoursReamining is greater than 24 continue to subtract it otherwise isn't valid to display since its more than a day
         while(totalHoursRemaining > 24)
         {
             totalHoursRemaining -= 24;
@@ -60,7 +61,6 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
         QTime timeRemaining(hour, min, sec, millisec);
         return timeRemaining;
-
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
@@ -74,7 +74,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     current_ = batteryData.current;
     QTime oldTime = newTime_;
     newTime_ = batteryData.time;
-    double averageCurrent = (oldCurrent + current_)/2;
+    double averageCurrent = (oldCurrent + current_) / 2;
 
     double changeInTimeMseconds = oldTime.msecsTo(newTime_);
     double hour = changeInTimeMseconds / 3600000;
