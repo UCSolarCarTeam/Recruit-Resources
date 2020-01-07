@@ -1,6 +1,7 @@
 #include "BatteryStateOfChargeService.h"
 #include "BatteryData.h"
 #include <QTime>
+#include <QTextStream>
 
 namespace
 {
@@ -44,22 +45,9 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
             totalHoursRemaining = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_;
         }
 
-        //If the totalHoursReamining is greater than 24 continue to subtract it otherwise isn't valid to display since its more than a day
-        while(totalHoursRemaining > 24)
-        {
-            totalHoursRemaining -= 24;
-        }
-
-        int hour = totalHoursRemaining;
-
-        double millisecRemaining = (totalHoursRemaining - hour) * HOUR_TO_MILLISECONDS;
-        int min = millisecRemaining / MINUTE_TO_MILLISECONDS;
-        millisecRemaining = millisecRemaining - (min * MINUTE_TO_MILLISECONDS);
-        int sec = millisecRemaining / SECOND_TO_MILLISECONDS;
-        millisecRemaining = millisecRemaining - (sec * SECOND_TO_MILLISECONDS);
-        int millisec = millisecRemaining;
-
-        QTime timeRemaining(hour, min, sec, millisec);
+        QTime time(0, 0, 0, 0);
+        int millisec =  totalHoursRemaining * HOUR_TO_MILLISECONDS;
+        QTime timeRemaining = time.addMSecs(millisec);
         return timeRemaining;
 }
 
