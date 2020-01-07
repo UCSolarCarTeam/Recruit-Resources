@@ -30,9 +30,7 @@ private:
 
     // Add your necessary variables here
     double current_;
-    double oldCurrent_;
     QTime newTime_;
-    QTime oldTime_;
-    double currentAmphoursUsed_ = 0;
+    double currentAmphoursUsed_;
     double totalAmphoursUsed_;
 };

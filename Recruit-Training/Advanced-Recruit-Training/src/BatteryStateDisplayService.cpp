@@ -1,5 +1,6 @@
 #include <QTextStream>
 #include <QTime>
+#include <QString>
 
 #include "BatteryData.h"
 #include "BatteryStateDisplayService.h"
@@ -26,29 +27,22 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 {
     batteryStateOfChargeService_.addData(batteryData);
 
-    double milisec = batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec();
-    QString addZero;
-    if(milisec < 100){
-        addZero = "0";
-    }
+    double millisec = batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec();
 
-    if(milisec < 10){
-        addZero = "00";
-    }
+    QString numberMillisec = QString("%1").arg((int)(millisec), 3, 10, QChar('0'));
 
     QTextStream(stdout) << "Voltage: " << batteryData.voltage
         << " Current: " << batteryData.current
         << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed();
-    if(batteryStateOfChargeService_.isCharging()){
-        QTextStream(stdout) << " Time until charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() <<"." << addZero << milisec <<endl;
-
-    }else{
-
-        QTextStream(stdout) << " Time until depleted: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << "."
-                     << addZero <<milisec <<endl;
+    if(batteryStateOfChargeService_.isCharging())
+    {
+        QTextStream(stdout) << " Time until charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() <<"."
+                            << numberMillisec << endl;
     }
-    // TODO: Print out time until the battery is fully charged or depleted.
-
-
+    else
+    {
+        QTextStream(stdout) << " Time until depleted: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << "."
+                            << numberMillisec << endl;
+    }
 
 }
