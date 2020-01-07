@@ -11,10 +11,10 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent)
+: initialStateOfChargePercent_(initialStateOfChargePercent),
+  currentAmphoursUsed_(0),
+  totalAmphoursUsed_((initialStateOfChargePercent_ * BATTERY_AMP_HOUR_CAPACITY)/100)
 {
-    currentAmphoursUsed_ = 0;
-    totalAmphoursUsed_ = (initialStateOfChargePercent_ * BATTERY_AMP_HOUR_CAPACITY)/100;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -34,11 +34,6 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
         double totalHoursRemaining;
-        double millisecRemaining;
-        int hour;
-        int min;
-        int sec;
-        int millisec;
 
         if(isCharging())
         {
@@ -54,14 +49,14 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
             totalHoursRemaining -= 24;
         }
 
-        hour = totalHoursRemaining;
+        int hour = totalHoursRemaining;
 
-        millisecRemaining = (totalHoursRemaining - hour) * HOUR_TO_MILLISECONDS;
-        min = millisecRemaining / MINUTE_TO_MILLISECONDS;
+        double millisecRemaining = (totalHoursRemaining - hour) * HOUR_TO_MILLISECONDS;
+        int min = millisecRemaining / MINUTE_TO_MILLISECONDS;
         millisecRemaining = millisecRemaining - (min * MINUTE_TO_MILLISECONDS);
-        sec = millisecRemaining / SECOND_TO_MILLISECONDS;
+        int sec = millisecRemaining / SECOND_TO_MILLISECONDS;
         millisecRemaining = millisecRemaining - (sec * SECOND_TO_MILLISECONDS);
-        millisec = millisecRemaining;
+        int millisec = millisecRemaining;
 
         QTime timeRemaining(hour, min, sec, millisec);
         return timeRemaining;
@@ -82,9 +77,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     double averageCurrent = (oldCurrent + current_)/2;
 
     double changeInTimeMseconds = oldTime.msecsTo(newTime_);
-    double hour = changeInTimeMseconds/3600000;
-
+    double hour = changeInTimeMseconds / 3600000;
     currentAmphoursUsed_ = hour * averageCurrent;
     totalAmphoursUsed_ = totalAmphoursUsed_ + currentAmphoursUsed_;
-
 }

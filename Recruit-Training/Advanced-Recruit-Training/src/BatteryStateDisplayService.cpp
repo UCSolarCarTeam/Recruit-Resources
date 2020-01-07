@@ -27,9 +27,9 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 {
     batteryStateOfChargeService_.addData(batteryData);
 
-    double millisec = batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec();
+    int millisec = batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec();
 
-    QString numberMillisec = QString("%1").arg((int)(millisec), 3, 10, QChar('0'));
+    QString numberMillisec = QString("%1").arg(millisec, 3, 10, QChar('0'));
 
     QTextStream(stdout) << "Voltage: " << batteryData.voltage
         << " Current: " << batteryData.current
