@@ -7,8 +7,6 @@ namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
     const double HOUR_TO_MILLISECONDS = 3600000;
-    const double MINUTE_TO_MILLISECONDS = 60000;
-    const double SECOND_TO_MILLISECONDS = 1000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
