@@ -1,7 +1,6 @@
 #pragma once
 
 #include "I_BatteryStateOfChargeService.h"
-#include "BatteryData.h"
 
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
@@ -31,9 +30,7 @@ private:
 
     // Add your necessary variables here
     double currentNow_;
-    double currentPrev_;
     QTime timeNow_;
-    QTime timePrev_;
     double currentAmphoursUsed_;
     double totalAmphoursUsed_;
 };

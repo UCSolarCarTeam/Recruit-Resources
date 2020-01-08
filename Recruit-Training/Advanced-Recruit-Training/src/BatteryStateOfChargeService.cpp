@@ -1,4 +1,5 @@
 #include "BatteryStateOfChargeService.h"
+#include "BatteryData.h"
 #include <math.h>
 namespace
 {
@@ -11,6 +12,7 @@ namespace
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent)
 {
+    totalAmphoursUsed_ = initialStateOfChargePercent_ / 100 * BATTERY_AMP_HOUR_CAPACITY;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -24,25 +26,28 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(currentNow_ < 0)
-        return true;
-    else
-        return false;
+    return(currentNow_ < 0);
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    double totalHoursRemaining, millisecondsRemaining;
-    int hours, minutes, seconds, milliseconds;
+    double totalHoursRemaining;
+    double millisecondsRemaining;
+    int hours;
+    int minutes;
+    int seconds;
+    int milliseconds;
 
     if(isCharging())
-        totalHoursRemaining = totalAmpHoursUsed() / currentNow_ * -1;
+        totalHoursRemaining = abs(totalAmpHoursUsed() / currentNow_);
     else
         totalHoursRemaining = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / currentNow_;
 
     //Checking for total hours to be in between 0 and 24
     while(totalHoursRemaining > 24)
+    {
         totalHoursRemaining -= 24;
+    }
 
     //Converting totalHoursRemaining into hours, minutes, seconds, milliseconds
     hours = floor(totalHoursRemaining);
@@ -64,25 +69,19 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     // i.e: Taking a running average of your data values, using most recent data points, etc.
 
     //Calculating inital Amphours used
-    double initialAmphoursUsed;
-    initialAmphoursUsed = initialStateOfChargePercent_ / 100 * BATTERY_AMP_HOUR_CAPACITY;
+    double changeInTimeMSecs;
+    double changeInTimeHours;
+    QTime timePrev;
+    double currentPrev;
 
-    double changeInTimeMSecs, changeInTimeHours;
-
-    currentPrev_ = currentNow_;
+    currentPrev = currentNow_;
     currentNow_ = batteryData.current;
-
-    timePrev_ = timeNow_;
+    timePrev = timeNow_;
     timeNow_ = batteryData.time;
 
-    changeInTimeMSecs = timePrev_.msecsTo(timeNow_);
+    changeInTimeMSecs = timePrev.msecsTo(timeNow_);
     changeInTimeHours = changeInTimeMSecs / HOUR_IN_MILLISECONDS;
 
-    currentAmphoursUsed_ = ((currentNow_ + currentPrev_) / 2) * changeInTimeHours;
-    totalAmphoursUsed_ += currentAmphoursUsed_ + initialAmphoursUsed;
-
-    if(totalAmphoursUsed_ != initialAmphoursUsed)
-    {
-        totalAmphoursUsed_ = totalAmphoursUsed_ - initialAmphoursUsed;
-    }
+    currentAmphoursUsed_ = ((currentNow_ + currentPrev) / 2) * changeInTimeHours;
+    totalAmphoursUsed_ = totalAmphoursUsed_ + currentAmphoursUsed_;
 }

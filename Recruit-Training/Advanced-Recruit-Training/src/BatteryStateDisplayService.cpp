@@ -31,15 +31,10 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 
     // TODO: Print out time until the battery is fully charged or depleted.    
     int milliseconds = batteryStateOfChargeService_.timeWhenChargedOrDepleted().msec();
-    QString zeroPlaceholder;
-
-    if(milliseconds < 100)
-        zeroPlaceholder = "0";
-    else if(milliseconds < 10)
-        zeroPlaceholder = "00";
+    QString displayMilliseconds = QString("%1").arg(milliseconds, 3, 10, QChar('0'));
 
     if(batteryStateOfChargeService_.isCharging())
-        QTextStream(stdout) << " Time until charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << "." << zeroPlaceholder << milliseconds <<endl;
+        QTextStream(stdout) << " Time until charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << "." << displayMilliseconds <<endl;
     else
-        QTextStream(stdout) << " Time until depleted: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << "." << zeroPlaceholder << milliseconds << endl;
+        QTextStream(stdout) << " Time until depleted: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << "." << displayMilliseconds << endl;
 }
