@@ -7,6 +7,11 @@
 #include "I_BatteryDataSource.h"
 #include "I_BatteryStateOfChargeService.h"
 
+namespace
+{
+    const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
+}
+
 BatteryStateDisplayService::BatteryStateDisplayService(
     const I_BatteryDataSource& batteryDataSource,
     I_BatteryStateOfChargeService& batteryStateOfChargeService)
@@ -36,13 +41,13 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
         << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed();
     if(batteryStateOfChargeService_.isCharging())
     {
-        QTextStream(stdout) << " Time until charged: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() <<"."
-                            << numberMillisec << endl;
+        QTextStream(stdout) << " Time until charged: "
+                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString(STRING_TIME_FORMAT) << endl;
     }
     else
     {
-        QTextStream(stdout) << " Time until depleted: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << "."
-                            << numberMillisec << endl;
+        QTextStream(stdout) << " Time until depleted: "
+                            << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString(STRING_TIME_FORMAT) << endl;
     }
 
 }

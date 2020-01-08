@@ -10,7 +10,6 @@ namespace
     const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
     const QString BATDATA_DELIMITER= ", ";
     const int COLUMNS = 3;
-
 }
 
 LogFileReader::LogFileReader()

@@ -1,6 +1,6 @@
+#include <QTime>
 #include "BatteryStateOfChargeService.h"
 #include "BatteryData.h"
-#include <QTime>
 
 namespace
 {
@@ -10,7 +10,6 @@ namespace
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
 : initialStateOfChargePercent_(initialStateOfChargePercent),
-  currentAmphoursUsed_(0),
   totalAmphoursUsed_((initialStateOfChargePercent_ * BATTERY_AMP_HOUR_CAPACITY) / 100)
 {
 }
@@ -31,21 +30,21 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-        double totalHoursRemaining;
+    double totalHoursRemaining;
 
-        if(isCharging())
-        {
-            totalHoursRemaining = abs(totalAmpHoursUsed() / current_);
-        }
-        else
-        {
-            totalHoursRemaining = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_;
-        }
+    if(isCharging())
+    {
+        totalHoursRemaining = abs(totalAmpHoursUsed() / current_);
+    }
+    else
+    {
+        totalHoursRemaining = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_;
+    }
 
-        QTime time(0, 0, 0, 0);
-        int millisec =  totalHoursRemaining * HOUR_TO_MILLISECONDS;
-        QTime timeRemaining = time.addMSecs(millisec);
-        return timeRemaining;
+    QTime time(0, 0, 0, 0);
+    int millisec =  totalHoursRemaining * HOUR_TO_MILLISECONDS;
+    QTime timeRemaining = time.addMSecs(millisec);
+    return timeRemaining;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
@@ -62,7 +61,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     double averageCurrent = (oldCurrent + current_) / 2;
 
     double changeInTimeMseconds = oldTime.msecsTo(newTime_);
-    double hour = changeInTimeMseconds / 3600000;
-    currentAmphoursUsed_ = hour * averageCurrent;
-    totalAmphoursUsed_ = totalAmphoursUsed_ + currentAmphoursUsed_;
+    double hour = changeInTimeMseconds / HOUR_TO_MILLISECONDS;
+    double currentAmphoursUsed = hour * averageCurrent;
+    totalAmphoursUsed_ = totalAmphoursUsed_ + currentAmphoursUsed;
 }
