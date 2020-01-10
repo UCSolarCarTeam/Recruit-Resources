@@ -41,9 +41,9 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
         totalHoursRemaining = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_;
     }
 
-    QTime time(0, 0, 0, 0);
-    int millisec =  totalHoursRemaining * HOUR_TO_MILLISECONDS;
-    QTime timeRemaining = time.addMSecs(millisec);
+    QTime timeRemaining(0, 0, 0, 0);
+    int totalMillisecRemaining =  totalHoursRemaining * HOUR_TO_MILLISECONDS;
+    timeRemaining = timeRemaining.addMSecs(totalMillisecRemaining);
     return timeRemaining;
 }
 
