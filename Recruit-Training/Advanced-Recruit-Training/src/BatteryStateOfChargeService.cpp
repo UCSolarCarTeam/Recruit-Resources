@@ -10,9 +10,8 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent)
-{
-    totalAmphoursUsed_ = initialStateOfChargePercent_ / 100 * BATTERY_AMP_HOUR_CAPACITY;
+: initialStateOfChargePercent_(initialStateOfChargePercent), totalAmphoursUsed_(initialStateOfChargePercent_ / 100 * BATTERY_AMP_HOUR_CAPACITY)
+{   
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -26,22 +25,18 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return(currentNow_ < 0);
+    return (current_ < 0);
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     double totalHoursRemaining;
     double millisecondsRemaining;
-    int hours;
-    int minutes;
-    int seconds;
-    int milliseconds;
 
     if(isCharging())
-        totalHoursRemaining = abs(totalAmpHoursUsed() / currentNow_);
+        totalHoursRemaining = abs(totalAmpHoursUsed() / current_);
     else
-        totalHoursRemaining = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / currentNow_;
+        totalHoursRemaining = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_;
 
     //Checking for total hours to be in between 0 and 24
     while(totalHoursRemaining > 24)
@@ -50,13 +45,13 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
     }
 
     //Converting totalHoursRemaining into hours, minutes, seconds, milliseconds
-    hours = floor(totalHoursRemaining);
+    int hours = floor(totalHoursRemaining);
     millisecondsRemaining = (totalHoursRemaining - hours) * HOUR_IN_MILLISECONDS;
-    minutes = floor(millisecondsRemaining / MINUTE_IN_MILLISECONDS);
+    int minutes = floor(millisecondsRemaining / MINUTE_IN_MILLISECONDS);
     millisecondsRemaining = millisecondsRemaining - (minutes * MINUTE_IN_MILLISECONDS);
-    seconds = floor(millisecondsRemaining / SECOND_IN_MILLISECONDS);
+    int seconds = floor(millisecondsRemaining / SECOND_IN_MILLISECONDS);
     millisecondsRemaining = millisecondsRemaining - (seconds * SECOND_IN_MILLISECONDS);
-    milliseconds = floor(millisecondsRemaining);
+    int milliseconds = floor(millisecondsRemaining);
 
     QTime timeRemaining(hours, minutes, seconds, milliseconds);
     return timeRemaining;
@@ -69,19 +64,15 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     // i.e: Taking a running average of your data values, using most recent data points, etc.
 
     //Calculating inital Amphours used
-    double changeInTimeMSecs;
-    double changeInTimeHours;
-    QTime timePrev;
-    double currentPrev;
+    double currentPrev = current_;
+    current_ = batteryData.current;
 
-    currentPrev = currentNow_;
-    currentNow_ = batteryData.current;
-    timePrev = timeNow_;
-    timeNow_ = batteryData.time;
+    QTime timePrev = time_;
+    time_ = batteryData.time;
 
-    changeInTimeMSecs = timePrev.msecsTo(timeNow_);
-    changeInTimeHours = changeInTimeMSecs / HOUR_IN_MILLISECONDS;
+    double changeInTimeMSecs = timePrev.msecsTo(time_);
+    double changeInTimeHours = changeInTimeMSecs / HOUR_IN_MILLISECONDS;
 
-    currentAmphoursUsed_ = ((currentNow_ + currentPrev) / 2) * changeInTimeHours;
-    totalAmphoursUsed_ = totalAmphoursUsed_ + currentAmphoursUsed_;
+    double currentAmphoursUsed = ((current_ + currentPrev) / 2) * changeInTimeHours;
+    totalAmphoursUsed_ = totalAmphoursUsed_ + currentAmphoursUsed;
 }

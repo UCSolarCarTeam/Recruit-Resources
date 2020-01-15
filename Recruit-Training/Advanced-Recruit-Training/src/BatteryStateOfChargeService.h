@@ -29,8 +29,7 @@ private:
     const double initialStateOfChargePercent_;
 
     // Add your necessary variables here
-    double currentNow_;
-    QTime timeNow_;
-    double currentAmphoursUsed_;
+    double current_;
+    QTime time_;
     double totalAmphoursUsed_;
 };
