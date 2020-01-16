@@ -1,0 +1,103 @@
+.mppt-container-grid{
+    display: grid;
+    column-gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    background-clip: red;
+}
+.title-group {
+    margin-left: auto; 
+}
+.title-text{
+    margin-left: 0.2em;
+}
+.grid-container-sub {
+    display: grid;
+    column-gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+.data {
+    margin: 5px 20px 10px 20px;
+    padding: 5px;
+    background-color: #cacaca;
+    border-bottom: 1px solid black;
+    color: #4c4c4c;
+    border-radius: 10px;
+}
+.dataset {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 0.8rem;
+    color: rgb(255, 255, 255);
+    color: rgba(255, 255, 255, 0.75);
+    border-radius: 15px;
+    background-color: #e8e8e8;
+}
+.item {
+    font-family: Arial, sans-serif;
+    color: black;
+    font-size: 0.8rem;
+    margin-left: 1.2em;
+    margin-right: 1px;
+    margin-bottom: 1em;
+    white-space: nowrap;
+    padding-top: 10px;
+}
+.item-heartbeat {
+    font-family: Arial, sans-serif;
+    color: black;
+    font-size: 0.8rem;
+    margin-left: 1.2em;
+    margin-right: 1px;
+    margin-bottom: 1em;
+    white-space: nowrap;
+    padding-top: 10px;
+}
+.ifs {
+    display: inline-block;
+    width: 10px;
+    padding-right: 10px;
+}
+.circle-items {
+    float: left;
+    width: 1em;
+    height: 1em;
+}
+.subheader {
+	font-family: Arial, sans-serif;
+	font-size: 1rem;
+	background-color: #cacaca;
+	color: black;
+	padding-bottom: 0.2em;
+	padding-top: .2em;
+	text-align: center;
+	margin-bottom: 15px;
+	width: auto;
+	border: 1px solid #cacaca;
+	border-radius: 10px;
+}
+[_nghost-wkk-c0] {
+	width: 100%;
+	height: 100%;
+	display: -webkit-box;
+	display: flex;
+	-webkit-box-align: start;
+	align-items: flex-start;
+	overflow: auto;
+	background-color: lightcoral;
+}
+.mat-tab-link-container {
+	display: flex;
+	flex-grow: 1;
+	overflow: hidden;
+	z-index: 1;
+	border-radius: 15px;
+	background-color: #cacaca;
+}
+.mat-tab-links {
+	display: flex;
+	background-color: #cacaca;
+}
