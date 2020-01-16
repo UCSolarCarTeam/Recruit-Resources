@@ -3,7 +3,6 @@
 }
 .alive-text {
   margin-left: 0.2em;
-  color: black;
 }
 .circle-items {
   float: left;
@@ -27,7 +26,8 @@
 }
 .item {
   font-family: Arial, sans-serif;
-  color: rgba(0, 0, 0, 0.9);
+  color: rgb(255, 255, 255);
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.8rem;
   margin-left: 1.2em;
   margin-right: 1px;
@@ -73,18 +73,4 @@ and (max-width: 1100px){
   .grid-container {
     grid-template-columns: repeat(2, minmax(170px,1fr));
   }
-}
-
-.subheader {
-	font-family: Arial, sans-serif;
-	font-size: 1rem;
-	background-color: #cacaca;
-	color: black;
-	padding-bottom: 0.2em;
-	padding-top: .2em;
-	text-align: center;
-	margin-bottom: 15px;
-	width: auto;
-	border: 1px solid #cacaca;
-	border-radius: 10px;
 }
