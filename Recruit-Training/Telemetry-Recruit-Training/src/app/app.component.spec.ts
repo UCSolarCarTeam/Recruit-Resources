@@ -8,7 +8,6 @@ import { MatTabsModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BatteryComponent } from './tabs/battery/battery.component';
-import { MpptComponent } from './tabs/mppt/mppt.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -21,8 +20,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        BatteryComponent,
-        MpptComponent
+        BatteryComponent
       ],
     }).compileComponents();
   }));
