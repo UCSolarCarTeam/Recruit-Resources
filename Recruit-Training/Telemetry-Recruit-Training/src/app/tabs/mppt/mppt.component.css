@@ -4,15 +4,12 @@
     grid-template-columns: repeat(2, 1fr);
     background-clip: red;
 }
-
 .title-group {
     margin-left: auto; 
 }
-
 .title-text{
     margin-left: 0.2em;
 }
-
 .grid-container-sub {
     display: grid;
     column-gap: 10px;
@@ -59,19 +56,16 @@
     white-space: nowrap;
     padding-top: 10px;
 }
-
 .ifs {
     display: inline-block;
     width: 10px;
     padding-right: 10px;
 }
-
 .circle-items {
     float: left;
     width: 1em;
     height: 1em;
 }
-
 .subheader {
 	font-family: Arial, sans-serif;
 	font-size: 1rem;
@@ -85,7 +79,6 @@
 	border: 1px solid #cacaca;
 	border-radius: 10px;
 }
-
 [_nghost-wkk-c0] {
 	width: 100%;
 	height: 100%;
@@ -96,7 +89,6 @@
 	overflow: auto;
 	background-color: lightcoral;
 }
-
 .mat-tab-link-container {
 	display: flex;
 	flex-grow: 1;
@@ -105,7 +97,6 @@
 	border-radius: 15px;
 	background-color: #cacaca;
 }
-
 .mat-tab-links {
 	display: flex;
 	background-color: #cacaca;
