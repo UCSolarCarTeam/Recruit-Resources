@@ -15,8 +15,8 @@ namespace
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
     : initialStateOfChargePercent_(initialStateOfChargePercent)
+    , ampHours_(BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / PERCENT_TO_DECIMAL)
 {
-    ampHours_ = BATTERY_AMP_HOUR_CAPACITY * initialStateOfChargePercent_ / PERCENT_TO_DECIMAL;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -30,7 +30,7 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return (currentNew_ < 0);
+    return (current_ < 0);
 }
 
 int BatteryStateOfChargeService::getRemainingHours() const
@@ -45,48 +45,44 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    QTime timeOld = timeNew_;
-    double currentOld = currentNew_;
+    QTime timeOld = time_;
+    double currentOld = current_;
 
-    currentNew_ = batteryData.current;
-    timeNew_ = batteryData.time;
+    current_ = batteryData.current;
+    time_ = batteryData.time;
 
     if(!timeOld.isNull())
     {
-        double avgCurrent = (currentOld + currentNew_) / 2;
-        ampHours_ += (avgCurrent * timeOld.secsTo(timeNew_) / SECONDS_TO_HOURS);
+        double avgCurrent = (currentOld + current_) / 2;
+        ampHours_ += (avgCurrent * timeOld.secsTo(time_) / SECONDS_TO_HOURS);
     }
 
     //calculate remaining time for charge or depletion
     double totalHours;
-    int hours;
-    int minutes;
-    int seconds;
-    int milliseconds;
 
     if(isCharging())
     {
-        totalHours = qAbs(totalAmpHoursUsed() / currentNew_);
+        totalHours = qAbs(totalAmpHoursUsed() / current_);
     }
     else
     {
-        totalHours = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / currentNew_;
+        totalHours = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed()) / current_;
     }
 
-    milliseconds = totalHours * MILLISECONDS_IN_HOUR;
+    int milliseconds = totalHours * MILLISECONDS_IN_HOUR;
 
-    hours = floor(totalHours);
+    int hours = floor(totalHours);
     milliseconds -= hours * MILLISECONDS_IN_HOUR;
 
-    minutes = floor(milliseconds / MILLISECONDS_IN_MINUTE);
+    int minutes = floor(milliseconds / MILLISECONDS_IN_MINUTE);
     milliseconds -= minutes * MILLISECONDS_IN_MINUTE;
 
-    seconds = floor(milliseconds / MILLISECONDS_IN_SECOND);
+    int seconds = floor(milliseconds / MILLISECONDS_IN_SECOND);
     milliseconds -= seconds * MILLISECONDS_IN_SECOND;
 
     if((hours - HOURS_IN_A_DAY) >= 0) // if 24 hours or more
     {
-        remainingHours_ = hours - (HOURS_IN_A_DAY - 1);
+        remainingHours_ = hours - (HOURS_IN_A_DAY - 1); // calculate the amount of hours needed to take out of "hours" as "hours" can only hold up to 23
     }
     else
     {
