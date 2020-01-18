@@ -57,7 +57,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
         ampHours_ += (avgCurrent * timeOld.secsTo(time_) / SECONDS_TO_HOURS);
     }
 
-    //calculate remaining time for charge or depletion
+    // calculate remaining time for charge or depletion
     double totalHours;
 
     if(isCharging())
@@ -82,7 +82,8 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 
     if((hours - HOURS_IN_A_DAY) >= 0) // if 24 hours or more
     {
-        remainingHours_ = hours - (HOURS_IN_A_DAY - 1); // calculate the amount of hours needed to take out of "hours" as "hours" can only hold up to 23
+        // QTime can only hold up to 23 hours
+        remainingHours_ = hours - (HOURS_IN_A_DAY - 1);
     }
     else
     {
