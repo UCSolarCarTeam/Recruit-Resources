@@ -5,8 +5,6 @@ namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
     const int HOUR_IN_MILLISECONDS = 3600000;
-    const int MINUTE_IN_MILLISECONDS = 60000;
-    const int SECOND_IN_MILLISECONDS = 1000;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -31,7 +29,6 @@ bool BatteryStateOfChargeService::isCharging() const
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     double totalHoursRemaining;
-    double millisecondsRemaining;
 
     if(isCharging())
         totalHoursRemaining = abs(totalAmpHoursUsed() / current_);
@@ -44,16 +41,9 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
         totalHoursRemaining -= 24;
     }
 
-    //Converting totalHoursRemaining into hours, minutes, seconds, milliseconds
-    int hours = floor(totalHoursRemaining);
-    millisecondsRemaining = (totalHoursRemaining - hours) * HOUR_IN_MILLISECONDS;
-    int minutes = floor(millisecondsRemaining / MINUTE_IN_MILLISECONDS);
-    millisecondsRemaining = millisecondsRemaining - (minutes * MINUTE_IN_MILLISECONDS);
-    int seconds = floor(millisecondsRemaining / SECOND_IN_MILLISECONDS);
-    millisecondsRemaining = millisecondsRemaining - (seconds * SECOND_IN_MILLISECONDS);
-    int milliseconds = floor(millisecondsRemaining);
-
-    QTime timeRemaining(hours, minutes, seconds, milliseconds);
+    QTime timeRemaining(0, 0, 0, 0);
+    int totalMillisecRemaining =  totalHoursRemaining * HOUR_IN_MILLISECONDS;
+    timeRemaining = timeRemaining.addMSecs(totalMillisecRemaining);
     return timeRemaining;
 }
 
