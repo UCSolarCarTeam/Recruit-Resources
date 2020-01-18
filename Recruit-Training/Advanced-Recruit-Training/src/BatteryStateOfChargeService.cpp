@@ -45,12 +45,22 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
    int hours, minutes, seconds, milliseconds;
 
    if (isCharging())
+
+   {
         hoursTillChargedOrDepleted = abs(totalAmpHoursUsed_ / currentNow_);
+   }
+
    else
+
+   {
         hoursTillChargedOrDepleted = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed_) / currentNow_;
+   }
 
    while (hoursTillChargedOrDepleted > 24)
+
+   {
         hoursTillChargedOrDepleted -= 24;
+   }
 
    msTillChargedorDepleted = hoursTillChargedOrDepleted * MS_IN_HOURS;
 
@@ -81,10 +91,14 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     timeNow_ = batteryData.time;
 
     if (timeOld_.isValid())
+
     {
         timeDiffMSec_ = timeOld_.msecsTo(timeNow_);
         totalAmpHoursUsed_ += currentAverage_ * timeDiffMSec_ / MS_IN_HOURS;
-    } else
+    }
+
+    else
+
     {
         totalAmpHoursUsed_ = initialAmpHoursUsed_;
     }

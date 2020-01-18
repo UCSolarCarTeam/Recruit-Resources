@@ -58,7 +58,10 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
     QString timeString = sections.at(0);
 
     if (sections.size() != COLUMNS)
+
+    {
         return false;
+    }
 
     bool validVoltage = false;
     bool validCurrent = false;
