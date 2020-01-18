@@ -7,9 +7,9 @@
 
 namespace
 {
-const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
-const QString BATDATA_DELIMITER= ", ";
-const int COLUMNS = 3;
+    const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
+    const QString BATDATA_DELIMITER= ", ";
+    const int COLUMNS = 3;
 }
 
 LogFileReader::LogFileReader()
@@ -71,12 +71,6 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 
     batteryData.current = sections.at(2).toDouble(&currentOk);
 
-    if(!batteryData.time.isValid() || !voltageOk || !currentOk)
-    {
-        return false;
-    }
-
-
-    return true;
+    return (batteryData.time.isValid() && voltageOk && currentOk);
 
 }
