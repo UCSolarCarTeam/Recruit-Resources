@@ -39,7 +39,7 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 
      else
 
-     s{
+     {
          QTextStream(stdout) << "Time until depleted:" << batteryStateOfChargeService_.
                                                           timeWhenChargedOrDepleted().toString(Qt::ISODateWithMs) << endl;
      }
