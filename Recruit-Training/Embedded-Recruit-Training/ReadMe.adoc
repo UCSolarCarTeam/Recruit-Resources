@@ -1,31 +1,34 @@
 Embedded Recruit Training 
 ------------------------
 
-In this recruit training you will be receiving two “control” CAN messages, one for the blue LED and the green LED. Depending on which bits are ‘set’ you will toggle either the blue or green LEDS. You will also send back a message with current state of the LEDs at a frequency of 1hz for the blue LED and 10Hz for the green. 
+In this recruit training you will be receiving two “control” CAN messages, one for the blue LED and the green LED. Depending on which bits are ‘set’ you will toggle either the blue or green LEDS. 
+You will also send back a message with current state of the LEDs at a frequency of 1hz for the blue LED and 10Hz for the green. 
 
 We will begin by discussing the directory structure for the recruit training project.
 
-*  Core: where all of the user/main code will go
-** inc: where all of the header files go 
-** src: where all of the source files go 
+*  `Core`: where all of the user/main code will go
+** `Inc`: where all of the header files go 
+** `Src`: where all of the source files go 
 * Drivers: where all the HAL driver functions go
 * Middlewares: where all of the os functions (FREERTOS and CMSIS) are
 
 If there are any functions that you think you need, but aren't given, refer to Documentation/HALFunctionReferences.adoc and Documentation/RTOSReferences.adoc
 
+These are available in the embedded repository, or by clicking https://github.com/UCSolarCarTeam/Epsilon-Embedded-Software[here]
 
-Start by going to Core/Src/main.c and search for “TODO” this will show you where you need to make changes
 
-. Within “USER CODE BEGIN Includes” and “USER CODE END Includes”
+Start by going to `Core/Src/main.c` and search for `TODO` this will show you where you need to make changes
+
+. Within `USER CODE BEGIN Includes` and `USER CODE END Includes`
 ** Include all task header files, these will be found under Core/Inc and have “Task” in the filename
-. Within “USER CODE BEGIN PV” and “USER CODE END PV”
+. Within `USER CODE BEGIN PV` and `USER CODE END PV`
 ** Add the StdId for the green led, this value will be 0XBBB, look to blue StdId for an example
 ** Add CAN Tx Header definition. The type is `CAN_TxHeaderTypeDef`
 ** Define threads for the blue and green toggle LED tasks. The type will be `osThreadId_t`
 ** Define toggle flags for blue and green LEDs. The type will be `uint8_t`
-. Within “USER CODE BEGIN 2” and “USER CODE END 2”
+. Within `USER CODE BEGIN 2` and `USER CODE END 2`
 ** Call the function `MX_CAN2_UserInit`, it takes no arguments
-. Within “USER CODE BEGIN RTOS MUTEX” and “USER CODE END RTOS MUTEX”
+. Within `USER CODE BEGIN RTOS MUTEX` and `USER CODE END RTOS MUTEX`
 ** Create mutexes for CAN transmit
 *** To create a mutex:
 **** Define a mutex handle of `osMutexId_t`
@@ -36,17 +39,17 @@ Start by going to Core/Src/main.c and search for “TODO” this will show you w
 * Null
 * Zero 
 ***** Ex:
- `const osMutexAttr_t MutexAttr =
+ ```const osMutexAttr_t MutexAttr =
    {
        "MutexAttr", // name of mutex
        0, // TODO perhaps osMutexRecursive
        NULL,
        0
-   };`
+   };```
 **** Call `osMutexNew()`
 ***** It accepts one argument of type `const osMutexAttr_t*` and its return type is `osMutexId_t`
 ***** Assign the value returned to the mutex handle you defined
-. Within “USER CODE BEGIN RTOS THREADS” and “USER CODE ENDS RTOS THREADS”
+. Within `USER CODE BEGIN RTOS THREADS` and `USER CODE ENDS RTOS THREADS`
 ** Create blue and green thread handles and pass CAN transmit mutex handle as an argument  (The function prototypes can be found in the task header files)
 *** To create a thread:
 **** Define attributes of `const osThreadAttr_t`
@@ -57,11 +60,11 @@ Start by going to Core/Src/main.c and search for “TODO” this will show you w
 ****** Stack size 
 ******* We’ll usually use a value of 128
 ***** Ex:
- `const osThreadAttr_t defaultTask_attributes = {
+ ```const osThreadAttr_t defaultTask_attributes = {
    .name = "defaultTask",
    .priority = (osPriority_t) osPriorityNormal,
    .stack_size = 128
- };`
+ };```
 **** Call `osThreadNew()`
 ***** It accepts three arguments:
 ****** Pointer to task function
@@ -71,7 +74,7 @@ Start by going to Core/Src/main.c and search for “TODO” this will show you w
 ******* You will be passing the CAN Mutex you created earlier as an argument to both tasks
 ****** Pointer to attributes of `const osThreadAttr_t`
 ***** Assign the value returned to the thread handle you defined in step 2
-. Within “USER CODE BEGIN 4” and “USER CODE END 4”
+. Within `USER CODE BEGIN 4` and `USER CODE END 4`
 ** Inside `HAL_CAN_RxFifo0MsgPendingCallback`
 *** Match the StdId and the data length content in the header for the blue and green messages
 **** The StdId in the header can be accessed by `hdr.StdId`
@@ -92,17 +95,17 @@ Start by going to Core/Src/main.c and search for “TODO” this will show you w
 **** `IDE = CAN_ID_STD`
 **** `TransmitGlobalTime = DISABLE`
 
-Then go into Core/Inc/BlueLedToggleTask.h
+Then go into `Core/Inc/BlueLedToggleTask.h`
 
 . Define an external CAN handle (same variable as in main) of type `CAN_HandleTypeDef`
 . Define an external CAN_Tx header (same variable as in main) of type `CAN_TxHeaderTypeDef`
 . Define an external toggle flag for the blue LED (same variable as in main) of type `uint8_t `
 
-Then go into Core/Inc/GreenLedToggleTask.h
+Then go into `Core/Inc/GreenLedToggleTask.h`
 
-. Do the same as in Core/Inc/BlueLedToggleTask.h, except the toggle flag should be for the green LED
+. Do the same as in `Core/Inc/BlueLedToggleTask.h`, except the toggle flag should be for the green LED
 
-Then go into Core/Src/BlueLedToggleTask.c
+Then go into `Core/Src/BlueLedToggleTask.c`
 
 . Define a static constant global variable called `BLUE_LED_STATUS_STDID`
 ** Give it a value of 0xCCC
@@ -134,7 +137,7 @@ Then go into Core/Src/BlueLedToggleTask.c
 *** This accepts arguments of `osMutexId_t*`
 *** *Note*: You must release the mutex even if you don't send a message.
 
-Then go into Core/Src/GreenLedToggleTask.c
+Then go into `Core/Src/GreenLedToggleTask.c`
 
 . Repeat the steps outlined above for the green LED, except give the `GREEN_LED_STATUS_STDID` a value of 0xDDD, and the frequency of the task is 10Hz.
 
