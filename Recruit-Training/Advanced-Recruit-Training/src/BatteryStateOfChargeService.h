@@ -1,7 +1,7 @@
 #pragma once
 
 #include "I_BatteryStateOfChargeService.h"
-#include "QTime"
+#include <QTime>
 
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
@@ -27,15 +27,8 @@ public:
 
 private:
     const double initialStateOfChargePercent_;
-
-    double currentOld_;
     double currentNow_;
-    double currentAverage_;
-
     double totalAmpHoursUsed_;
-    double initialAmpHoursUsed_;
-
-    QTime timeOld_;
+    QTime timeRemaining_;
     QTime timeNow_;
-    double timeDiffMSec_;
 };

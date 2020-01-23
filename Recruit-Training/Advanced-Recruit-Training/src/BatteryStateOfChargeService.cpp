@@ -13,16 +13,9 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent)
+: initialStateOfChargePercent_(initialStateOfChargePercent), currentNow_(0),
+  totalAmpHoursUsed_(0), timeRemaining_(1, 1, 1)
 {
-    currentOld_ = 0;
-    currentNow_ = 0;
-    currentAverage_ = 0;
-
-    totalAmpHoursUsed_ = 0;
-    initialAmpHoursUsed_ = 0;
-
-    timeDiffMSec_ = 0;
 }
 
 BatteryStateOfChargeService::~BatteryStateOfChargeService()
@@ -41,65 +34,58 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-   double hoursTillChargedOrDepleted, msTillChargedorDepleted;
-   int hours, minutes, seconds, milliseconds;
-
-   if (isCharging())
-
-   {
-        hoursTillChargedOrDepleted = abs(totalAmpHoursUsed_ / currentNow_);
-   }
-
-   else
-
-   {
-        hoursTillChargedOrDepleted = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed_) / currentNow_;
-   }
-
-   while (hoursTillChargedOrDepleted > 24)
-
-   {
-        hoursTillChargedOrDepleted -= 24;
-   }
-
-   msTillChargedorDepleted = hoursTillChargedOrDepleted * MS_IN_HOURS;
-
-   hours = floor(hoursTillChargedOrDepleted);
-   msTillChargedorDepleted -= hours * MS_IN_HOURS;
-
-   minutes = floor(msTillChargedorDepleted / MS_IN_MINUTES);
-   msTillChargedorDepleted -= minutes * MS_IN_MINUTES;
-
-   seconds = floor(msTillChargedorDepleted / MS_IN_SECONDS);
-   msTillChargedorDepleted -= seconds * MS_IN_SECONDS;
-
-   milliseconds = floor(msTillChargedorDepleted);
-
-   QTime timeRemaining(hours, minutes, seconds, milliseconds);
-   return timeRemaining;
+   return timeRemaining_;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    initialAmpHoursUsed_ = (initialStateOfChargePercent_ / 100) * BATTERY_AMP_HOUR_CAPACITY;
+    double initialAmpHoursUsed = (initialStateOfChargePercent_ / 100) * BATTERY_AMP_HOUR_CAPACITY;
 
-    currentOld_ = currentNow_;
+    double currentOld = currentNow_;
     currentNow_ = batteryData.current;
-    currentAverage_ = (currentOld_ + currentNow_) / 2;
+    double currentAverage = (currentOld + currentNow_) / 2;
 
-    timeOld_ = timeNow_;
+    QTime timeOld = timeNow_;
     timeNow_ = batteryData.time;
 
-    if (timeOld_.isValid())
-
+    if (timeOld.isValid())
     {
-        timeDiffMSec_ = timeOld_.msecsTo(timeNow_);
-        totalAmpHoursUsed_ += currentAverage_ * timeDiffMSec_ / MS_IN_HOURS;
+        double timeDiffMSec = timeOld.msecsTo(timeNow_);
+        totalAmpHoursUsed_ += currentAverage * timeDiffMSec / MS_IN_HOURS;
     }
-
     else
-
     {
-        totalAmpHoursUsed_ = initialAmpHoursUsed_;
+        totalAmpHoursUsed_ = initialAmpHoursUsed;
     }
+
+    double hoursTillChargedOrDepleted;
+
+    if (isCharging())
+    {
+         hoursTillChargedOrDepleted = abs(totalAmpHoursUsed_ / currentNow_);
+    }
+    else
+    {
+         hoursTillChargedOrDepleted = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHoursUsed_) / currentNow_;
+    }
+
+    while (hoursTillChargedOrDepleted > 24)
+    {
+         hoursTillChargedOrDepleted -= 24;
+    }
+
+    double msTillChargedorDepleted = hoursTillChargedOrDepleted * MS_IN_HOURS;
+
+    int hours = floor(hoursTillChargedOrDepleted);
+    msTillChargedorDepleted -= hours * MS_IN_HOURS;
+
+    int minutes = floor(msTillChargedorDepleted / MS_IN_MINUTES);
+    msTillChargedorDepleted -= minutes * MS_IN_MINUTES;
+
+    int seconds = floor(msTillChargedorDepleted / MS_IN_SECONDS);
+    msTillChargedorDepleted -= seconds * MS_IN_SECONDS;
+
+    int milliseconds = floor(msTillChargedorDepleted);
+
+    timeRemaining_.setHMS(hours, minutes, seconds, milliseconds);
 }
