@@ -19,18 +19,11 @@
   border-bottom: 1px solid white;
 }
 
-.dataset {
+.item {
   text-align: center;
   font-family: Arial, sans-serif;
-  font-size: 0.8rem;
   color: rgb(255, 255, 255);
   color: rgba(255, 255, 255, 0.75);
-}
-
-.item {
-  font-family: Arial, sans-serif;
-  color: rgb(255, 255, 255);
-  color: rgba(255, 255, 255, 0.9);
   font-size: 0.8rem;
   margin-left: 1.2em;
   margin-right: 1px;
