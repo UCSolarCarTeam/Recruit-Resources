@@ -19,13 +19,13 @@
 }
 .dataset {
   text-align: center;
-  font-family: Arial, sans-serif;
+  font-family: "Times New Roman", Times, serif;
   font-size: 0.8rem;
   color: rgb(255, 255, 255);
   color: rgba(255, 255, 255, 0.75);
 }
 .item {
-  font-family: Arial, sans-serif;
+  font-family: "Times New Roman", Times, serif;
   color: rgb(255, 255, 255);
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.8rem;
