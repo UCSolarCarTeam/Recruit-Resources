@@ -1,7 +1,7 @@
-<ng-template #elseBlock><img class="circle-items" src="../../../assets/RedCircle.png" alt="Red Circle" ></ng-template>
+<ng-template #elseBlock><img class="circle-items" src="../../../assets/sad_bill.png" alt="Red Circle" ></ng-template>
 	<div class="header">
 		<div class="alive-group">
-			<span *ngIf="battery.alive; else elseBlock"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+			<span *ngIf="battery.alive; else elseBlock"><img class="circle-items" src="../../../assets/happy_bill.png" alt="Green Circle" ></span>
 			<span class="alive-text">Alive</span>
 		</div>
 	</div>
@@ -10,35 +10,35 @@
 			<div class ="subheader">BMS Relay Status Flags</div>
 			<div class = "grid-container">
 				<span class="item">
-					<span *ngIf="battery.bmsRelayStatusFlags.dischargeRelayEnabled; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span *ngIf="battery.bmsRelayStatusFlags.dischargeRelayEnabled; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/happy_bill.png" alt="Green Circle" ></span>
 					<span class="item">Discharge Relay Enabled</span>
 				</span>
 				<span class="item">
-					<span *ngIf="battery.bmsRelayStatusFlags.isReadySignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span *ngIf="battery.bmsRelayStatusFlags.isReadySignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/happy_bill.png" alt="Green Circle" ></span>
 					<span class="item">Is Ready</span>
 				</span>
 				<span class="item">
-					<span *ngIf="battery.bmsRelayStatusFlags.chargeRelayEnabled; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span *ngIf="battery.bmsRelayStatusFlags.chargeRelayEnabled; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/happy_bill.png" alt="Green Circle" ></span>
 					<span class="item">Charge Relay Enabled</span>
 				</span>
 				<span class="item">
-					<span *ngIf="battery.bmsRelayStatusFlags.isChargingSignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span *ngIf="battery.bmsRelayStatusFlags.isChargingSignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/happy_bill.png" alt="Green Circle" ></span>
 					<span class="item">Is Charging</span>
 				</span>
 				<span class="item">
-					<span *ngIf="battery.bmsRelayStatusFlags.chargerSafetyEnabled; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span *ngIf="battery.bmsRelayStatusFlags.chargerSafetyEnabled; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/happy_bill.png" alt="Green Circle" ></span>
 					<span class="item">Charger Safety Enabled</span>
 				</span>
 				<span class="item">
-					<span *ngIf="battery.bmsRelayStatusFlags.malfunctionIndicatorActive; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span *ngIf="battery.bmsRelayStatusFlags.malfunctionIndicatorActive; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/happy_bill.png" alt="Green Circle" ></span>
 					<span class="item">Malfunction Indicator Active</span>
 				</span>
 				<span class="item">
-					<span *ngIf="battery.bmsRelayStatusFlags.isReadySignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span *ngIf="battery.bmsRelayStatusFlags.isReadySignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/happy_bill.png" alt="Green Circle" ></span>
 					<span class="item">Multipurpose Input Signal</span>
 				</span>
 				<span class="item">
-					<span *ngIf="battery.bmsRelayStatusFlags.alwaysOnSignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/GreenCircle.png" alt="Green Circle" ></span>
+					<span *ngIf="battery.bmsRelayStatusFlags.alwaysOnSignalStatus; else elseBlock" class="ifs"><img class="circle-items" src="../../../assets/happy_bill.png" alt="Green Circle" ></span>
 					<span class="item">Always On</span>
 				</span>
 			</div>
