@@ -17,14 +17,14 @@
   line-height: 30px !important;
   height: 3em !important;
   min-width: 15% !important;
-  border: 1px solid #7e7e7e;
+  border: 1px solid #ffffff;
   color: white;
   font-size: 18px;
 }
 
 .mat-tab-nav-bar {
   margin: 0 auto;
-  background-color: #212121;
+  background-color: #323232;
 }
 
 .sticky {
