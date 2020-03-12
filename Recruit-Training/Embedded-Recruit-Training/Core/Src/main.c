@@ -24,7 +24,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-//TODO: Include task header files
+#include "BlueLedToggleTask.h"
+#include "GreenLedToggleTask.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,10 +49,12 @@ CAN_HandleTypeDef hcan2;
 osThreadId_t defaultTaskHandle;
 /* USER CODE BEGIN PV */
 static const uint32_t BLUE_MESSAGE_STDID = 0xAAA;
-//TODO: Add STDID for green message
-//TODO: Add CAN_TX header definition
-//TODO: Define thread for tasks
-//TODO: Define a blue LED toggle flag and a green LED toggle flag
+static const uint32_t GREEN_MESSAGE_STDID = 0xBBB;
+CAN_TxHeaderTypeDef canTxHdr;
+osThreadId_t blueLedToggleTaskHandle;
+osThreadId_t greenLedToggleTaskHandle;
+uint8_t blueLedToggleFlag;
+uint8_t greenLedToggleFlag;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -99,16 +102,16 @@ int main(void)
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
     MX_CAN2_Init();
-
     /* USER CODE BEGIN 2 */
-    //TODO: Call MX_CAN2_UserInit
+    MX_CAN2_UserInit();
+
     //Activate Can Recieve Interrupts
     if (HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING |
-                                    CAN_IT_ERROR_WARNING |
-                                    CAN_IT_ERROR_PASSIVE |
-                                    CAN_IT_BUSOFF |
-                                    CAN_IT_LAST_ERROR_CODE |
-                                    CAN_IT_ERROR) != HAL_OK)
+                                     CAN_IT_ERROR_WARNING |
+                                     CAN_IT_ERROR_PASSIVE |
+                                     CAN_IT_BUSOFF |
+                                     CAN_IT_LAST_ERROR_CODE |
+                                     CAN_IT_ERROR) != HAL_OK)
     {
         /* Reception error */
         Error_Handler();
@@ -119,7 +122,8 @@ int main(void)
     osKernelInitialize();
 
     /* USER CODE BEGIN RTOS_MUTEX */
-    //TODO: Define and create mutexes and mutex attributes
+    const osMutexAttr_t canMutexAttr = {"CanMutexAttr", 0, NULL, 0};
+    osMutexId_t canMutex = osMutexNew(&canMutexAttr);
     /* add mutexes, ... */
     /* USER CODE END RTOS_MUTEX */
 
@@ -147,6 +151,20 @@ int main(void)
 
     /* USER CODE BEGIN RTOS_THREADS */
     //TODO: Create threads and thread attributes
+    const osThreadAttr_t blueLedToggleTask_attributes =
+    {
+        .name = "blueLedToggleTask",
+        .priority = (osPriority_t) osPriorityNormal,
+        .stack_size = 128
+    };
+    const osThreadAttr_t greenLedToggleTask_attributes =
+    {
+        .name = "greenLedToggleTask",
+        .priority = (osPriority_t) osPriorityNormal,
+        .stack_size = 128
+    };
+    blueLedToggleTaskHandle = osThreadNew((osThreadFunc_t)blueLedToggleTask, &canMutex, &blueLedToggleTask_attributes);
+    greenLedToggleTaskHandle = osThreadNew((osThreadFunc_t)greenLedToggleTask, &canMutex, &greenLedToggleTask_attributes);
     /* add threads, ... */
     /* USER CODE END RTOS_THREADS */
 
@@ -287,7 +305,15 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
         return;
     }
 
-    //TODO: Match StdId of header and data length content for green and blue messages and check data for set bit of toggling green and blue led
+    if (hdr.StdId == BLUE_MESSAGE_STDID && hdr.DLC == 1)
+    {
+        blueLedToggleFlag = ((data[0] & 0x89) == 0x89);
+    }
+
+    if (hdr.StdId == GREEN_MESSAGE_STDID && hdr.DLC == 1)
+    {
+        greenLedToggleFlag = (data[0] == 0x3);
+    }
 }
 
 static void MX_CAN2_UserInit(void)
@@ -309,8 +335,28 @@ static void MX_CAN2_UserInit(void)
         Error_Handler();
     }
 
-    //TODO: Configure filter for green message
-    //TODO: Configure CAN_TX header
+    CAN_FilterTypeDef greenMessageFilterConfig;
+    greenMessageFilterConfig.FilterBank = 1; // Use first filter bank
+    greenMessageFilterConfig.FilterMode = CAN_FILTERMODE_IDLIST; //Look for specific CAN messages
+    greenMessageFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
+    greenMessageFilterConfig.FilterIdHigh = GREEN_MESSAGE_STDID << 5; // Filter registers need to be shifted left 5 bits
+    greenMessageFilterConfig.FilterIdLow = 0;
+    greenMessageFilterConfig.FilterMaskIdHigh = 0;
+    greenMessageFilterConfig.FilterFIFOAssignment = 0; //unused
+    greenMessageFilterConfig.FilterActivation = ENABLE;
+    greenMessageFilterConfig.SlaveStartFilterBank = 0; // set all filter banks for CAN2
+
+    if (HAL_CAN_ConfigFilter(&hcan2, &greenMessageFilterConfig) != HAL_OK)
+    {
+        /* Filter configuration Error */
+        Error_Handler();
+    }
+
+    canTxHdr.ExtId = 0;
+    canTxHdr.RTR = CAN_RTR_DATA;
+    canTxHdr.IDE = CAN_ID_STD;
+    canTxHdr.TransmitGlobalTime = DISABLE;
+
 }
 /* USER CODE END 4 */
 
