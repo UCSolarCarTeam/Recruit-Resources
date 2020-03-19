@@ -9,3 +9,7 @@
 //TODO: Define external CAN_Tx header (same variable as in main)
 //TODO: Define external green LED toggle task (same variable as in main)
 void greenLedToggleTask(void const* arg);
+
+CAN_HandleTypeDef hcan2;
+CAN_TxHeaderTypeDef CANTxHeader;
+uint8_t greenFlag;
