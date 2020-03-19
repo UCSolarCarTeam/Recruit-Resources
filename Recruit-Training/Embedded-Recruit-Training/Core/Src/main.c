@@ -54,12 +54,10 @@ static const uint32_t BLUE_MESSAGE_STDID = 0xAAA;
 //TODO: Add STDID for green message
 static const uint32_t GREEN_MESSAGE_STDID = 0xBBB;
 //TODO: Add CAN_TX header definition
-CAN_TxHeaderTypeDef CANTxHeader; //??????----------------------------------------------------------------------
+CAN_TxHeaderTypeDef CANTxHeader;
 //TODO: Define thread for tasks
 osThreadId_t blueThread;
 osThreadId_t greenThread;
-//pthread_create(&blueThreadId, pthread_attr_t * osThreadId_t,blueLedToggleTask, NULL);
-//pthread_join(thread_id, NULL);
 
 //TODO: Define a blue LED toggle flag and a green LED toggle flag
 uint8_t blueFlag;
@@ -316,25 +314,19 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
     if(hdr.DLC == 1){
         if(BLUE_MESSAGE_STDID == hdr.StdId)
         {
-            //blue message
-            //create a bitmask: 10000101
             uint32_t bitmaskBlue = 10000101;
             uint32_t result = data[0] + bitmaskBlue;
             if(result == 0x85)
             {
-                //toggle blue
                 blueFlag = 1;
             }
         }
         if(GREEN_MESSAGE_STDID == hdr.StdId)
         {
-            //green message
-            //create a bitmask : 00000011
             uint32_t bitmaskGreen = 00000011;
             uint32_t result = data[0] + bitmaskGreen;
             if(result == 0x3)
             {
-                //toggle green
                 greenFlag = 1;
             }
         }
