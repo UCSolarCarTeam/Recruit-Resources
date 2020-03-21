@@ -30,7 +30,7 @@ void greenLedToggleTask(void const* arg)
             uint8_t data[1] = {0};
             uint32_t mailbox;
             
-            CAN_TxHeader.StdId = green_LED_STATUS_STDID;
+            CAN_TxHeader.StdId = GREEN_LED_STATUS_STDID;
             CAN_TxHeader.DLC = 1;
                 
             if (greenStatus == 0)

@@ -55,8 +55,8 @@ static const uint32_t GREEN_MESSAGE_STDID = 0xBBB;
 //TODO: Add CAN_TX header definition
 CAN_TxHeaderTypeDef CAN_TxHeader;
 //TODO: Define thread for tasks
-osThreadId_t blueToggle;
-osThreadId_t greenToggle;
+osThreadId_t blueThread;
+osThreadId_t greenThread;
 //TODO: Define a blue LED toggle flag and a green LED toggle flag
 uint8_t blueToggleFlag;
 uint8_t greenToggleFlag;
@@ -162,8 +162,8 @@ int main(void)
     /* add threads, ... */
     const osThreadAttr_t blueTask_Attr = {.name = "blueTask", .priority = (osPriority) osPriorityNormal, .stack_size = 128};
     const osThreadAttr_t greenTask_Attr = {.name = "greenTask", .priority = (osPriority) osPriorityNormal, .stack_size = 128};
-    blueToggle = osThreadNew((osThreadFunc_t)blueLedToggleTask(), &CANMutexAttr, &blueTask_Attr);
-    greenToggle = osThreadNew((osThreadFunc_t)greenLedToggleTask(), &CANMutexAttr, &greenTask_Attr);
+    blueThread = osThreadNew((osThreadFunc_t)blueLedToggleTask, &CANMutexAttr, &blueTask_Attr);
+    greenThread = osThreadNew((osThreadFunc_t)greenLedToggleTask, &CANMutexAttr, &greenTask_Attr);
     /* USER CODE END RTOS_THREADS */
 
     /* Start scheduler */
@@ -306,22 +306,22 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
     //TODO: Match StdId of header and data length content for green and blue messages and check data for set bit of toggling green and blue led
     if (hdr.StdId == BLUE_MESSAGE_STDID && hdr.DLC == 1)
     {
-        uint8_t mask = 10001001;
-        uint8_t check = data[0] & mask;
+        uint32_t mask = 10001001;
+        uint32_t check = data[0] & mask;
 
         if (check == mask)
         {
-            blueToggleFlag = true;
+            blueToggleFlag = 1;
         }
     }
     else if (hdr.StdId == GREEN_MESSAGE_STDID && hdr.DLC == 1)
     {
-        uint8_t mask = 00000011;
-        uint8_t check = data[0] & mask;
+        uint32_t mask = 00000011;
+        uint32_t check = data[0] & mask;
 
         if (check == mask)
         {
-            greenToggleFlag = true;
+            greenToggleFlag = 1;
         }
     } 
 }
@@ -348,7 +348,7 @@ static void MX_CAN2_UserInit(void)
     //TODO: Configure filter for green message
     CAN_FilterTypeDef greenMessageFilterConfig;
     greenMessageFilterConfig.FilterBank = 1;
-    greenMessageFilterConfig.FilterMode = CAN_FILTERMODE_ID:IST;
+    greenMessageFilterConfig.FilterMode = CAN_FILTERMODE_IDLIST;
     greenMessageFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
     greenMessageFilterConfig.FilterIdHigh = GREEN_MESSAGE_STDID << 5;
     greenMessageFilterConfig.FilterIdLow = 0;
