@@ -97,9 +97,9 @@ Start by going to `Core/Src/main.c` and search for `TODO` this will show you whe
 
 Then go into `Core/Inc/BlueLedToggleTask.h`
 
-. Define an external CAN handle (same variable as in main) of type `CAN_HandleTypeDef`
-. Define an external CAN_Tx header (same variable as in main) of type `CAN_TxHeaderTypeDef`
-. Define an external toggle flag for the blue LED (same variable as in main) of type `uint8_t `
+. Define an external CAN handle (same variable as in main) of type `extern CAN_HandleTypeDef`
+. Define an external CAN_Tx header (same variable as in main) of type `extern CAN_TxHeaderTypeDef`
+. Define an external toggle flag for the blue LED (same variable as in main) of type `extern uint8_t`
 
 Then go into `Core/Inc/GreenLedToggleTask.h`
 
@@ -107,9 +107,9 @@ Then go into `Core/Inc/GreenLedToggleTask.h`
 
 Then go into `Core/Src/BlueLedToggleTask.c`
 
-. Define a static constant global variable called `BLUE_LED_STATUS_STDID`
+. Define a `static const uint32_t` global variable called `BLUE_LED_STATUS_STDID`
 ** Give it a value of 0xCCC
-. Define a `static const` variable called `BLUE_LED_TOGGLE_FREQ`
+. Define a `static const uint32_t` global variable called `BLUE_LED_TOGGLE_FREQ`
 ** Set this value so that the task runs at a frequency of 1Hz
 *** Hint: this will be used in the `osDelayUntil` function call (the argument will be in time units of ms)
 . In the `osDelayUntil` replace the current argument `prevWakeTime + 1` with `prevWakeTime + BLUE_LED_TOGGLE_FREQ`
@@ -124,7 +124,7 @@ Then go into `Core/Src/BlueLedToggleTask.c`
 *** You can check this by calling `HAL_CAN_GetTxMailboxesFreeLevel`
 **** This function accepts one argument which is of type `CAN_HandleTypeDef*`
 **** This function returns the number of available mailboxes 
-** Next you will create a one element data array of type `uint8_t `
+** Next you will create a one element data array of type `uint8_t`
 ** You will then create a mailbox variable of type `uint32_t`
 ** You will then set the `StdId` of the CAN Tx Header to  `BLUE_LED_STATUS_STDID`
 ** Then you will set the `DLC` to 1, because you are sending one byte 
