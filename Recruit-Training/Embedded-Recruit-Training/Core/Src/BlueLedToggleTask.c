@@ -17,7 +17,7 @@ void blueLedToggleTask(void const* arg)
         //TODO: Check blue toggle flag and toggle blue LED
         if (blueToggleFlag)
         {
-            HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
+            HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
         }
         
         GPIO_PinState blueStatus = HAL_GPIO_ReadPin(LED_RED_GPIO_Port, LED_RED_Pin);
