@@ -162,8 +162,8 @@ int main(void)
     /* add threads, ... */
     const osThreadAttr_t blueTask_Attr = {.name = "blueTask", .priority = (osPriority) osPriorityNormal, .stack_size = 128};
     const osThreadAttr_t greenTask_Attr = {.name = "greenTask", .priority = (osPriority) osPriorityNormal, .stack_size = 128};
-    blueThread = osThreadNew((osThreadFunc_t)blueLedToggleTask, &CANMutexAttr, &blueTask_Attr);
-    greenThread = osThreadNew((osThreadFunc_t)greenLedToggleTask, &CANMutexAttr, &greenTask_Attr);
+    blueThread = osThreadNew((osThreadFunc_t)blueLedToggleTask, &CANMutexId, &blueTask_Attr);
+    greenThread = osThreadNew((osThreadFunc_t)greenLedToggleTask, &CANMutexId, &greenTask_Attr);
     /* USER CODE END RTOS_THREADS */
 
     /* Start scheduler */
@@ -306,23 +306,31 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
     //TODO: Match StdId of header and data length content for green and blue messages and check data for set bit of toggling green and blue led
     if (hdr.StdId == BLUE_MESSAGE_STDID && hdr.DLC == 1)
     {
-        uint32_t mask = 10001001;
-        uint32_t check = data[0] & mask;
+        uint8_t mask = 0b10001001;
+        uint8_t check = data[0] & mask;
 
         if (check == mask)
         {
             blueToggleFlag = 1;
         }
+        else
+        {
+            blueToggleFlag = 0;
+        }
     }
     else if (hdr.StdId == GREEN_MESSAGE_STDID && hdr.DLC == 1)
     {
-        uint32_t mask = 00000011;
-        uint32_t check = data[0] & mask;
+        uint8_t mask = 0b00000011;
+        uint8_t check = data[0] & mask;
 
         if (check == mask)
         {
             greenToggleFlag = 1;
         }
+        else
+        {
+            greenToggleFlag = 0;
+        } 
     } 
 }
 

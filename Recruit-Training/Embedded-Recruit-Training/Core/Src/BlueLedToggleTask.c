@@ -17,13 +17,13 @@ void blueLedToggleTask(void const* arg)
         //TODO: Check blue toggle flag and toggle blue LED
         if (blueToggleFlag)
         {
-            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+            HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
         }
         
-        GPIO_PinState blueStatus = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_5);
+        GPIO_PinState blueStatus = HAL_GPIO_ReadPin(LED_RED_GPIO_Port, LED_RED_Pin);
 
         //TODO: Send CAN message indicating current state of LED
-        while (osMutexAcquire(canMutex, 0) != osOK) {}
+        if (osMutexAcquire(canMutex, 0) != osOK) continue;
 
         if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2))
         {
@@ -33,15 +33,7 @@ void blueLedToggleTask(void const* arg)
             CAN_TxHeader.StdId = BLUE_LED_STATUS_STDID;
             CAN_TxHeader.DLC = 1;
                 
-            if (blueStatus == 0)
-            {
-                data[0] = 1;
-            }
-            else if (blueStatus == 1)
-            {
-                data[0] = 0;
-            }
-
+            data[0] = !blueStatus;
             HAL_CAN_AddTxMessage(&hcan2, &CAN_TxHeader, &data, &mailbox);
         }
         
