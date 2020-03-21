@@ -24,7 +24,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <pthread.h>
 //TODO: Include task header files
 #include "BlueLedToggleTask.h"
 #include "GreenLedToggleTask.h"
@@ -132,12 +131,9 @@ int main(void)
 
     /* USER CODE BEGIN RTOS_MUTEX */
     //TODO: Define and create mutexes and mutex attributes
-        //typedef void* osMutexId_t canMutexHandle;
     osMutexId_t canMutexHandle;
     const osMutexAttr_t canMutexAttr = { "canMutexAttr", 0, NULL, 0};
-    //osMutexAttr_t canMutexAttr __attribute__((struct osMutexAttr_t canMutexAttr = {"canMutexAttr", 0, NULL, 0));
-    //MutexAttr = {"canMutex", 0, NULL, 0} __attribute__((osMutexAttr_t));
-    canMutexHandle = osMutexNew(&canMutexAttr);
+    canMutexHandle = osMutexNew(&canMutexHandle);
     /* add mutexes, ... */
     /* USER CODE END RTOS_MUTEX */
 
@@ -314,20 +310,26 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
     if(hdr.DLC == 1){
         if(BLUE_MESSAGE_STDID == hdr.StdId)
         {
-            uint32_t bitmaskBlue = 10000101;
-            uint32_t result = data[0] + bitmaskBlue;
-            if(result == 0x85)
+            uint32_t bitmaskBlue = 0b10001001; //this is wrong it is an interger 
+            if((data[0] & bitmaskBlue) == 0x89)
             {
                 blueFlag = 1;
             }
+            else
+            {
+                blueFlag = 0;
+            }
         }
-        if(GREEN_MESSAGE_STDID == hdr.StdId)
+        else if(GREEN_MESSAGE_STDID == hdr.StdId) 
         {
-            uint32_t bitmaskGreen = 00000011;
-            uint32_t result = data[0] + bitmaskGreen;
-            if(result == 0x3)
+            uint32_t bitmaskGreen = 0b00000011;
+            if((data[0]& bitmaskGreen) == 0x3)
             {
                 greenFlag = 1;
+            }
+            else
+            {
+                greenFlag = 0;
             }
         }
     }

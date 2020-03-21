@@ -1,10 +1,9 @@
 #include "BlueLedToggleTask.h"
-static const BLUE_LED_STATUS_STDID = 0xCCC;
-const ONE_HZ_TO_MS = 1000;
+static const uint32_t BLUE_LED_STATUS_STDID = 0xCCC;
+static const uint32_t BLUE_LED_TOGGLE_FREQ = 1000; 
 
 void blueLedToggleTask(void const* arg)
 {
-    static const BLUE_LED_TOGGLE_FREQ = ONE_HZ_TO_MS;
     //One time osDelayUntil initialization
     uint32_t prevWakeTime = osKernelSysTick();
 
@@ -16,31 +15,30 @@ void blueLedToggleTask(void const* arg)
         //TODO: Check blue toggle flag and toggle blue LED
         if(blueFlag == 1)
         {
-            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+            HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
         }
-        GPIO_PinState pinStatus = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_5);
+        uint8_t blueLedVal = HAL_GPIO_ReadPin(GPIOA, LED_RED_Pin);
         //TODO: Send CAN message indicating current state of LED
-        osStatus_t status = osMutexAcquire(canMutex, 1);
-        while(status != osOK){
-            status = osMutexAcquire(canMutex, 1);
-        }
 
-        HAL_CAN_GetTxMailboxesFreeLevel(&hcan2); 
-        uint8_t data[1] = {0};
-        uint32_t mailbox; 
-        CANTxHeader.StdId = BLUE_LED_STATUS_STDID;
-        CANTxHeader.DLC = 1;
-        
-        if(pinStatus == 0)
+        if(osMutexAcquire(canMutex, 0) == osOK)
         {
-            data[0] = 1;
+            if(HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0)
+            {
+                uint8_t data[1] = {0};
+                uint32_t mailbox; 
+                CANTxHeader.StdId = BLUE_LED_STATUS_STDID;
+                CANTxHeader.DLC = 1;
+                
+                data[0] = !blueLedVal;
+
+                HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data, &mailbox);
+                osMutexRelease(canMutex);
+            }
+            osMutexRelease(canMutex); 
         }
-        if(pinStatus == 1)
+        else
         {
-            data[0] = 0;
+            continue;
         }
-        
-        HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data, &mailbox);
-        osMutexRelease(canMutex); 
     }
 }

@@ -1,10 +1,9 @@
 #include "GreenLedToggleTask.h"
-static const GREEN_LED_STATUS_STDID = 0xDDD;
-const TEN_HZ_TO_MS = 10000;
+static const uint32_t GREEN_LED_STATUS_STDID = 0xDDD;
+static const uint32_t GREEN_LED_TOGGLE_FREQ = 100000;
 
 void greenLedToggleTask(void const* arg)
 {
-    static const GREEN_LED_TOGGLE_FREQ = TEN_HZ_TO_MS;
     //One time osDelayUntil initialization
     uint32_t prevWakeTime = osKernelSysTick();
 
@@ -17,32 +16,31 @@ void greenLedToggleTask(void const* arg)
         if(greenFlag == 1)
         {
             //toggle green led, this requires a HAL GPIO Function
-            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+            HAL_GPIO_TogglePin(GPIOA, LED_GREEN_Pin);
         }
-        GPIO_PinState pinStatus = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_6);
-        //TODO: Send CAN message indicating current state of LED
-        osStatus_t status = osMutexAcquire(canMutex, 1);
+        uint8_t greenLedVal = HAL_GPIO_ReadPin(GPIOA, LED_GREEN_Pin);
+        //TODO: Send CAN message indicating current state of LED;
 
-        while(status != osOK){
-            status = osMutexAcquire(canMutex, 1);
-        }
-
-        HAL_CAN_GetTxMailboxesFreeLevel(&hcan2); 
-        uint8_t data[1] = {0};
-        uint32_t mailbox; //should this be equal to the value HAL_CAN_GetTxMailboxesFreeLevel(hcan2) ? 
-        CANTxHeader.StdId = GREEN_LED_STATUS_STDID;
-        CANTxHeader.DLC = 1;
-
-        if(pinStatus == 0)
+        if(osMutexAcquire(canMutex, 0) == osOK)
         {
-            data[0] = 1;
-        }
-        if(pinStatus == 1)
-        {
-            data[0] = 0;
-        }
-        HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data, &mailbox);
+            if(HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0)
+            {
+                uint8_t data[1] = {0};
+                uint32_t mailbox; 
+                CANTxHeader.StdId = GREEN_LED_STATUS_STDID;
+                CANTxHeader.DLC = 1;
+                
+                data[0] = !greenLedVal;
 
-        osMutexRelease(canMutex); 
+                HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data, &mailbox);
+                osMutexRelease(canMutex);
+            }
+        
+            osMutexRelease(canMutex); 
+        }
+        else
+        {
+            continue;
+        }
     }
 }
