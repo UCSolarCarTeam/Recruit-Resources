@@ -132,7 +132,7 @@ int main(void)
     /* add mutexes, ... */
     osMutexId_t CANMutexId;
     const  osMutexAttr_t CANMutexAttr = {"CANMutexAttr", 0, NULL, 0}; 
-    CANMutexId = osMutexNow(&CANMutexAttr);
+    CANMutexId = osMutexNew(&CANMutexAttr);
     /* USER CODE END RTOS_MUTEX */
 
     /* USER CODE BEGIN RTOS_SEMAPHORES */
