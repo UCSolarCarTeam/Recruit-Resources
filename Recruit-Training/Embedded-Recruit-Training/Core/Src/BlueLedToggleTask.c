@@ -17,7 +17,7 @@ void blueLedToggleTask(void const* arg)
         {
             HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
         }
-        uint8_t blueLedVal = HAL_GPIO_ReadPin(GPIOA, LED_RED_Pin);
+        uint8_t blueLedVal = HAL_GPIO_ReadPin(LED_RED_GPIO_Port, LED_RED_Pin);
         //TODO: Send CAN message indicating current state of LED
 
         if(osMutexAcquire(canMutex, 0) == osOK)

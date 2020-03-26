@@ -18,7 +18,7 @@ void greenLedToggleTask(void const* arg)
             //toggle green led, this requires a HAL GPIO Function
             HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
         }
-        uint8_t greenLedVal = HAL_GPIO_ReadPin(GPIOA, LED_GREEN_Pin);
+        uint8_t greenLedVal = HAL_GPIO_ReadPin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
         //TODO: Send CAN message indicating current state of LED;
 
         if(osMutexAcquire(canMutex, 0) == osOK)
