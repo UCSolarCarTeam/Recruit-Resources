@@ -15,7 +15,7 @@ void blueLedToggleTask(void const* arg)
         //TODO: Check blue toggle flag and toggle blue LED
         if(blueFlag == 1)
         {
-            HAL_GPIO_TogglePin(GPIOA, LED_RED_Pin);
+            HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
         }
         uint8_t blueLedVal = HAL_GPIO_ReadPin(GPIOA, LED_RED_Pin);
         //TODO: Send CAN message indicating current state of LED
@@ -32,13 +32,8 @@ void blueLedToggleTask(void const* arg)
                 data[0] = !blueLedVal;
 
                 HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data, &mailbox);
-                osMutexRelease(canMutex);
             }
             osMutexRelease(canMutex); 
-        }
-        else
-        {
-            continue;
         }
     }
 }

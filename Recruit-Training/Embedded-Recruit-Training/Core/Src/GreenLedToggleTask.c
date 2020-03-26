@@ -1,6 +1,6 @@
 #include "GreenLedToggleTask.h"
 static const uint32_t GREEN_LED_STATUS_STDID = 0xDDD;
-static const uint32_t GREEN_LED_TOGGLE_FREQ = 100000;
+static const uint32_t GREEN_LED_TOGGLE_FREQ = 100;
 
 void greenLedToggleTask(void const* arg)
 {
@@ -16,7 +16,7 @@ void greenLedToggleTask(void const* arg)
         if(greenFlag == 1)
         {
             //toggle green led, this requires a HAL GPIO Function
-            HAL_GPIO_TogglePin(GPIOA, LED_GREEN_Pin);
+            HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
         }
         uint8_t greenLedVal = HAL_GPIO_ReadPin(GPIOA, LED_GREEN_Pin);
         //TODO: Send CAN message indicating current state of LED;
@@ -33,14 +33,8 @@ void greenLedToggleTask(void const* arg)
                 data[0] = !greenLedVal;
 
                 HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data, &mailbox);
-                osMutexRelease(canMutex);
             }
-        
             osMutexRelease(canMutex); 
-        }
-        else
-        {
-            continue;
         }
     }
 }

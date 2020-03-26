@@ -133,7 +133,7 @@ int main(void)
     //TODO: Define and create mutexes and mutex attributes
     osMutexId_t canMutexHandle;
     const osMutexAttr_t canMutexAttr = { "canMutexAttr", 0, NULL, 0};
-    canMutexHandle = osMutexNew(&canMutexHandle);
+    canMutexHandle = osMutexNew(&canMutexAttr);
     /* add mutexes, ... */
     /* USER CODE END RTOS_MUTEX */
 
@@ -164,8 +164,8 @@ int main(void)
     /* add threads, ... */
     const osThreadAttr_t blueTask_attributes = {.name = "blueTask", .priority = (osPriority_t) osPriorityNormal, .stack_size = 128};
     const osThreadAttr_t greenTask_attributes = {.name = "greenTask", .priority = (osPriority_t) osPriorityNormal, .stack_size = 128};
-    blueThread = osThreadNew((osThreadFunc_t)blueLedToggleTask, &canMutexAttr, &blueTask_attributes);
-    greenThread = osThreadNew((osThreadFunc_t)greenLedToggleTask, &canMutexAttr, &greenTask_attributes);
+    blueThread = osThreadNew((osThreadFunc_t)blueLedToggleTask, &canMutexHandle, &blueTask_attributes);
+    greenThread = osThreadNew((osThreadFunc_t)greenLedToggleTask, &canMutexHandle, &greenTask_attributes);
     /* USER CODE END RTOS_THREADS */
 
     /* Start scheduler */
