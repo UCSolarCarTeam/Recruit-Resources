@@ -13,7 +13,8 @@ void greenLedToggleTask(void const* arg)
 
     for (;;)
     {
-        osDelayUntil(prevWakeTime + GREEN_LED_TOGGLE_FREQ);
+        prevWakeTime += GREEN_LED_TOGGLE_FREQ;
+        osDelayUntil(prevWakeTime);
 
         if (greenLedToggleFlag)
         {
