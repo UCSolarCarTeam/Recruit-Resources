@@ -11,7 +11,8 @@ void greenLedToggleTask(void const* arg)
 
     for (;;)
     {
-        osDelayUntil(prevWakeTime + GREEN_LED_TOGGLE_FREQ);  //TODO: Replace 1 with time period for delay
+        prevWakeTime += GREEN_LED_TOGGLE_FREQ;
+        osDelayUntil(prevWakeTime);  //TODO: Replace 1 with time period for delay
         //TODO: Check blue toggel flag and toggle blue LED
         if(greenFlag == 1)
         {
