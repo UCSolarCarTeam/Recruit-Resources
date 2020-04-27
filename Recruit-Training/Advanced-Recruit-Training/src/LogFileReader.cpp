@@ -18,6 +18,8 @@ LogFileReader::LogFileReader()
 
 LogFileReader::~LogFileReader()
 {
+
+
 }
 
 bool LogFileReader::readAll(const QString& fileName)
@@ -57,15 +59,21 @@ bool LogFileReader::readAll(const QString& fileName)
  * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
+   bool valid_voltage=0;
+   bool valid_current=0;
     QStringList sections = line.split(BATDATA_DELIMITER);
 
     QString timeString = sections.at(0);
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
 
-    batteryData.voltage = sections.at(1).toDouble();
+    batteryData.voltage = sections.at(1).toDouble(&valid_voltage);
 
-    batteryData.current = sections.at(2).toDouble();
+    batteryData.current = sections.at(2).toDouble(&valid_current);
 
-    return true;
+if (sections.size()!=COLUMNS|| valid_voltage==false || valid_current==false || batteryData.time.isValid()==false )
+    return false;
+
+
+return true;
 
 }
