@@ -112,20 +112,24 @@ Then go into `Core/Src/BlueLedToggleTask.c`
 . Define a `static const uint32_t` global variable called `BLUE_LED_TOGGLE_FREQ`
 ** Set this value so that the task runs at a frequency of 1Hz
 *** Hint: this will be used in the `osDelayUntil` function call (the argument will be in time units of ms)
-. In the `osDelayUntil` replace the current argument `prevWakeTime + 1` with `prevWakeTime + BLUE_LED_TOGGLE_FREQ`
-** This will cause the task to execute every `BLUE_LED_TOGGLE_FREQ` ms. 
+.  increment `prevWakeTime` by `BLUE_LED_TOGGLE_FREQ`
+** This will cause `osDelayUntil` to make the task to execute every `BLUE_LED_TOGGLE_FREQ` ms. 
 . Check if the blue led toggle flag is set. If so, toggle the blue led. This will require a HAL GPIO function.
+** You can find reader friendly names in `main.h`
+** You won't be able to find the blue LED so you can use the red LED instead 
 . Read the value of the blue led. This will require a HAL GPIO function.
 . Send a CAN message indicating the current state of the led 
 ** First you will try to acquire the mutex. This can be done by calling `osMutexAcquire`
-*** It’s arguments are `osMutexId_t*` and how long it should wait to acquire the mutex 
+*** It’s arguments are `osMutexId_t*` and how long it should wait to acquire the mutex, and use a timeout of 0
 *** The return type of this function is `osStatus_t`, if this is != to `osOK` then the mutex has not been acquired and you cannot use the CAN transmitter
 ** If you successfully acquired the mutex, you must check if there are any free CAN mailboxes to transmit on 
+*** If you don't successfully aquire the mutex skip the rest of the code in the loop 
 *** You can check this by calling `HAL_CAN_GetTxMailboxesFreeLevel`
 **** This function accepts one argument which is of type `CAN_HandleTypeDef*`
 **** This function returns the number of available mailboxes 
 ** Next you will create a one element data array of type `uint8_t`
 ** You will then create a mailbox variable of type `uint32_t`
+*** This isn't going to be explicitly needed but it's required for `HAL_CAN_AddTxMessage`
 ** You will then set the `StdId` of the CAN Tx Header to  `BLUE_LED_STATUS_STDID`
 ** Then you will set the `DLC` to 1, because you are sending one byte 
 ** Then you will set the only element of the data array to the current status of the LED 
