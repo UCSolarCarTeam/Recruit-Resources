@@ -10,7 +10,7 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent), timeWhenChargedOrDepleted_(1,1,1,1), old_current(0), present_batterycurrent(0), totalAmpHoursUsed_(0), isCharging_(0)
+: initialStateOfChargePercent_(initialStateOfChargePercent), TimeWhenChargedOrDepleted_(1,1,1,1), OldCurrent_(0), PresentBatteryCurrent_(0), TotalAmpHoursUsed_(0), IsCharging_(0)
 {
 }
 
@@ -20,88 +20,85 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-return totalAmpHoursUsed_;
-
+    return TotalAmpHoursUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return isCharging_;
+    return IsCharging_;
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-   return timeWhenChargedOrDepleted_;
+   return TimeWhenChargedOrDepleted_;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    //Q_UNUSED(batteryData);
-    // This is where you can update your variables
-    // Hint: There are many different ways that the totalAmpHoursUsed can be updated
-    // i.e: Taking a running average of your data values, using most recent data points, etc.
-
-    old_current=present_batterycurrent;
-    present_batterycurrent = batteryData.current;
-    old_time=present_time;
-    present_time= batteryData.time;
+    OldCurrent_= PresentBatteryCurrent_;
+    PresentBatteryCurrent_= batteryData.current;
+    OldTime_= PresentTime_;
+    PresentTime_= batteryData.time;
 
     //total AmpHours Used
-    double initial_amountof_amphours_used =BATTERY_AMP_HOUR_CAPACITY*initialStateOfChargePercent_/100;
-    double average_current= (present_batterycurrent+old_current)/2;
 
+    double initial_amountof_amphours_used= (BATTERY_AMP_HOUR_CAPACITY* initialStateOfChargePercent_)/100;
+    double average_current= (PresentBatteryCurrent_+ OldCurrent_)/2;
 
-    if (old_time.isValid())
+    if (OldTime_.isValid())
     {
-     double time_difference_in_hours= old_time.msecsTo(present_time)/3600000.0;// For some reason this comes out to 0
-     //QString s= old_time.toString("hh:mm:ss:zzz");
-     //QString t= present_time.toString("hh:mm:ss:zzz");
-     //QTextStream(stdout)<<s<<"      "<<t<<"     "<< time_difference_in_hours<<"     "<< average_current<< "    ";
-    totalAmpHoursUsed_+= average_current*time_difference_in_hours;
+        double time_difference_in_hours= OldTime_.msecsTo(PresentTime_)/3600000.0;
+        TotalAmpHoursUsed_+= average_current* time_difference_in_hours;
     }
-    else
-        totalAmpHoursUsed_=initial_amountof_amphours_used;
-
+        else
+        {
+        TotalAmpHoursUsed_= initial_amountof_amphours_used;
+        }
 
     //isCharging
-    if (present_batterycurrent>0)
 
-        isCharging_= false;
-
-        else if (present_batterycurrent<0)
-
-            isCharging_= true;
-
+    if (PresentBatteryCurrent_> 0)
+    {
+        IsCharging_= false;
+    }
+        else if (PresentBatteryCurrent_< 0)
+        {
+         IsCharging_= true;
+        }
 
     //Time of Charging or Depletions
 
-    double time_in_hours;
-    int hours;
-    int minutes;
-    int seconds;
-    int milliseconds;
-     if(isCharging())
+    double TimeInHours_;
+    int Hours_;
+    int Minutes_;
+    int Seconds_;
+    int Milliseconds_;
+
+    if(isCharging())
      {
-        time_in_hours=abs(totalAmpHoursUsed()/present_batterycurrent);
-
+        TimeInHours_= abs(totalAmpHoursUsed()/PresentBatteryCurrent_);
      }
-     else
-     {
-         time_in_hours=(BATTERY_AMP_HOUR_CAPACITY-totalAmpHoursUsed())/present_batterycurrent;
+        else
+        {
+         TimeInHours_= (BATTERY_AMP_HOUR_CAPACITY-totalAmpHoursUsed())/PresentBatteryCurrent_;
+        }
 
-     }
-     while (time_in_hours>24) {
-         time_in_hours-=24;
-     }
+    while (TimeInHours_> 24)
+    {
+         TimeInHours_-= 24;
+    }
 
-     hours= (int)time_in_hours;
-     minutes= (int)((time_in_hours-hours)*60);
-     seconds=(int)((((time_in_hours-hours)*60)-minutes)*60);
-     milliseconds=(int) ((((((time_in_hours-hours)*60)-minutes)*60)-seconds)*1000);
+     Hours_= (int)(TimeInHours_);
 
-     QTime n(hours, minutes, seconds, milliseconds);
-     timeWhenChargedOrDepleted_=n;
+     double RemainingFractionaMinutes_= (TimeInHours_- Hours_)* 60;
+     Minutes_= (int)(RemainingFractionaMinutes_);
 
+     double RemainingFractionalSeconds_= (RemainingFractionaMinutes_- Minutes_)* 60;
+     Seconds_= (int)(RemainingFractionalSeconds_);
 
+     double RemainingFractionalMilliseconds_= (RemainingFractionalSeconds_- Seconds_)* 1000;
+     Milliseconds_= (int)(RemainingFractionalMilliseconds_);
 
+     QTime N_ (Hours_, Minutes_, Seconds_, Milliseconds_);
+     TimeWhenChargedOrDepleted_= N_;
 }

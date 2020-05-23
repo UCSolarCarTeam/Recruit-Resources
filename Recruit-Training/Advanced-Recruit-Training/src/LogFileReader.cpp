@@ -41,39 +41,35 @@ bool LogFileReader::readAll(const QString& fileName)
             qDebug() << "Error while parsing" << line;
             // return false;
         }
-        else
-        {
+            else
+            {
             // This is how to send out a signal in QT using the emit keyword.
             // This line notifies the classes listening to this signal
             // that battery data has been received.
             emit batteryDataReceived(batteryData);
-        }
+            }
     }
 
     return true;
 }
 
-/* File input is a csv file in the format of hh:mm:ss:zzz, voltage, current.
- * Negative current values denote a charging battery.
- * Need to implement error checking for the correct number of values and
- * that the conversion from string to double is sucessful.*/
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-   bool valid_voltage=0;
-   bool valid_current=0;
-    QStringList sections = line.split(BATDATA_DELIMITER);
+    bool ValidVoltage_= 0;
+    bool ValidCurrent_= 0;
 
-    QString timeString = sections.at(0);
-    batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
+    QStringList sections= line.split(BATDATA_DELIMITER);
 
-    batteryData.voltage = sections.at(1).toDouble(&valid_voltage);
+    QString timeString= sections.at(0);
+    batteryData.time= QTime::fromString(timeString, STRING_TIME_FORMAT);
 
-    batteryData.current = sections.at(2).toDouble(&valid_current);
+    batteryData.voltage= sections.at(1).toDouble(&ValidVoltage_);
+    batteryData.current= sections.at(2).toDouble(&ValidCurrent_);
 
-if (sections.size()!=COLUMNS|| valid_voltage==false || valid_current==false || batteryData.time.isValid()==false )
-    return false;
+    if (sections.size()!= COLUMNS || ValidVoltage_== false || ValidCurrent_== false || batteryData.time.isValid()== false )
+    {
+        return false;
+    }
 
-
-return true;
-
+    return true;
 }
