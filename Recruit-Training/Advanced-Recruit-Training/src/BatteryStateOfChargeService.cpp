@@ -10,7 +10,7 @@ namespace
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
-: initialStateOfChargePercent_(initialStateOfChargePercent), TimeWhenChargedOrDepleted_(1,1,1,1), OldCurrent_(0), PresentBatteryCurrent_(0), TotalAmpHoursUsed_(0), IsCharging_(0)
+: initialStateOfChargePercent_(initialStateOfChargePercent), timeWhenChargedOrDepleted_(1,1,1,1), oldCurrent_(0), presentBatteryCurrent_(0), totalAmpHoursUsed_(0), isCharging_(0)
 {
 }
 
@@ -20,85 +20,79 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
 
 double BatteryStateOfChargeService::totalAmpHoursUsed() const
 {
-    return TotalAmpHoursUsed_;
+    return totalAmpHoursUsed_;
 }
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    return IsCharging_;
+    return isCharging_;
 }
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-   return TimeWhenChargedOrDepleted_;
+   return timeWhenChargedOrDepleted_;
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
 {
-    OldCurrent_= PresentBatteryCurrent_;
-    PresentBatteryCurrent_= batteryData.current;
-    OldTime_= PresentTime_;
-    PresentTime_= batteryData.time;
+    oldCurrent_= presentBatteryCurrent_;
+    presentBatteryCurrent_= batteryData.current;
+    oldTime_= presentTime_;
+    presentTime_= batteryData.time;
 
-    //total AmpHours Used
+    double initialAmountOfAmphoursUsed_= (BATTERY_AMP_HOUR_CAPACITY* initialStateOfChargePercent_)/100;
+    double averageCurrent_= (presentBatteryCurrent_+ oldCurrent_)/2;
 
-    double initial_amountof_amphours_used= (BATTERY_AMP_HOUR_CAPACITY* initialStateOfChargePercent_)/100;
-    double average_current= (PresentBatteryCurrent_+ OldCurrent_)/2;
-
-    if (OldTime_.isValid())
+    if (oldTime_.isValid())
     {
-        double time_difference_in_hours= OldTime_.msecsTo(PresentTime_)/3600000.0;
-        TotalAmpHoursUsed_+= average_current* time_difference_in_hours;
+        double timeDifferenceInHours_= oldTime_.msecsTo(presentTime_)/3600000.0;
+        totalAmpHoursUsed_+= averageCurrent_* timeDifferenceInHours_;
     }
-        else
-        {
-        TotalAmpHoursUsed_= initial_amountof_amphours_used;
-        }
-
-    //isCharging
-
-    if (PresentBatteryCurrent_> 0)
+    else
     {
-        IsCharging_= false;
+        totalAmpHoursUsed_= initialAmountOfAmphoursUsed_;
     }
-        else if (PresentBatteryCurrent_< 0)
-        {
-         IsCharging_= true;
-        }
 
-    //Time of Charging or Depletions
+    if (presentBatteryCurrent_> 0)
+    {
+        isCharging_= false;
+    }
+    else if (presentBatteryCurrent_< 0)
+    {
+         isCharging_= true;
+    }
 
-    double TimeInHours_;
-    int Hours_;
-    int Minutes_;
-    int Seconds_;
-    int Milliseconds_;
+    double timeInHours_;
+    int hours_;
+    int minutes_;
+    int seconds_;
+    int milliseconds_;
 
     if(isCharging())
      {
-        TimeInHours_= abs(totalAmpHoursUsed()/PresentBatteryCurrent_);
+        timeInHours_= abs(totalAmpHoursUsed()/presentBatteryCurrent_);
      }
-        else
-        {
-         TimeInHours_= (BATTERY_AMP_HOUR_CAPACITY-totalAmpHoursUsed())/PresentBatteryCurrent_;
-        }
+     else
+     {
+         timeInHours_= (BATTERY_AMP_HOUR_CAPACITY-totalAmpHoursUsed())/presentBatteryCurrent_;
+     }
 
-    while (TimeInHours_> 24)
+    while (timeInHours_> 24)
     {
-         TimeInHours_-= 24;
+         timeInHours_-= 24;
     }
 
-     Hours_= (int)(TimeInHours_);
+     hours_= (int)(timeInHours_);
 
-     double RemainingFractionaMinutes_= (TimeInHours_- Hours_)* 60;
-     Minutes_= (int)(RemainingFractionaMinutes_);
+     double remainingFractionaMinutes_= (timeInHours_- hours_)* 60;
+     minutes_= (int)(remainingFractionaMinutes_);
 
-     double RemainingFractionalSeconds_= (RemainingFractionaMinutes_- Minutes_)* 60;
-     Seconds_= (int)(RemainingFractionalSeconds_);
+     double remainingFractionalSeconds_= (remainingFractionaMinutes_- minutes_)* 60;
+     seconds_= (int)(remainingFractionalSeconds_);
 
-     double RemainingFractionalMilliseconds_= (RemainingFractionalSeconds_- Seconds_)* 1000;
-     Milliseconds_= (int)(RemainingFractionalMilliseconds_);
+     double remainingFractionalMilliseconds_= (remainingFractionalSeconds_- seconds_)* 1000;
+     milliseconds_= (int)(remainingFractionalMilliseconds_);
 
-     QTime N_ (Hours_, Minutes_, Seconds_, Milliseconds_);
-     TimeWhenChargedOrDepleted_= N_;
+     QTime n_ (hours_, minutes_, seconds_, milliseconds_);
+     timeWhenChargedOrDepleted_= n_;
 }

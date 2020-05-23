@@ -41,13 +41,13 @@ bool LogFileReader::readAll(const QString& fileName)
             qDebug() << "Error while parsing" << line;
             // return false;
         }
-            else
-            {
+        else
+        {
             // This is how to send out a signal in QT using the emit keyword.
             // This line notifies the classes listening to this signal
             // that battery data has been received.
             emit batteryDataReceived(batteryData);
-            }
+         }
     }
 
     return true;
@@ -55,18 +55,18 @@ bool LogFileReader::readAll(const QString& fileName)
 
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
-    bool ValidVoltage_= 0;
-    bool ValidCurrent_= 0;
+    bool validVoltage_= 0;
+    bool validCurrent_= 0;
 
     QStringList sections= line.split(BATDATA_DELIMITER);
 
     QString timeString= sections.at(0);
     batteryData.time= QTime::fromString(timeString, STRING_TIME_FORMAT);
 
-    batteryData.voltage= sections.at(1).toDouble(&ValidVoltage_);
-    batteryData.current= sections.at(2).toDouble(&ValidCurrent_);
+    batteryData.voltage= sections.at(1).toDouble(&validVoltage_);
+    batteryData.current= sections.at(2).toDouble(&validCurrent_);
 
-    if (sections.size()!= COLUMNS || ValidVoltage_== false || ValidCurrent_== false || batteryData.time.isValid()== false )
+    if (sections.size()!= COLUMNS || validVoltage_== false || validCurrent_== false || batteryData.time.isValid()== false )
     {
         return false;
     }

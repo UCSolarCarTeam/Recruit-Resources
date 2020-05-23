@@ -19,11 +19,11 @@ public:
 private:
 
     const double initialStateOfChargePercent_;
-    double OldCurrent_;
-    double PresentBatteryCurrent_;
-    double TotalAmpHoursUsed_;
-    bool IsCharging_;
-    QTime TimeWhenChargedOrDepleted_;
-    QTime OldTime_;
-    QTime PresentTime_;
+    double oldCurrent_;
+    double presentBatteryCurrent_;
+    double totalAmpHoursUsed_;
+    bool isCharging_;
+    QTime timeWhenChargedOrDepleted_;
+    QTime oldTime_;
+    QTime presentTime_;
 };
