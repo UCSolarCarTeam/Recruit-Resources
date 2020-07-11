@@ -25,6 +25,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 //TODO: Include task header files
+#include "BlueLedToggleTask.h"
+#include "GreenLedToggleTask.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,9 +51,15 @@ osThreadId_t defaultTaskHandle;
 /* USER CODE BEGIN PV */
 static const uint32_t BLUE_MESSAGE_STDID = 0xAAA;
 //TODO: Add STDID for green message
+static const unit32_t GREEN_MESSAGE_STDID = 0XBBB;
 //TODO: Add CAN_TX header definition
+CAN_TxHeaderTypeDef CAN_TX;
 //TODO: Define thread for tasks
+osThreadId_t BlueToggleLEDTask;
+osThreadId_t GreenToggleLEDTask;
 //TODO: Define a blue LED toggle flag and a green LED toggle flag
+unint8_t BlueToggleFlag;
+unint8_t GreenToggleFlag;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -102,6 +110,7 @@ int main(void)
 
     /* USER CODE BEGIN 2 */
     //TODO: Call MX_CAN2_UserInit
+    MX_CAN2_UserInit();
     //Activate Can Recieve Interrupts
     if (HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING |
                                     CAN_IT_ERROR_WARNING |
@@ -120,7 +129,16 @@ int main(void)
 
     /* USER CODE BEGIN RTOS_MUTEX */
     //TODO: Define and create mutexes and mutex attributes
+    osMutexId_t CANTransmitMutex;
+    const osMutexAttr_t MutexAttr =
+    {
+        "MutexAttr",
+        0,
+        NULL,
+        0
+    };
     /* add mutexes, ... */
+    CANTransmitMutex = osMutexNew(&MutexAttr);
     /* USER CODE END RTOS_MUTEX */
 
     /* USER CODE BEGIN RTOS_SEMAPHORES */
