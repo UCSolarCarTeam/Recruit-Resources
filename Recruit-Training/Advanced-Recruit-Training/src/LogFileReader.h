@@ -15,3 +15,4 @@ public:
 private:
     bool parseLine(const QString& line, BatteryData& batteryData) const;
 };
+
