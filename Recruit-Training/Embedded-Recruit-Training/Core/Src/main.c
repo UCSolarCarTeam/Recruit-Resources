@@ -113,6 +113,8 @@ int main(void)
         /* Reception error */
         Error_Handler();
     }
+    // Start CAN Module
+    HAL_CAN_Start(&hcan2);
 
     /* USER CODE END 2 */
 
