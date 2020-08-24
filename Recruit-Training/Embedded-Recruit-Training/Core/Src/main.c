@@ -114,7 +114,10 @@ int main(void)
         Error_Handler();
     }
     // Start CAN Module
-    HAL_CAN_Start(&hcan2);
+    if(HAL_CAN_Start(&hcan2) != HAL_OK)
+    {
+        Error_Handler();
+    }
 
     /* USER CODE END 2 */
 
