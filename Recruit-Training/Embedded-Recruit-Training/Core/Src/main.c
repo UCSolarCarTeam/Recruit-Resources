@@ -116,6 +116,7 @@ int main(void)
         /* Reception error */
         Error_Handler();
     }
+    HAL_CAN_Start(&hcan2);
 
     /* USER CODE END 2 */
 
