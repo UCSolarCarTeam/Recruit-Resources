@@ -342,15 +342,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
                 BlueToggleFlag = 0;
             }
         }
-        else
-        {
-            BlueToggleFlag = 0;
-        }
         
          if (hdr.StdId == GREEN_MESSAGE_STDID && hdr.DLC == 1)
         {
-            uint8_t mask = 0b00000011
-            if (data[0] & mask == mask)
+            uint8_t value = 0b00000011
+            if (data[0] == value)
             {
                 GreenToggleFlag = 1;
             }
@@ -359,11 +355,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
                 GreenToggleFlag = 0;
             }
         }
-        else
-        {
-            GreenToggleFlag = 0;
-        }
-    
+            
 }
 
 static void MX_CAN2_UserInit(void)
