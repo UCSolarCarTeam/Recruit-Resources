@@ -328,41 +328,42 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
     }
 
     //TODO: Match StdId of header and data length content for green and blue messages and check data for set bit of toggling green and blue led
-    if ((hdr.StdId == BLUE_MESSAGE_STDID || hdr.StdId == GREEN_MESSAGE_STDID) && hdr.DLC == 1)
-    {
-        if (data[0] == 1 && data[3] == 1 && data[7] == 1)
+    
+
+        if (hdr.StdId == BLUE_MESSAGE_STDID && hdr.DLC == 1)
         {
-            if (BlueToggleFlag)
-                BlueToggleFlag = 0;
-            else
+            uint8_t mask = 0b10001001
+            if (data[0] & mask == mask)
+            {
                 BlueToggleFlag = 1;
-
+            }
+            else 
+            {
+                BlueToggleFlag = 0;
+            }
         }
-    
-        if (data[0] == 1 && data[1] == 1)
+        else
         {
-            int isGreen = 1;
-            for (int i = 2; i < 8; i++)
+            BlueToggleFlag = 0;
+        }
+        
+         if (hdr.StdId == GREEN_MESSAGE_STDID && hdr.DLC == 1)
+        {
+            uint8_t mask = 0b00000011
+            if (data[0] & mask == mask)
             {
-                if (data[i] == 1)
-                {
-                    isGreen = 0;
-                    break;
-                }
+                GreenToggleFlag = 1;
             }
-
-            if (isGreen)
+            else 
             {
-                if (GreenToggleFlag)
-                    GreenToggleFlag = 0;
-                else
-                    GreenToggleFlag = 1;
-
+                GreenToggleFlag = 0;
             }
         }
-    }
+        else
+        {
+            GreenToggleFlag = 0;
+        }
     
-    return;
 }
 
 static void MX_CAN2_UserInit(void)

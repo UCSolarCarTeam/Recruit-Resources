@@ -4,7 +4,7 @@ void blueLedToggleTask(void const* arg)
 {
     //One time osDelayUntil initialization
     static const uint32_t BLUE_LED_STATUS_STDID = 0xCCC;
-    static const uint32_t BLUE_LED_TOGGLE_FREQ = 100;
+    static const uint32_t BLUE_LED_TOGGLE_FREQ = 1000;
     uint32_t prevWakeTime = osKernelSysTick();
 
     osMutexId_t* canMutex = (osMutexId_t*)arg; // Get mutex that was passed as an argument
@@ -12,8 +12,8 @@ void blueLedToggleTask(void const* arg)
     for (;;)
     {
         //TODO: Add BLUE_LED_TOGGLE_FREQ to prevWakeTime
-        osDelayUntil(prevWakeTime);
         prevWakeTime += BLUE_LED_TOGGLE_FREQ;
+        osDelayUntil(prevWakeTime);
         //TODO: Check blue toggle flag and toggle blue LED
         if (BlueToggleFlag)
         {
@@ -27,12 +27,12 @@ void blueLedToggleTask(void const* arg)
         {
             if (HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0)
             {
-            uint8_t x[1];
+            uint8_t currentLedStatus[1];
             uint32_t mailbox;
             CAN_TX.StdId = BLUE_LED_STATUS_STDID;
             CAN_TX.DLC = 1;
-            x[0] = !ledState;
-            HAL_CAN_AddTxMessage(&hcan2, &CAN_TX, x, &mailbox);
+            currentLedStatus[0] = !ledState;
+            HAL_CAN_AddTxMessage(&hcan2, &CAN_TX, currentLedStatus, &mailbox);
             }
             osMutexRelease(canMutex);
         }
