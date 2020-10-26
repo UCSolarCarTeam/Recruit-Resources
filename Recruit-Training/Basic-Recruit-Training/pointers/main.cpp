@@ -18,7 +18,7 @@ int main()
     int x = 3;
     int y = 4;
     int *p = &x;
-    int *q= &y;
+    int *q = &y;
 
     //TODO in the line below predict what what is going to be output
     cout << "Predicted value of p: " << &x << endl;
@@ -68,7 +68,7 @@ void var(int *a, int b)
 
 void MySwap (int *a, int *b)
 {
-    int temp= *a;
-    *a=*b;
-    *b=temp;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
