@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 
-
 Person::Person()
 {
     name_ = "";
