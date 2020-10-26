@@ -1,7 +1,7 @@
 /*
-First read through main() and make predictions on what the outpout of each variable will be where indicated.
+First read through main() and make predictions on what the output of each variable will be where indicated.
 After doing that add a function prototype at the top for a function called MySwap() that will return type void.
-You will pass two variables in as argument, one will be the pointer p. The other one will be an interger pointer you make that points to the variable y.
+You will pass two variables in as argument, one will be the pointer p. The other one will be an integer pointer you make that points to the variable y.
 In the function MySwap you will swap the values of the two arguments so the values are changed inside main()
 */
 
@@ -11,6 +11,7 @@ using namespace std;
 
 void foo(int *a, int b);
 void bar(int *a, int b);
+void MySwap(int *a, int *b);
 
 int main()
 {
@@ -19,29 +20,35 @@ int main()
     int *p = &x;
 
     //TODO in the line below predict what what is going to be output
-    cout << "Predicted value of p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of p: 0xsomething" /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of p: " << p << endl;
-    cout << "Predicted value &x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value &x: same as p" /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value &x: " << &x << endl;
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: 3" /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of *p: " << *p << endl;
-    
+
     foo(p, x);
-    
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+
+    cout << "Predicted value of *p: 42" /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of x: 42" /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of x: " << x << endl;
+
     foo(p, y);
 
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: 42" /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of y: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of y: 4" /* << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of y: " << y << endl;
 
+    int *q = &y;
+    MySwap(p, q);
 
-    //start writing MySwap here
-    
+    cout << "Predicted value of x: 4" << endl;
+    cout << "Actual value of x: " << x << endl;
+    cout << "Predicted value of y: 42" << endl;
+    cout << "Actual vale of y: " << y << endl;
+
     return 0;
 }
 
@@ -55,4 +62,11 @@ void var(int *a, int b)
 {
     *a = 365;
     b = 912;
+}
+
+void MySwap(int *a, int *b)
+{
+    int mem = *a;
+    *a = *b;
+    *b = mem;
 }
