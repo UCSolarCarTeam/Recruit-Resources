@@ -2,80 +2,63 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 
 Person::Person()
 {
-    name_="";
-    age_=new int;
-    
+    name_ = "";
+    age_ = new int;
 }
-
 
 Person::~Person()
 {
     delete [] age_;
 }
 
-
-Person::Person(const string& name, int age)
+Person::Person(const std::string& name, int age)
 {
-    age_=new int;
-    name_=name;
-    *age_=age;
+    age_ = new int;
+    name_ = name;
+    *age_ = age;
 }
-
 
 int Person::getAge() const
 {
     return *age_;
 }
 
-
-const string& Person::getName() const
+const std::string& Person::getName() const
 {
     return name_;
-
 }
 
-
-void Person::setName(const string& newName)
+void Person::setName(const std::string& newName)
 {
-    name_=newName;
+    name_ = newName;
 }
-
 
 void Person::setAge(int newAge)
 {
-    *age_=newAge;
+    *age_ = newAge;
 }
-
 
 void Person::printInfo() const
 {
-    cout<<"Name: "<<name_<<"\nAge: "<<*age_<<endl;
+    std::cout << "Name: " << name_ << " , Age: " << *age_ << std::endl;
 }
-
 
 int Person::combinedAge(Person** personArray, int size)
 {
-    int sum=0;
-    for(int i=0; i<size; i++)
+    int sum = 0;
+    for(int i = 0; i < size; i++)
     {
-        sum+=*((**personArray).age_);
+        sum += *((**personArray).age_);
         personArray++;
     }
 
     return sum;
 }
 
-
 void Person::birthday(Person& x)
 {
-    *(x.age_)+=1;
+    *(x.age_) += 1;
 }
-
-
-
-
