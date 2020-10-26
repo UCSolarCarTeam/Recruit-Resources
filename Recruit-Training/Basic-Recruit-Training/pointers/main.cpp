@@ -11,36 +11,45 @@ using namespace std;
 
 void foo(int *a, int b);
 void bar(int *a, int b);
+void MySwap(int *a, int *b);
 
 int main()
 {
     int x = 3;
     int y = 4;
     int *p = &x;
+    int *q= &y;
 
     //TODO in the line below predict what what is going to be output
-    cout << "Predicted value of p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of p: adress of the variable p is pointing to (adress of x)" << endl;
     cout << "Actual value of p: " << p << endl;
-    cout << "Predicted value &x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value &x: adress of x (same as the adress above)"<< endl;
     cout << "Actual value &x: " << &x << endl;
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: 3" << endl;
     cout << "Actual value of *p: " << *p << endl;
     
     foo(p, x);
     
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: 42" << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of x: 42" << endl;
     cout << "Actual value of x: " << x << endl;
     foo(p, y);
 
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: 42" << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of y: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of y: 4"<< endl;
     cout << "Actual value of y: " << y << endl;
 
 
-    //start writing MySwap here
+    MySwap(p,q);
+
+    cout << "Predicted value of x: 4" << endl;
+    cout << "Actual value of x: " << x << endl;
+    cout << "Predicted value of y: 42"<< endl;
+    cout << "Actual value of y: " << y << endl;
+
+    
     
     return 0;
 }
@@ -55,4 +64,10 @@ void var(int *a, int b)
 {
     *a = 365;
     b = 912;
+}
+
+void MySwap (int *a, int *b){
+    int temp= *a;
+    *a=*b;
+    *b=temp;
 }
