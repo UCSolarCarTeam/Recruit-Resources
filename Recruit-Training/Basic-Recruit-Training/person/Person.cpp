@@ -8,7 +8,7 @@ Person::Person()
 
 Person::~Person()
 {
-    delete [] age_;
+    delete age_;
 }
 
 Person::Person(const std::string& name, int age)
