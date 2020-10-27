@@ -41,15 +41,13 @@ int main()
     cout << "Predicted value of y: " << 4 << endl;
     cout << "Actual value of y: " << y << endl;
 
-
     //start writing MySwap here
-     MySwap(p,q);
+    MySwap(p,q);
 
     cout << "Predicted value of x:" << 4 << endl;
     cout << "Actual value of x: " << x << endl;
     cout << "Predicted value of y: " << 42 << endl;
     cout << "Actual value of y: " << y << endl;
-
     
     return 0;
 }
