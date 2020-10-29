@@ -1,5 +1,5 @@
 #pragma once
-#include <iostream>
+
 #include <string>
 
 class Person
@@ -27,5 +27,3 @@ private:
     int* age_; // age_ should be dynamically allocated
 
 };
-
-

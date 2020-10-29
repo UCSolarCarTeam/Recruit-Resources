@@ -1,4 +1,5 @@
 #include "Person.h"
+#include "iostream"
 
 Person::Person()
 {
@@ -45,7 +46,7 @@ void Person::printInfo() const
     std::cout << "Their name is " << name_ << " and their age is " << *age_ << std::endl;
 }
 
-int Person::combinedAge(Person** personArray, int size) // static return type?
+int Person::combinedAge(Person** personArray, int size)
 {
     int combinedAge = 0;
     for(int i = 0; i < size; i++)
