@@ -2,7 +2,7 @@
 #include <iostream>
 
 Person::Person(){
-	age_ = new int[0];
+	age_ = new int;
 };
 
 Person::~Person(){
@@ -11,7 +11,7 @@ Person::~Person(){
 
 Person::Person(const std::string& name, int age) {
 	name_ = name;
-	age_ = new int[1];
+	age_ = new int;
 	age_[0] = age;
 }
 
