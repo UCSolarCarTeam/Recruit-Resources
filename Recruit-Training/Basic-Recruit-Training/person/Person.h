@@ -25,7 +25,6 @@ public:
 private:
     std::string name_;
     int* age_; // age_ should be dynamically allocated
-
 };
 
 
