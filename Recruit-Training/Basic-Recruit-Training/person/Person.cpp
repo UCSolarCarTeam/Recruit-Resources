@@ -32,7 +32,8 @@ void Person::setAge(int newAge) {
 }
 
 void Person::printInfo() const {
-	printf("Name: %s\nAge: %d\n", name_.c_str(), age_[0]);
+	std::cout << "Name: " << name_.c_str() <<
+		     "\nAge: " << age_[0] << std::endl;
 }
 
 int Person::combinedAge(Person** personArray, int size){
