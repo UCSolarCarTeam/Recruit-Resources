@@ -1,0 +1,10 @@
+= Embedded Teaser
+ 
+Hello new recruits! This training will get you familar with some of the things we do in the Embedded sub team! 
+ 
+You will need to do two main tasks: creating a task and writing some unit tests for it. 
+
+Head over to the `Training` folder to get started!
+
+
+Created by the Embedded Team, Nov 2020

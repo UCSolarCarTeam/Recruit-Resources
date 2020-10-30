@@ -1,0 +1,59 @@
+To complete this training, you will need complete the following: 
+
+= 1. Create Task
+Premise: There are 2 motors (Motor 1 and Motor 2) and a Lights board. We want to write to an output array the status of the motors and lights.
+
+You will get some input array of type `uint8_t` with a size of 3 that stores information about the motors and lights. 
+
+It has the following properties: 
+
+* `array[0]`: contains information from Motor 1
+  ** Bit 0 - forward (1) or reverse (0)
+  ** Bit 1 to 6 - velocity (bit 6 is the sign)
+  ** Bit 7 - on/off
+  
+*  `array[1]`: contains information from Motor 2
+  ** Bit 0 - forward (1) or reverse (0)
+  ** Bit 1 to 6 - velocity (bit 6 is the sign)
+  ** Bit 7 - on/off 
+
+* `array[2]`: contains information from Lights
+  ** Bit 0 - headlights off
+  ** Bit 1 - headlights low
+  ** Bit 2 - headlights high
+  ** Bit 3 - right signal
+  ** Bit 4 - left signal 
+  ** Bit 5 - hazards
+  ** Bit 6 - brakes
+
+What you need to do: 
+
+. Read the input array and write to a global status array only if inputs were "valid" 
+  ** Examples of valid commands: Going forward implies velocity is greater than 0 and Motor 1 & 2 should be in sync.
+
+. Set bits 0, 1, 2 of a global variable if the input array elements were valid.
+  ** Bit 0 corresponds to `data[0]`, bit 1 corresponds to `data[1]`, and bit 2 corresponds to `data[2]`.
+
+For your convenience, we have created the folder structure already. 
+Under `Training/Core/Inc` you should find a `Training.h` file with necessary includes. We also declared necessary variables and functions for you there. 
+Under `Training/Core/Src` you should find a `Training.c` file with the barebone structure laid out.
+
+Hint: you will need to do bitwise operations.
+
+= 2. Unit Test
+
+Using Unity Test Framework, create some unit tests for the task you created in the previous step. 
+
+The following are the test cases you must create: 
+
+* Everything is valid
+* Everything is invalid
+* Only Lights is invalid
+* Motors invalid
+
+For your convenience, we have created the folder structure for you already as well. 
+Under `Training/Test`you should find 3 files. `TrainingTest.c`, `TrainingTest.h` and `main.c`. Like the previous, some barebone structure has been laid out for you. 
+
+Good luck and let us know if you have any questions!
+
+Created by the Embedded Team, Nov 2020.
