@@ -32,20 +32,20 @@ void Person::setAge(int newAge)
 
 void Person::printInfo() const 
 {
-	std::cout << "Name: " << name_ << std::endl;
-	std::cout << "Age: " << *age_ << std::endl;
+    std::cout << "Name: " << name_ << std::endl;
+    std::cout << "Age: " << *age_ << std::endl;
 }
 
 int Person::combinedAge(Person** personArray, int size)
 {
-	int result = 0;
-
-	for(int i = 0; i < size; i++)
+    int result = 0;
+    
+    for(int i = 0; i < size; i++)
     {
-		result += *(personArray[i]->age_);
+        result += *(personArray[i]->age_);
     }
 
-	return result;
+    return result;
 }
 
 void Person::birthday(Person& x)
