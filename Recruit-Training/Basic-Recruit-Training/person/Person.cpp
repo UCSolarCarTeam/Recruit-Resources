@@ -1,19 +1,15 @@
 #include "Person.h"
 #include <iostream>
 
-Person::Person(){
-	age_ = new int;
-};
+Person::Person()
+: age_(new int[1]) {}
 
 Person::~Person(){
 	delete age_;
 }
 
-Person::Person(const std::string& name, int age) {
-	name_ = name;
-	age_ = new int;
-	age_[0] = age;
-}
+Person::Person(const std::string& name, int age) 
+: name_(name), age_(new int(age)) {}
 
 int Person::getAge() const {
 	return age_[0];
