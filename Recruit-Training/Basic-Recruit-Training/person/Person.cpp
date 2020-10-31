@@ -2,7 +2,7 @@
 #include <iostream>
 
 Person::Person()
-: age_(new int[1]) {}
+: age_(new int) {}
 
 Person::~Person(){
 	delete age_;
@@ -12,7 +12,7 @@ Person::Person(const std::string& name, int age)
 : name_(name), age_(new int(age)) {}
 
 int Person::getAge() const {
-	return age_[0];
+	return *age_;
 }
 
 const std::string& Person::getName() const {
@@ -24,18 +24,18 @@ void Person::setName(const std::string& newName) {
 }
 
 void Person::setAge(int newAge) {
-	age_[0] = newAge;
+	*age_ = newAge;
 }
 
 void Person::printInfo() const {
-	std::cout << "Name: " << name_.c_str() <<
-		     "\nAge: " << age_[0] << std::endl;
+	std::cout << "Name: " << name_ <<
+		     "\nAge: " << *age_ << std::endl;
 }
 
 int Person::combinedAge(Person** personArray, int size){
 	int sum = 0;
 	for(int i = 0; i < size; i++)
-		sum += personArray[i]->age_[0];
+		sum += personArray[i] -> *age_;
 	return sum;
 }
 
