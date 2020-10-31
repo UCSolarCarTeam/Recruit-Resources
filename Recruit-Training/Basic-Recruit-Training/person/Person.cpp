@@ -1,8 +1,6 @@
 #include "Person.h"
 #include <iostream>
 
-using namespace::std;
-
 Person::Person(): age_(new int){}
 
 Person::~Person()
@@ -34,8 +32,8 @@ void Person::setAge(int newAge)
 
 void Person::printInfo() const 
 {
-	cout << "Name: " << name_ << endl;
-	cout << "Age: " << *age_ << endl;
+	std::cout << "Name: " << name_ << std::endl;
+	std::cout << "Age: " << *age_ << std::endl;
 }
 
 int Person::combinedAge(Person** personArray, int size)
