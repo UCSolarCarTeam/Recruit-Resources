@@ -41,6 +41,8 @@ int main()
     cout << "Actual value of y: " << y << endl;
     
     MySwap(p, &y);
+    cout << "New value of *p: " << *p << endl;
+    cout << "New value of y: " << y << endl;
     
     return 0;
 }
