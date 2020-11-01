@@ -40,6 +40,8 @@ int main()
     cout << "Predicted value of y: " << 4 << endl;
     cout << "Actual value of y: " << y << endl;
     
+    MySwap(p, &y);
+    
     return 0;
 }
 
