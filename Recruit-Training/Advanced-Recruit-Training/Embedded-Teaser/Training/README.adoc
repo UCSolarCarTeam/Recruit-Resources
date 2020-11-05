@@ -28,10 +28,10 @@ It has the following properties:
 
 What you need to do: 
 
-* Read the input array and write to a global status array only if inputs were "valid" 
+. Read the input array and write to a global status array only if inputs were "valid" 
   ** Examples of valid commands: Going forward implies velocity is greater than 0 and Motor 1 & 2 should be in sync. 
 
-* Set bits 0, 1, 2 of a global variable if the input array elements were valid. 
+. Set bits 0, 1, 2 of a global variable if the input array elements were valid. 
 
 For your convenience, we have created the folder structure already. 
 Under `Training/Core/Inc` you should find a `Training.h` file with necessary includes. We also declared necessary variables and functions for you there. 
