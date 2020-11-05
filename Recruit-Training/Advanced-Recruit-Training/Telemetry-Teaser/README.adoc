@@ -1,0 +1,84 @@
+Basic Telemetry Training
+------------------------
+
+Introduction project to learn the basics of AngularJS and HTML.
+
+Installations
+~~~~~~~~~~~~~
+For this project and any future Telemetry projects, you will need the following:
+
+. NPM
+* The Node Package Manager (NPM) is needed to install Angular CLI and can be downloaded https://nodejs.org/en/[here]. 
+* The recommended version should be installed.
+* Once the installation is complete, open your terminal and use the following command to check the version of node that you have installed:
++
+-----
+node -v
+-----
+
+. Angular CLI
+* Using NPM Angular can now be installed via the command line using the following command:
++
+-----
+npm install -g @angular/cli
+-----
+* To check the version of Angular  CLI, the command can be used:
++
+-----
+ng -v
+-----
+
+. A Text Editor
+* To edit the web-app, you will need to use a text editor. You may use any text editor that you prefer.
+* Common text editors include https://code.visualstudio.com[Visual Studio Code] and http://www.sublimetext.com[Sublime Text].
+
+Running the Web-App
+~~~~~~~~~~~~~~~~~~~
+To test your program, you can run the web-app locally via the command line. Make sure that you have changed to the Telemetry-Teaser directory within your terminal and use the following command:
+
+-----
+ng serve
+-----
+When the program begins compiling, your terminal will display a message like the following:
+
+-----
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+-----
+By using the link specified in your terminal in your browser, you will be able to view the web-app locally once the project has finished compiling.
+
+Objectives
+~~~~~~~~~~
+
+The purpose of this training program is to create a  web-app that calculates the predicted range of the Elysia. Currently the web-app only accepts inputs for the speed, battery percentage, and weather (percentage of visable sunlight). You must implemt the following to complete this calculator program:
+
+. Add a button below the inputs labeled 'Calculate'.
+*  When this button is clicked, the calculateRange function in app.component.ts should be called.
+
+. Implement the calculateRange function
+* Since we do not have enough data to determine the range of the Elysia at this moment, we will have to use an equation that does not relate to the statistics of the Elysia car but simulates how the range may change with the input variables instead. The following equation may be used to simulate the range of the car:
++
+-----
+range = -(s * s * b / 400) + 5 * b + w
+-----
+Where:
+*** s = speed
+*** b = battery percentage
+*** w = weather 
+
+. Validate Inputs
+
+* For both the speed and battery percentage inputs, a number must be sent. You must implement input validation for both of these input fields so that:
+** Both inputs are `*required*`. The messages "Speed is required" or "Battery percentage is required" should be shown directly below the specifc input if the fields stay empty.
+** The battery percentage should be `*within the range of 0 to 100*`. If this is not true, the message "The battery percentage should be with the range of 0 to 100" needs to be displayed below the battery percentage input.
+** The speed should be `*within the range of 0 to 90*`. If this is not true, the message "The speed should be with the range of 0 to 90" needs to be displayed below the speed input.
+
+* There are many resources online that can help you learn about validating inputs using angular. One good resource can be found on the angular website http://angular.io/guide/form-validation[here].
+
+. Display the Result
+* If all of the inputs are valid and the calculate button has been clicked, the calculated range should be displayed below the calculate button in the following message: "The predicted range of the Eylsia is x km." where x is the calculated result. 
+* Otherwise, no message should be displayed below the calculate button.
+
+Extra Help
+~~~~~~~~~~
+There are many resources online that can help you learn more about how to use Angular or HTML. The http://angular.io[Angular] website has a lot of useful  and reliable information that may be helpful.
+

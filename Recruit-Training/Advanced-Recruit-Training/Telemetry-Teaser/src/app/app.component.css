@@ -1,0 +1,104 @@
+body {
+	margin: 0px;
+	padding: 0px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    background-color: #212121;
+    width: 100%;
+    height: 100%;
+}
+
+img {
+	width: 4rem;
+	padding-bottom: 1.2rem;
+	padding-right: 1rem;
+	padding-left: 1rem;
+}
+
+div {
+	left: 50%;
+	top: 50%;
+	transform: translate(0%, 25%);
+	font-size: 1.2rem;
+	text-align: center;
+}
+
+label {
+	font-size: 1.0rem;
+	color: darkcyan;
+}
+
+h1 {
+	font-size: 1.5rem;
+	color: darkcyan;
+}
+
+button {
+	padding: 0.5rem 2rem;
+	border: 0.2rem solid darkcyan;
+	border-radius: 0.5rem;
+	color: white;
+	background-color: darkcyan;
+	font-size: 1.0rem;
+}
+
+input[type=number] {
+	width: 50%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+input[type=number]::-webkit-textfield-decoration-container {
+
+}
+
+input[type=number]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+}
+
+input[type=range] {
+	-webkit-appearance: none;
+	width: 50%;
+	background: transparent;
+	padding-bottom: 50px;
+}
+
+input[type="range"]:focus {
+	outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+	background: DarkCyan;
+	height: 5px;
+	border-radius: 5px;
+}
+
+input[type="range"]::-moz-range-track {
+	background: tomato;
+	height: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	height: 15px;
+	width: 15px;
+	background: white;
+	margin-top: -5px;
+	border-radius: 50%;
+}
+
+input[type="range"]::-moz-range-thumb {
+	height: 15px;
+	width: 15px;
+	background: black;
+	margin-top: -5px;
+	border-radius: 50%;
+}
