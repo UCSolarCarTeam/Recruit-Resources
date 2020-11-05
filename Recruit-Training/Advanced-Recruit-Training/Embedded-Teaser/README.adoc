@@ -1,1 +1,7 @@
  = Emebedded Teaser
+ 
+ Hello new recruits! This training will get you familar with some of the things we do in the Embedded sub team! 
+ 
+ You will need to do two main tasks. You will be creating a task and writing some unit tests for it. 
+ 
+ = Create Task
