@@ -54,3 +54,5 @@ For your convenience, we have created the folder structure for you already as we
 Under `Training/Test`you should find 3 files. `TrainingTest.c`, `TrainingTest.h` and `main.c`. Like the previous, some barebone structure has been laid out for you. 
 
 Good luck and let us know if you have any questions!
+
+Created by the Embedded Team, Nov 2020.
