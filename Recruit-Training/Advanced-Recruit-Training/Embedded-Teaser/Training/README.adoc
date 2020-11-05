@@ -35,7 +35,7 @@ What you need to do:
 
 For your convenience, we have created the folder structure already. 
 Under `Training/Core/Inc` you should find a `Training.h` file with necessary includes. We also declared necessary variables and functions for you there. 
-Under `Training/Core/Src` you should find a `Training.c` file with the barebone strucutre laid out.
+Under `Training/Core/Src` you should find a `Training.c` file with the barebone structure laid out.
 
 Hint: you will need to do bitwise operations.
 
@@ -51,6 +51,6 @@ The following are the test cases you must create:
 * Motors invalid
 
 For your convenience, we have created the folder structure for you already as well. 
-Under `Training/Test`you should find 3 files. `TrainingTest.c`, `TrainingTest.h` and `main.c`. Like the previous, some barebone strucutre has been laid out for you. 
+Under `Training/Test`you should find 3 files. `TrainingTest.c`, `TrainingTest.h` and `main.c`. Like the previous, some barebone structure has been laid out for you. 
 
 Good luck and let us know if you have any questions!
