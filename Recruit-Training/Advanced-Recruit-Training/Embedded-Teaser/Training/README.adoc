@@ -1,7 +1,7 @@
 To complete this training, you will need complete the following: 
 
 = 1. Create Task
-Premise: There are 2 motors (Motor 1 and Motor 2) and a Lights board. We want to write to an output array of the status of the motors and lights.
+Premise: There are 2 motors (Motor 1 and Motor 2) and a Lights board. We want to write to an output array the status of the motors and lights.
 
 You will get some input array of type `uint8_t` with a size of 3 that stores information about the motors and lights. 
 
