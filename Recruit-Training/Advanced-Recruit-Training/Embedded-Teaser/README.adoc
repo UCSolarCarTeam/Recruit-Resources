@@ -7,4 +7,4 @@ You will need to do two main tasks: creating a task and writing some unit tests 
 Head over to the `Training` folder to get started!
 
 
-Created by the Embedded Team on Nov 2020
+Created by the Embedded Team, Nov 2020
