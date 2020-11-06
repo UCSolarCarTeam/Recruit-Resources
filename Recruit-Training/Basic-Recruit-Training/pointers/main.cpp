@@ -11,6 +11,7 @@ using namespace std;
 
 void foo(int *a, int b);
 void bar(int *a, int b);
+void Myswap(int *a,int*b);
 
 int main()
 {
@@ -19,28 +20,29 @@ int main()
     int *p = &x;
 
     //TODO in the line below predict what what is going to be output
-    cout << "Predicted value of p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of p: "<<&x<< endl;
     cout << "Actual value of p: " << p << endl;
-    cout << "Predicted value &x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value &x: "<< &*p << endl;
     cout << "Actual value &x: " << &x << endl;
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: " <<3<< endl;
     cout << "Actual value of *p: " << *p << endl;
     
     foo(p, x);
     
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: "  <<42<< endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of x: " <<42<< endl;
     cout << "Actual value of x: " << x << endl;
     foo(p, y);
 
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: " <<42<< endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of y: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of y: " <<4 << endl;
     cout << "Actual value of y: " << y << endl;
 
 
-    //start writing MySwap here
+    Myswap(&x,&y);
+
     
     return 0;
 }
@@ -55,4 +57,11 @@ void var(int *a, int b)
 {
     *a = 365;
     b = 912;
+}
+void Myswap(int*a, int*b)
+{
+    int temp;
+    temp=*a;
+    *a=*b;
+    *b=temp;
 }
