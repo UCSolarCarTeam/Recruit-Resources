@@ -1,0 +1,45 @@
+{
+	owner: "UofC",
+	type: "Coupe",
+	carName: "Elysia",
+	batteryPercentage: 67,
+	color: "White",
+	location: "Calgary",
+	"viscommTeamMembers":[
+		{
+			firstName: "Bill",
+			lastName: "Luu",
+			gradYear: "2020"
+		},
+		{
+			firstName: "Magnus",
+			lastName: "Lyngberg",
+			gradYear: "2021"
+		},
+		{
+			firstName: "Thomas",
+			lastName: "Vy",
+			gradYear: "2021"
+		},
+		{
+			firstName: "Jessie",
+			lastName: "Guo",
+			gradYear: "2022"
+		},
+		{
+			firstName: "Hesham",
+			lastName: "Elkaliuoby",
+			gradYear: "2024"
+		},
+		{
+			firstName: "Dat",
+			lastName: "Lam",
+			gradYear: "2024"
+		},
+		{
+			firstName: "Navjot",
+			lastName: "Brar",
+			gradYear: "2022"
+		}
+	]
+}
