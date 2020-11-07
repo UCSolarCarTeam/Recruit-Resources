@@ -145,3 +145,5 @@ Then go into `Core/Src/GreenLedToggleTask.c`
 
 . Repeat the steps outlined above for the green LED, except give the `GREEN_LED_STATUS_STDID` a value of 0xDDD, and the frequency of the task is 10Hz.
 
+Finally, go to the root directory (`Embedded-Recruit-Training`) and run `make`. Ensure that there are no errors
+
