@@ -82,6 +82,7 @@ int main()
     const std::string correctSwapIncrementAnswer = "a is 7, b is 5";
 
     compareAnswers(swapIncrementAnswer.str(), correctSwapIncrementAnswer);
+
 // Pass a & b into mySwap here
     mySwap(a,b);
 // Pass in a to myIncrement here
