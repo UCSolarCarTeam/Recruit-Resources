@@ -1,5 +1,13 @@
 #include "Training.h"
+/*
+    CONDITIONS FOR FAILURE
+    
+    -the velocity and direction bit don't express the same direction
+    -the input for the first and second motor aren't EXACTLY the same
+    -more than one headlight choice is chosen
+    -both left and right signals are on at the same time
 
+*/
 void trainingTask(uint8_t* data)
 {
     uint8_t tempVelocityMotor1 = data[0] >> 6;
@@ -28,11 +36,11 @@ void trainingTask(uint8_t* data)
     }
     
     //Lights
-    if (   data[2]&0b00000111 == 0b100 
-        || data[2]&0b00000111 == 0b010
-        || data[2]&0b00000111 == 0b001)
+    if (   (data[2]&0b00000111) == 0b100 
+        || (data[2]&0b00000111) == 0b010
+        || (data[2]&0b00000111) == 0b001)
         {
-            if ( (data[2] & 0b00011000) | 0b00000000 != 0b00011000)
+            if ( (data[2] & 0b00011000) != 0b00011000)
             {
                 outputArray[2] = data[2];
                 validData |= 0b00000100;
