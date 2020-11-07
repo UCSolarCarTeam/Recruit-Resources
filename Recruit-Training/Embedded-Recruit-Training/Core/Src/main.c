@@ -25,6 +25,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 //TODO: Include task header files
+#include "BlueLedToggleTask.h"
+#include "GreenLedToggleTask.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,9 +51,15 @@ osThreadId_t defaultTaskHandle;
 /* USER CODE BEGIN PV */
 static const uint32_t BLUE_MESSAGE_STDID = 0xAAA;
 //TODO: Add STDID for green message
+static const uint32_t GREEN_MESSAGE_STDID = 0xBBB;
 //TODO: Add CAN_TX header definition
+CAN_TxHeaderTypeDef CANTxHeader;
 //TODO: Define thread for tasks
+osThreadId_t BlueToggleLEDTaskId;
+osThreadId_t GreenToggleLEDTaskId;
 //TODO: Define a blue LED toggle flag and a green LED toggle flag
+uint8_t BlueToggleLED;
+uint8_t GreenToggleLED;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -102,6 +110,7 @@ int main(void)
 
     /* USER CODE BEGIN 2 */
     //TODO: Call MX_CAN2_UserInit
+    void MX_CAN2_UserInit(void)
     //Activate Can Recieve Interrupts
     if (HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING |
                                     CAN_IT_ERROR_WARNING |
@@ -120,6 +129,12 @@ int main(void)
 
     /* USER CODE BEGIN RTOS_MUTEX */
     //TODO: Define and create mutexes and mutex attributes
+    osMutexId_t myMutex;
+    struct const osMutexAttr_t MutexAttr = {"MutexAttr", 0, NULL, 0};
+    myMutex = osMutexNew(&MutexAttr); //to assign a value returned to the mutex handle that I defined which is myMutex.
+    
+    
+    
     /* add mutexes, ... */
     /* USER CODE END RTOS_MUTEX */
 
@@ -147,7 +162,13 @@ int main(void)
 
     /* USER CODE BEGIN RTOS_THREADS */
     //TODO: Create threads and thread attributes
-    /* add threads, ... */
+    struct const osThreadAttr_t BlueToggleLEDTaskAttr = {.name = "BlueLED", .priority = (osPriority_t) osPriorityNormal, .stack_size = 128};
+    struct const osThreadAttr_t GreenToggleLEDTaskAttr = {.name = "GreenLED", .priority = (osPriority_t) osPriorityNormal, .stack_size = 128};
+
+
+    BlueToggleLEDTaskId =  osThreadNew((osThreadFunc_t) blueLedToggleTask, &MyMutex, &BlueToggleLEDTaskAttr);
+    GreenToggleLEDTaskId = osThreadNew((osThreadFunc_t) greenLedToggleTask, &MyMutex, &GreenToggleLEDTaskAttr);
+    /* add threads, ... */ 
     /* USER CODE END RTOS_THREADS */
 
     /* Start scheduler */
@@ -288,6 +309,36 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
     }
 
     //TODO: Match StdId of header and data length content for green and blue messages and check data for set bit of toggling green and blue led
+    if (hdr.StdId == BLUE_MESSAGE_STDID && hdr.DLC == 1) 
+    {
+        uint8_t bit = 0b10001001
+
+        if(data[0] & bit == bit)  // & operator is  the AND gate to multiply 8-bit numbers
+        {
+            BlueToggleLED = 1;
+        }
+
+        else
+        {    
+            BlueToggleLED = 0;
+        }
+        
+    }
+
+    if(hdr.StdId == GREEN_MESSAGE_STDID && hdr.DLC == 1)
+    {
+        uint8_t mask = 0b00000011
+
+        if(data[0] & mask == mask)
+        {
+            GreenToggleLED = 1;
+        }
+       /* else
+        {
+            GreenToggleLED = 0;
+        }*/
+        
+    }
 }
 
 static void MX_CAN2_UserInit(void)
@@ -310,7 +361,22 @@ static void MX_CAN2_UserInit(void)
     }
 
     //TODO: Configure filter for green message
+    CAN_FIlterTypeDef greenMessageFilterConfig;
+    greenMessageFilterConfig.FilterBank = 1;
+    greenMessageFilterConfig.FilterMode = CAN_FILTERMODE_IDLIST;
+    greenMessageFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
+    greenMessageFilterConfig.FilterIdHigh = GREEN_MESSAGE_STDID;
+    greenMessageFilterConfig.FilterIdLow = 0;
+    greenMessageFilterConfig.FilterMaskIdHigh = 0;
+    greenMessageFilterConfig.FilterFIFOAssignment = 0;
+    greenMessageFilterConfig.FilterActivation = ENABLE;
+    greenMessageFilterConfig.SlaveStartFilterBank = 0;
+
     //TODO: Configure CAN_TX header
+    CANTxHeader.ExtId = 0;
+    CANTxHeader.RTR = CAN_RTR_DATA;
+    CANTxHeader.IDE = CAN_ID_STD;
+    CANTxHeader.TransmitGlobalTime = DISABLE;
 }
 /* USER CODE END 4 */
 
