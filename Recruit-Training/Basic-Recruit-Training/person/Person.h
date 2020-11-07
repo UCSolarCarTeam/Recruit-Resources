@@ -19,6 +19,7 @@ public:
     void printInfo() const;
     // Print the combined age of everyone pointed to by personArray
     static int combinedAge(Person** personArray, int size);
+    
     // Increases the Person's Age by 1
     static void birthday(Person& x);
 
