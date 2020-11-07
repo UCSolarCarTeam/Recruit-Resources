@@ -1,7 +1,7 @@
 #include "BlueLedToggleTask.h"
 
 static const uint32_t BLUE_LED_STATUS_STDID = 0xCCC;
-static const uint32_t BLUE_LED_TOGGLE_FREQ = 1000; /ask later 
+static const uint32_t BLUE_LED_TOGGLE_FREQ = 1000; 
 
 void blueLedToggleTask(void const* arg)
 {
@@ -31,7 +31,7 @@ void blueLedToggleTask(void const* arg)
         //TODO: Send CAN message indicating current state of LED
 
         
-        if(osMutexAcquire(canMutex, 0))
+        if(osMutexAcquire(canMutex, 0) == HAL_OK)
         {
             if(HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0)
             {
@@ -44,19 +44,12 @@ void blueLedToggleTask(void const* arg)
                 data_array[0] = !pinState_of_blue_LED;
 
                 HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data_array, &mailbox_variable);
-                osMutexRelease(canMutex);
-
+                
             }
         
         }
 
-       
-       
-        
-    
-    
-
-    
+       osMutexRelease(canMutex);
 
     }
 }

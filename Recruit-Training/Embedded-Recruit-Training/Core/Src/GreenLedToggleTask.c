@@ -1,7 +1,7 @@
 #include "GreenLedToggleTask.h"
 
 static const uint32_t GREEN_LED_STATUS_STDID = 0xDDD;
-static const uint32_t GREEN_LED_TOGGLE_FREQ = 10000;
+static const uint32_t GREEN_LED_TOGGLE_FREQ = 100;
 
 void greenLedToggleTask(void const* arg)
 {
@@ -27,7 +27,7 @@ void greenLedToggleTask(void const* arg)
         uint8_t pinState_of_green_LED = HAL_GPIO_ReadPin(LED_RED_GPIO_Port, LED_RED_Pin);
         //TODO: Send CAN message indicating current state of LED
 
-        if(osMutexAcquire(canMutex, 0))
+        if(osMutexAcquire(canMutex, 0) == HAL_OK)
         {
             if(HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0)
             {
@@ -40,11 +40,11 @@ void greenLedToggleTask(void const* arg)
                 data_array_green[0] = !pinState_of_green_LED;
 
                 HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data_array_green, &mailbox_variable_green);
-                osMutexRelease(canMutex);
+                
 
             }
         
         }
-
+        osMutexRelease(canMutex);
     }
 }

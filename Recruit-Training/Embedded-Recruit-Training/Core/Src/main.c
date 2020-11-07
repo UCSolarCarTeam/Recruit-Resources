@@ -130,7 +130,7 @@ int main(void)
     /* USER CODE BEGIN RTOS_MUTEX */
     //TODO: Define and create mutexes and mutex attributes
     osMutexId_t myMutex;
-    struct const osMutexAttr_t MutexAttr = {"MutexAttr", 0, NULL, 0};
+    const osMutexAttr_t MutexAttr = {"MutexAttr", 0, NULL, 0};
     myMutex = osMutexNew(&MutexAttr); //to assign a value returned to the mutex handle that I defined which is myMutex.
     
     
@@ -162,12 +162,12 @@ int main(void)
 
     /* USER CODE BEGIN RTOS_THREADS */
     //TODO: Create threads and thread attributes
-    struct const osThreadAttr_t BlueToggleLEDTaskAttr = {.name = "BlueLED", .priority = (osPriority_t) osPriorityNormal, .stack_size = 128};
-    struct const osThreadAttr_t GreenToggleLEDTaskAttr = {.name = "GreenLED", .priority = (osPriority_t) osPriorityNormal, .stack_size = 128};
+    const osThreadAttr_t BlueToggleLEDTaskAttr = {.name = "BlueLED", .priority = (osPriority_t) osPriorityNormal, .stack_size = 128};
+    const osThreadAttr_t GreenToggleLEDTaskAttr = {.name = "GreenLED", .priority = (osPriority_t) osPriorityNormal, .stack_size = 128};
 
 
-    BlueToggleLEDTaskId =  osThreadNew((osThreadFunc_t) blueLedToggleTask, &MyMutex, &BlueToggleLEDTaskAttr);
-    GreenToggleLEDTaskId = osThreadNew((osThreadFunc_t) greenLedToggleTask, &MyMutex, &GreenToggleLEDTaskAttr);
+    BlueToggleLEDTaskId =  osThreadNew((osThreadFunc_t) blueLedToggleTask, &myMutex, &BlueToggleLEDTaskAttr);
+    GreenToggleLEDTaskId = osThreadNew((osThreadFunc_t) greenLedToggleTask, &myMutex, &GreenToggleLEDTaskAttr);
     /* add threads, ... */ 
     /* USER CODE END RTOS_THREADS */
 
@@ -329,14 +329,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
     {
         uint8_t mask = 0b00000011
 
-        if(data[0] & mask == mask)
+        if(data[0] == mask)
         {
             GreenToggleLED = 1;
         }
-       /* else
-        {
-            GreenToggleLED = 0;
-        }*/
         
     }
 }
@@ -365,12 +361,18 @@ static void MX_CAN2_UserInit(void)
     greenMessageFilterConfig.FilterBank = 1;
     greenMessageFilterConfig.FilterMode = CAN_FILTERMODE_IDLIST;
     greenMessageFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
-    greenMessageFilterConfig.FilterIdHigh = GREEN_MESSAGE_STDID;
+    greenMessageFilterConfig.FilterIdHigh = GREEN_MESSAGE_STDID << 5;
     greenMessageFilterConfig.FilterIdLow = 0;
     greenMessageFilterConfig.FilterMaskIdHigh = 0;
     greenMessageFilterConfig.FilterFIFOAssignment = 0;
     greenMessageFilterConfig.FilterActivation = ENABLE;
     greenMessageFilterConfig.SlaveStartFilterBank = 0;
+
+    if (HAL_CAN_ConfigFilter(&hcan2, &greenMessageFilterConfig) != HAL_OK)
+    {
+        /* Filter configuration Error */
+        Error_Handler();
+    }
 
     //TODO: Configure CAN_TX header
     CANTxHeader.ExtId = 0;
