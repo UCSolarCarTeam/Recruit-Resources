@@ -20,42 +20,41 @@ int main()
     int *p = &x;
 
     //TODO in the line below predict what what is going to be output
-    cout << "Predicted value of p: " /* << This will print the address of p/ << endl;
+    cout << "Predicted value of p: " << "This will print the address of p" << endl;
     cout << "Actual value of p: " << p << endl;
-    cout << "Predicted value &x: " /* << This will print the address of int x*/ << endl;
+    cout << "Predicted value &x: "  << "This will print the address of int x" << endl;
     cout << "Actual value &x: " << &x << endl;
-    cout << "Predicted value of *p: " /* << The value of *p should be 3 at this point*/ << endl;
+    cout << "Predicted value of *p: " << "3" << endl;
     cout << "Actual value of *p: " << *p << endl;
 
     foo(p, x);
 
-    cout << "Predicted value of *p: " /* << The value of *p should be 42*/ << endl;
+    cout << "Predicted value of *p: " << "42" << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of x: " /* << The value of x should be 42*/ << endl;
+    cout << "Predicted value of x: " << "42" << endl;
     cout << "Actual value of x: " << x << endl;
     foo(p, y);
 
-    cout << "Predicted value of *p: " /* << The value of *p should be 42*/ << endl;
+    cout << "Predicted value of *p: " << "42" << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of y: " /* << The value of y should remain as 4*/ << endl;
+    cout << "Predicted value of y: " << "4" << endl;
     cout << "Actual value of y: " << y << endl;
     MySwap(p, &y);
 
-<<<<<<< HEAD
-    cout << "The value of *p is:" << *p << endl;
-    cout << "The value of y is:" << y << endl;
 
-=======
-    //start writing mySwap here
-    
->>>>>>> ddda1b26bcf4317cc5e94d2befaadfa23a0d5cbe
+
+
+    // Testing MySwap
+    cout << "The value of *p is: " << *p << endl;
+    cout << "The value of y is: " << y << endl;
+
+
     return 0;
 }
 
 void MySwap(int *a, int *b)
 {
-  int temp = 0;
-  temp = *a;
+  int temp = *a;
   *a = *b;
   *b = temp;
 

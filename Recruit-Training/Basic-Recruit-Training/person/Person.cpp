@@ -2,55 +2,48 @@
 
 #include <iostream>
 
-Person::Person()
-{
-  this -> name_ = "";
-  this -> age_ = new int(0);
-}
+Person::Person() : name_(""), age_(new int(0)) {} //Default constructor
 
-Person::Person (const std::string& name, int age)
-{
-  this -> name_ = name;
-  this -> age_ = new int(age);
-}
+Person::Person (const std::string& name, int age) //Constructor
+  : name_(name), age_(new int(age)) {}
 
-Person::~Person()
+Person::~Person() //Destructor
 {
   delete age_;
 }
 
-int Person::getAge() const
+int Person::getAge() const //Getter for age
 {
   return *age_;
 }
 
-void Person::setAge(int newAge)
+void Person::setAge(int newAge) //Setter for age
 {
-  *(this -> age_) = newAge;
+  *(age_) = newAge;
 }
 
-const std::string& Person::getName() const
+const std::string& Person::getName() const //Getter for name
 {
   return name_;
 }
 
-void Person::setName(const std::string& newName)
+void Person::setName(const std::string& newName) //Setter for name
 {
-  this -> name_ = newName;
+  name_ = newName;
 }
 
-void Person::printInfo() const
+void Person::printInfo() const //printInfo function
 {
-  std::cout << this -> name_ << std::endl;
-  std::cout << *(this -> age_) << std::endl;
+  std::cout << name_ << std::endl;
+  std::cout << *(age_) << std::endl;
 }
 
-void Person::birthday(Person& x)
+void Person::birthday(Person& x) //birthday function
 {
   x.setAge(x.getAge() + 1);
 }
 
-int Person::combinedAge(Person** personArray, int size)
+int Person::combinedAge(Person** personArray, int size) //combinedAge function
 {
   int i;
   int totalAge = 0;

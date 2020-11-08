@@ -20,8 +20,7 @@ void compareAnswers(const std::string myAnswer, const std::string correctAnswer)
 // Swaps a & b.
 void mySwap(int& a, int& b)
 {
-  int temp = 0;
-  temp = a;
+  int temp = a;
   a = b;
   b = temp;
 }
@@ -70,13 +69,13 @@ int main()
     int a = 5;
     int b = 6;
 
-<<<<<<< HEAD
+
     mySwap(a, b);
     myIncrement(&a);
-=======
+
     // Pass a & b into mySwap here
     // Pass in a to myIncrement here
->>>>>>> ddda1b26bcf4317cc5e94d2befaadfa23a0d5cbe
+
 
     std::cout << "Checking Swap and Increment: " << std::endl;
 
