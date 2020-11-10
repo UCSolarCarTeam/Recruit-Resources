@@ -333,6 +333,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
         {
             GreenToggleLED = 1;
         }
+        else
+        {
+           GreenToggleLED = 0;
+        }
+        
         
     }
 }

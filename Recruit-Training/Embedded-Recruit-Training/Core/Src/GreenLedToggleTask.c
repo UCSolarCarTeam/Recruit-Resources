@@ -43,8 +43,8 @@ void greenLedToggleTask(void const* arg)
                 
 
             }
-        
+            osMutexRelease(canMutex);
         }
-        osMutexRelease(canMutex);
+        
     }
 }

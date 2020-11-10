@@ -46,10 +46,10 @@ void blueLedToggleTask(void const* arg)
                 HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data_array, &mailbox_variable);
                 
             }
-        
+            osMutexRelease(canMutex);
         }
 
-       osMutexRelease(canMutex);
+       
 
     }
 }
