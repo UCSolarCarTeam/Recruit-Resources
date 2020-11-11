@@ -59,3 +59,29 @@ int lightsCheck (uint8_t testLight)
 	return 1;
 }
 
+}
+
+int motorCheck (uint8_t testMotor)
+{
+	uint8_t motorMask = 0b11000001;
+	
+	if ((testMotor & motorMask) == 0b10000000) // check the case that motor is in reverse (power on, negative velocity and reverse)
+		return 1;
+	else if ((testMotor & motorMask) == motorMask) // check the case that motor is in forward (power on, positive velocity and forward)
+		return 2;
+	else if (testMotor == 0) // check case that power is off
+		return 3;
+	
+	return 0;
+}	
+
+int lightsCheck (uint8_t testLight)
+{
+	uint8_t maskedHeadLights = testLight & 0b00000111;
+	uint8_t maskedSignals = testLight & 0b00011000;
+	
+	if(!(maskedHeadLights && !(maskedHeadLights & (maskedHeadLights-1))) || !(maskedSignals && !(maskedSignals & (maskedSignals-1)))) // if more than 1 headlight state is chosen or more than one signal is on return 0
+		return 0;
+	
+	return 1;
+}

@@ -4,7 +4,7 @@
 
 void runTrainingTests()
 {
-    RUN_TEST(test_EverythingValid);
+	RUN_TEST(test_EverythingValid);
 	RUN_TEST(test_EverythingInvalid);
 	RUN_TEST(test_OnlyLightsInvalid);
 	RUN_TEST(test_OnlyMotorsInvalid);
