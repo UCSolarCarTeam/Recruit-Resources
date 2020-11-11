@@ -48,3 +48,4 @@ void test_OnlyMotorsInvalid()
 	TEST_ASSERT_EQUAL_UINT8_ARRAY (expectedOutput, outputArray, 3);
 	TEST_ASSERT_EQUAL_UINT8 (4, validData);
 }
+
