@@ -1,8 +1,8 @@
 /*
 First read through main() and make predictions on what the outpout of each variable will be where indicated.
-After doing that add a function prototype at the top for a function called MySwap() that will return type void.
+After doing that add a function prototype at the top for a function called mySwap() that will return type void.
 You will pass two variables in as argument, one will be the pointer p. The other one will be an interger pointer you make that points to the variable y.
-In the function MySwap you will swap the values of the two arguments so the values are changed inside main()
+In the function mySwap you will swap the values of the two arguments so the values are changed inside main()
 */
 
 #include <iostream>
@@ -40,9 +40,13 @@ int main()
     cout << "Predicted value of y: " <<4 << endl;
     cout << "Actual value of y: " << y << endl;
 
+<<<<<<< HEAD
 
     Myswap(&x,&y);
 
+=======
+    //start writing mySwap here
+>>>>>>> 593c34c5f5eedbf39766e1a637513ba9e09ba233
     
     return 0;
 }
