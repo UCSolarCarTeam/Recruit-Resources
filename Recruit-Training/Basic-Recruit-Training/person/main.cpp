@@ -21,9 +21,9 @@ void compareAnswers(const std::string myAnswer, const std::string correctAnswer)
 void mySwap(int& a, int& b)
 {   
     int temp;
-    temp=a;
-    a=b;
-    b=temp;
+    temp = a;
+    a = b;
+    b = temp;
 }
 // Increment the int that x is pointing to by one.
 void myIncrement(int* x)
