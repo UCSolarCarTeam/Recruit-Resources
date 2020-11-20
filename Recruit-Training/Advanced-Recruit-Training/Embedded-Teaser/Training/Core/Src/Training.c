@@ -1,5 +1,4 @@
 #include "Training.h"
-#include <stdio.h>
 
 void trainingTask(uint8_t* data)
 {
@@ -12,25 +11,21 @@ void trainingTask(uint8_t* data)
     outputArray[1] = data[1];
     outputArray[2] = data[2];
     validData = 0b111;
-    printf("Both motors and lights valid\n");
   }
   else if (motorsValid) // Only motors valid so copy only data[0] and data[1] and set 2 LSBs high
   {
     outputArray[0] = data[0];
     outputArray[1] = data[1];
     validData = 0b011;
-    printf("Both motors valid\n");
   }
   else if (lightsValid) // Only lights valid so copy only data[2] and set bit 3 high and the 2 LSBs low
   {
     outputArray[2] = data[2];
     validData = 0b100;
-    printf("Lights valid\n");
   }
   else
   {
     validData = 0b000;
-    printf("None valid\n");
   }
 }
 
