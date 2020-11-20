@@ -24,7 +24,7 @@ void blueLedToggleTask(void const* arg)
             
         }
 
-       uint8_t pinState_of_blue_LED = HAL_GPIO_ReadPin(LED_RED_GPIO_Port, LED_RED_Pin);
+       uint8_t pinStateBlueLed = HAL_GPIO_ReadPin(LED_RED_GPIO_Port, LED_RED_Pin);
         // this is to read the value of the GPIO function and whatever it reads, since it has a return value, what the value is of the GPIO function will be put into the pinState variable of type uint8_t which is like a boolean 
 
         
@@ -41,7 +41,7 @@ void blueLedToggleTask(void const* arg)
 
                 CANTxHeader.StdId = BLUE_LED_STATUS_STDID;
                 CANTxHeader.DLC = 1;
-                data_array[0] = !pinState_of_blue_LED;
+                data_array[0] = !pinStateBlueLed;
 
                 HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data_array, &mailbox_variable);
                 

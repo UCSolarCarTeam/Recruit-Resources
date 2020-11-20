@@ -24,7 +24,7 @@ void greenLedToggleTask(void const* arg)
             
         }
 
-        uint8_t pinState_of_green_LED = HAL_GPIO_ReadPin(LED_RED_GPIO_Port, LED_RED_Pin);
+        uint8_t pinStateGreenLed = HAL_GPIO_ReadPin(LED_RED_GPIO_Port, LED_RED_Pin);
         //TODO: Send CAN message indicating current state of LED
 
         if(osMutexAcquire(canMutex, 0) == HAL_OK)
@@ -37,7 +37,7 @@ void greenLedToggleTask(void const* arg)
 
                 CANTxHeader.StdId = GREEN_LED_STATUS_STDID;
                 CANTxHeader.DLC = 1;
-                data_array_green[0] = !pinState_of_green_LED;
+                data_array_green[0] = !pinStateGreenLed;
 
                 HAL_CAN_AddTxMessage(&hcan2, &CANTxHeader, &data_array_green, &mailbox_variable_green);
                 
