@@ -3,27 +3,27 @@
 #include<string>
 Person::Person()
 {
-    name_=" ";
-    age_=new int;
+    name_ = " ";
+    age_ = new int;
 }
 Person::Person(const std::string& name, int age)
 {
-    name_=name;
-    age_=new int;
-    *age_=age;
+    name_ = name;
+    age_ = new int;
+    *age_ = age;
 }
 Person::~Person()
 {
-    delete []age_;
+    delete age_;
 }
 
 void Person::setName(const std::string& newName)
 {
-    name_=newName;
+    name_ = newName;
 }
 void Person::setAge(int newAge)
 { 
-    *age_=newAge;
+    *age_ = newAge;
     
 }
 int Person::getAge()const
@@ -36,16 +36,16 @@ const std::string & Person::getName() const
 }
 void Person::printInfo() const
 {
-    std::cout << name_<<" "<<*age_;
+    std::cout << name_ << " " << *age_;
 }
     
 int Person::combinedAge(Person** personArray, int size)
 {
-    int sum=0;
-    for(int i=0;i<size;i++)
+    int sum = 0;
+    for(int i = 0;i < size;i++)
     { 
         
-        sum+= personArray[i]->getAge();
+        sum += personArray[i]->getAge();
         
     }
     
@@ -55,8 +55,8 @@ int Person::combinedAge(Person** personArray, int size)
     
 void Person::birthday(Person& x)
 {
-    int tempAge=x.getAge();
-    tempAge+=1;
+    int tempAge = x.getAge();
+    tempAge += 1;
     x.setAge(tempAge);
 }   
 

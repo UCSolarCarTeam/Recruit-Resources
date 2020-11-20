@@ -71,13 +71,10 @@ int main()
     int a = 5;
     int b = 6;
 
-<<<<<<< HEAD
     mySwap(a,b);
     myIncrement(&a);
-=======
     // Pass a & b into mySwap here
     // Pass in a to myIncrement here
->>>>>>> 593c34c5f5eedbf39766e1a637513ba9e09ba233
 
     std::cout << "Checking Swap and Increment: " << std::endl;
 
@@ -87,13 +84,13 @@ int main()
     const std::string correctSwapIncrementAnswer = "a is 7, b is 5";
 
     compareAnswers(swapIncrementAnswer.str(), correctSwapIncrementAnswer);
-<<<<<<< HEAD
+
     mySwap(a,b);
     myIncrement(&a);
-=======
+
     // Pass a and b into mySwap
     // Pass in a to myIncrement
->>>>>>> 593c34c5f5eedbf39766e1a637513ba9e09ba233
+
 
     personFunctions(); // Uncomment this once you have completed the definitions of the Person class.
 
