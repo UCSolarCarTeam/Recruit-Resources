@@ -18,9 +18,9 @@ In this document you can find the stylistic conventions that are to be used thro
 
  *  Complete the readJSON function. This function should read the data from the JSON file and place them into private variables. Create get methods for all these variables.
  *  Complete the setImage function. This function should use the image in the images folder and update the imageLabel.
- *  If you click on the MainWindow.ui file, you will be presented with the Qt Designer screen. Use this screen to rename labels to correctly represent the information they are holding. If you seen labels with the name "label#", please change these names.
+ *  If you click on the MainWindow.ui file, you will be presented with the Qt Designer screen. Use this screen to rename labels to correctly represent the information they are holding. If you see labels with the name "label#", please change these names.
  *	On Qt Designer change pageTitleLable to be aligned center horizontally, and change its font to size 18 underlined.
  *	Change the text on the QPushButton to match its functionality.
  *	On the second page of the stackedWidget, move the listNameLabel to the center, change the font to size 18, and enter a label name that correctly represents the purpose of the list.
  *	Connect the 3 buttons to slots to add members to the list, remove members from the list, and return to the previous page. Change the text on the buttons to represent their functionality.
- *  Complete the updateInformation function. This function should take the data that you gathered from JSON file and update the UI. Run the UI before you do this and see where the information should go. The list on the second page should list all members from the the JSON file in this format: "First Name: , Last Name: , Date of Birth: ".
+ *  Complete the updateInformation function. This function should take the data that you gathered from JSON file and update the UI. Run the UI before you do this and see where the information should go. The list on the second page should list all members from the the JSON file in this format: "First Name: , Last Name: , Graduation Year: ".
