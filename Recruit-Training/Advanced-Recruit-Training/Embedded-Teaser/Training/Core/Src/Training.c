@@ -11,6 +11,8 @@ void trainingTask (uint8_t* data)
 	{
 		outputArray[0] = *data;
 		outputArray[1] = *(data + 1);
+		validData = validData | (1 << FIRSTMOTOR);  // set first motor bit in validData to 1 if motor's data is valid
+		validData = validData | (1 << SECONDMOTOR); // set second motor bit in validData to 1 if motor's data is valid
 	}
 	else
 	{
@@ -21,38 +23,23 @@ void trainingTask (uint8_t* data)
 	if (lightState) // set outputArray values of lights if lights data are valid
 	{
 		outputArray[2] = *(data + 2);
+		validData = validData | (1 << LIGHTSBOARD);  // set lights bit in validData to 1 if lights data is valid
 	}
 	else
 	{
 		outputArray[2] = 0;
 	}	
-	
-	if (motorOneState)  // set first motor bit in validData to 1 if motor's data is valid
-	{
-		validData = validData | (1 << FIRSTMOTOR);
-	}
-	
-	if (motorTwoState) // set second motor bit in validData to 1 if motor's data is valid
-	{
-		validData = validData | (1 << SECONDMOTOR);
-	}
-	
-	if (lightState) // set lights bit in validData to 1 if lights data is valid
-	{
-		validData = validData | (1 << LIGHTSBOARD);
-	}	
 }
 
 int motorCheck (uint8_t testMotor)
 {
-	uint8_t forwardMask = 0b10000001;
-	uint8_t reverseMask = 0b11000000;
+	uint8_t motorMask = 0b11000001;
 	
-	if ((testMotor & forwardMask) == forwardMask) // check the case that motor is in reverse (power on, negative velocity and reverse)
+	if ((testMotor & motorMask) == 0b10000001) // check the case that motor is in reverse (power on, negative velocity and reverse)
 		return 1;
-	else if ((testMotor & reverseMask) == reverseMask) // check the case that motor is in forward (power on, positive velocity and forward)
+	else if ((testMotor & motorMask) == 0b11000000) // check the case that motor is in forward (power on, positive velocity and forward)
 		return 2;
-	else if ((testMotor & 0b00000001) == 0b00000001) // check case that power is off and motor on "forward"
+	else if ((testMotor & 0b10000001) == 0b00000001) // check case that power is off and motor on "forward"
 		return 3;
 	else if (testMotor == 0) // check case that power is off
 		return 4;	
@@ -69,7 +56,7 @@ int lightsCheck (uint8_t testLight)
 	int oneHeadlightOn = maskedHeadLights && !(maskedHeadLights & (maskedHeadLights-1));
 	int oneSignalOn = maskedSignals && !(maskedSignals & (maskedSignals-1));
 	
-	if(!oneHeadlightOn || (hazardsOn && maskedHazards != 0b00111000) || (!hazardsOn && !oneSignalOn)) // if more than 1 headlight state is chosen or both signals are not on while hazard is on or more than one signal is on return 0
+	if(!oneHeadlightOn || (hazardsOn && maskedHazards != 0b00111000) || (!hazardsOn && !oneSignalOn && maskedSignals)) // if more than 1 headlight state is chosen or both signals are not on while hazard is on or more than one signal is on return 0
 		return 0;
 	
 	return 1;
