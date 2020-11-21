@@ -84,7 +84,7 @@ void checklights(uint8_t *validity, uint8_t lights)
     int Highlights = getbit(lights, 2);
 
     if (getbit(lights, 0)) {                        //if headlights are off, check all modes are off
-        if (Lowlights|| Highlights)
+        if (Lowlights || Highlights)
         *validity &= ~0b00000100;
     } else {                                        // if headlights are on, check that exactly one mode is on
         if (!Lowlights && !Highlights)
