@@ -2,9 +2,9 @@
 /*
     CONDITIONS FOR FAILURE
     
-    -the velocity and direction bit don't express the same direction
-    -If the motors are off, and the speeds dont have the same direction
-    -Motors dont have the same direction
+    -the velocity and direction bit don't express the same direction when the car is moving (speed isn't 0)
+    -If the motors are off, and the speeds are greater than 0
+    -Motors dont have the same direction when the car is moving (speed isn't 0)
     -Motors aren't both on or both off
     -more than one headlight choice is chosen
     -both left and right signals are on at the same time when the hazards are off
@@ -110,6 +110,7 @@ void trainingTask(uint8_t* data)
         validLightsInput(data);
     }
     
+    return;
 }
 
 //ADDED FUNCTIONS
