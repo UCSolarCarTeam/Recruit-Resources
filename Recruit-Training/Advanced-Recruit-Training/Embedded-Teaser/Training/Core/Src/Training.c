@@ -39,12 +39,10 @@ int motorCheck (uint8_t testMotor)
 		return 1;
 	else if ((testMotor & motorMask) == 0b11000000) // check the case that motor is in reverse (power on, negative velocity and reverse) 
 		return 2;
-	else if ((testMotor & 0b10000001) == 0b00000001) // check case that power is off and motor on "forward"
-		return 3;
-	else if ((testMotor & 0b10111110) == 0 && (testMotor & 0b00000001) != 0)  // check case that power is off and velocity is zero but motor not allowed to be in reverse while power is off
-		return 4;	
-	else if ((testMotor & 0b11111111) == 0b11000001 || (testMotor & 0b11111111) == 0b10000000) // check case that power is on and direction and velocity are opposite to each other but |v|=0
-		return 5;
+	else if ((testMotor & 0b10111110) == 0)  // when power is off velocity must be zero but direction can either be forward or reverse
+		return 3;	
+	else if ((testMotor & 0b11111111) == 0b11000001 || (testMotor & 0b11111111) == 0b10000000) // check case that power is on and direction and velocity are opposite to each (due to sign/magnitude) other but |v|=0
+		return 4;
 		
 	return 0;
 }	
