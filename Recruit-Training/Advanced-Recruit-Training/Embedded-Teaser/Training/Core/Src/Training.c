@@ -25,20 +25,26 @@ void trainingTask(uint8_t* data)
 
     uint8_t motor2Velocity = data[1] >> 1;
     motor2Velocity &= 0b00111111;
+
+    uint8_t motor1VelocitySign = motor1Velocity >> 5;
+    uint8_t motor2VelocitySign = motor2Velocity >> 5;
+
+    uint8_t motor1IsOn = (data[0] >> 7);
+    uint8_t motor2IsOn = (data[1] >> 7);
     
-    if ((data[0] >> 7) != (data[1] >> 7)) // if the motors are not both ON or both OFF
+    if (motor1IsOn != motor2IsOn) // if the motors are not both ON or both OFF
     {
         invalidMotorInput();
     }
     
-    else if (   ((data[0] >> 7) == 0)  // if  motor 1 is off AND the speed is not 0
+    else if (   (motor1IsOn == 0)  // if  motor 1 is off AND the speed is not 0
              && (motor1Velocity != 0)
             )
     {
         invalidMotorInput();
     }
 
-    else if (   ((data[1] >> 7) == 0)  // if  motor 2 is off AND the speed isn't 0
+    else if (   (motor2IsOn == 0)  // if  motor 2 is off AND the speed isn't 0
              && (motor2Velocity != 0)
             )
     {
@@ -46,7 +52,7 @@ void trainingTask(uint8_t* data)
     }
    
     else if (      (motor1Velocity != 0)                        //if motor1 velocity is not 0
-                && (((data[0] >> 6) & 1) == motor1Direction)      //AND velocity sign bit and direction bit are the same 
+                && (motor1VelocitySign == motor1Direction)      //AND velocity sign bit and direction bit are the same 
             ) 
         {
             invalidMotorInput();
@@ -54,7 +60,7 @@ void trainingTask(uint8_t* data)
     
 
     else if (      (motor2Velocity != 0)                        //if motor2 velocity is not 0
-                && (((data[1] >> 6) & 1) == motor2Direction)      //AND velocity sign bit and direction bit are the same 
+                && (motor2VelocitySign == motor2Direction)      //AND velocity sign bit and direction bit are the same 
             ) 
         {
             invalidMotorInput();
@@ -75,22 +81,24 @@ void trainingTask(uint8_t* data)
 
     uint8_t rightSignal = (data[2] >> 3) & 1;
     uint8_t leftSignal = (data[2] >> 4) & 1;
+    uint8_t hazardLight = (data[2] >> 5) & 1;
+    uint8_t headlightsOff = data[2] & 1;
+    uint8_t headlightsLow = (data[2] >> 1) & 1;
+    uint8_t headlightsHigh = (data[2] >> 2) & 1; 
     
-    if (   (data[2]&0b00000111) != 0b100 
-        && (data[2]&0b00000111) != 0b010
-        && (data[2]&0b00000111) != 0b001)  // if more than one headlight is active
+    if ( headlightsOff + headlightsLow + headlightsHigh != 1)  // if more than one headlight option is ON
         {
             invalidLightsInput();            
         }
     
-    else if (     ((data[2] >> 5) & 1) == 1         //if    hazards lights are ON
+    else if (     hazardLight         //if    hazards lights are ON
                 &&(leftSignal + rightSignal != 2)   //      AND the left and right signals are not Both ON
             )
         {
             invalidLightsInput();
         }
 
-    else if (     ((data[2] >> 5) & 1) == 0         //if    hazards lights are OFF
+    else if (     !hazardLight        //if    hazards lights are OFF
                 &&(leftSignal + rightSignal == 2)   //      AND the left and right signals are Both ON
             )
         {
