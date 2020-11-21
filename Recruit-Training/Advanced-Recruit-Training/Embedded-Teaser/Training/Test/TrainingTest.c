@@ -25,7 +25,7 @@ void test_EverythingInvalid()
     uint8_t expectedArray[3] = {outputArray[0], outputArray[1], outputArray[2]};
     trainingTask(inputArray);
     TEST_ASSERT_EQUAL_MESSAGE(0b00000000, validData, "Data was not 0b00000000");
-    TEST_ASSERT_EQUAL_INT8_ARRAY_MESSAGE (expectedArray, outputArray, 3, "outputArray was not copied correctly");
+    TEST_ASSERT_EQUAL_INT8_ARRAY_MESSAGE (expectedArray, outputArray, 3, "outputArray should not change.");
 }
 
 void test_OnlyLightsInvalid()
@@ -34,7 +34,7 @@ void test_OnlyLightsInvalid()
     uint8_t expectedArray[3] = {inputArray[0], inputArray[1], outputArray[2]};
     trainingTask(inputArray);
     TEST_ASSERT_EQUAL_MESSAGE(0b00000011, validData, "Data was not 0b00000011");
-    TEST_ASSERT_EQUAL_INT8_ARRAY_MESSAGE (expectedArray, outputArray, 3, "outputArray was not copied correctly");
+    TEST_ASSERT_EQUAL_INT8_ARRAY_MESSAGE (expectedArray, outputArray, 3,  "Motor information was not copied correctly into outputArray");
 
 }
 
@@ -44,5 +44,5 @@ void test_OnlyMotorsInvalid()
     uint8_t expectedArray[3] = {outputArray[0], outputArray[1], inputArray[2]};
     trainingTask(inputArray);
     TEST_ASSERT_EQUAL_MESSAGE(0b00000100, validData, "Data was not 0b00000100");
-    TEST_ASSERT_EQUAL_INT8_ARRAY_MESSAGE (expectedArray, outputArray, 3, "outputArray was not copied correctly");
+    TEST_ASSERT_EQUAL_INT8_ARRAY_MESSAGE (expectedArray, outputArray, 3, "Lights information was not copied correctly into outputArray");
 }
