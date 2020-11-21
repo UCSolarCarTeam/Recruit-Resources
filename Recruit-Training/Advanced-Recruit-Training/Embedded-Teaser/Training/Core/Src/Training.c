@@ -9,12 +9,22 @@ void trainingTask(uint8_t* data)
 
     checklights(&validity, data[2]);
 
+
+    if( getbit(validity, 0) && getbit(validity, 1)) {
+        outputArray[0] = data[0];
+        outputArray[1] = data[1];
+    }
+    if (getbit(validity, 2)){
+        outputArray[2] = data[2];
+    }
+
     validData = validity;
+
 }
 
 uint8_t getbit(uint8_t data,int number)
 {
-    return data & 1<<number;
+    return (data & 1<<number);
 }
 
 int getvelocity(uint8_t data)
@@ -32,27 +42,30 @@ void checkmotors(uint8_t *validity, uint8_t motor1, uint8_t motor2)
     int velocity1 = getvelocity(motor1);
     int velocity2 = getvelocity(motor2);
 
-    if (getbit(motor1, 7) != getbit(motor2, 7)){  //check both motors are either turned on or off
+    int Motor1State = getbit(motor1, 7);
+    if (Motor1State != getbit(motor2, 7)){  //check both motors are either turned on or off
         *validity &= ~0b00000011;
         return;
     } 
 
-    if(getbit(motor1, 7) == 0){ //if motors are off, check velocity is 0
+    if(Motor1State == 0){ //if motors are off, check velocity is 0
 
         if (velocity1 != 0)
-        *validity &= ~0b00000001;
+        *validity &= ~0b00000011;
         if (velocity2 != 0)
-        *validity &= ~0b00000010;
+        *validity &= ~0b00000011;
 
     } else { //if motors are on, check velocities and directions make sense
 
-        if (getbit(motor1, 6) != getbit(motor2, 6))  //check velocities are going the same direction
+        if (velocity1*velocity2 < 0)  //check velocities are going the same direction
         *validity &= ~0b00000011;
 
-        if (getbit(motor1, 0) != !getbit(motor1, 6)) // check motor 1 direction matches its velocity
+        int VelocityDirection1 = velocity1 > 0;
+        if (getbit(motor1, 0) != VelocityDirection1) // check motor 1 direction matches its velocity
         *validity &= ~0b00000001;
 
-        if (getbit(motor2, 0) != !getbit(motor2, 6)) // check motor 2 direction matches its velocity
+        int VelocityDirection2 = velocity2 > 0;
+        if (getbit(motor2, 0) != VelocityDirection2) // check motor 2 direction matches its velocity
         *validity &= ~0b00000010;
     }
 
@@ -60,14 +73,22 @@ void checkmotors(uint8_t *validity, uint8_t motor1, uint8_t motor2)
 
 void checklights(uint8_t *validity, uint8_t lights)
 {
-    if (getbit(lights, 3) && getbit(lights, 4))     //check that not both turn signals are on
-    *validity &= ~0b00000100;
+
+    if (!getbit(lights, 5)) {                        
+         if (getbit(lights, 3) && getbit(lights, 4))     //if hazards lights are not on, check that not both turn signals are on
+        *validity &= ~0b00000100;
+    }                       
+
+    int Lowlights = getbit(lights, 1);
+    int Highlights = getbit(lights, 2);
 
     if (getbit(lights, 0)) {                        //if headlights are off, check all modes are off
-        if (getbit(lights, 1) || getbit(lights, 2))
+        if (Lowlights|| Highlights)
         *validity &= ~0b00000100;
-    } else {                                        // if headlights are on, check at least one mode is on
-        if (!(getbit(lights, 1) || getbit(lights, 2)))
+    } else {                                        // if headlights are on, check that exactly one mode is on
+        if (!Lowlights && !Highlights)
+        *validity &= ~0b00000100;
+        if (Lowlights && Highlights)               
         *validity &= ~0b00000100;
     }
 }
