@@ -63,11 +63,11 @@ void checkmotors(uint8_t *validity, uint8_t motor1, uint8_t motor2)
 
         int VelocityDirection1 = velocity1 > 0;
         if (getbit(motor1, 0) != VelocityDirection1) // check motor 1 direction matches its velocity
-        *validity &= ~0b00000001;
+        *validity &= ~0b00000011;
 
         int VelocityDirection2 = velocity2 > 0;
         if (getbit(motor2, 0) != VelocityDirection2) // check motor 2 direction matches its velocity
-        *validity &= ~0b00000010;
+        *validity &= ~0b00000011;
     }
 
 }
