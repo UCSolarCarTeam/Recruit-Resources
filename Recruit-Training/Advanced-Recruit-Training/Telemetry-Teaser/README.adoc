@@ -5,15 +5,30 @@ Introduction project to learn the basics of AngularJS and HTML.
 
 Installations
 ~~~~~~~~~~~~~
-For this project and any future Telemetry projects, you will need the following:
+For this project and any future telemetry projects, you will need the following:
 
-. NPM
-* The Node Package Manager (NPM) is needed to install Angular CLI and can be downloaded https://nodejs.org/en/[here]. 
-* The recommended version should be installed.
+. NodeJS
+* NodeJS can be downloaded by using the following command in your terminal:
++
+-----
+sudo apt install nodejs
+-----
 * Once the installation is complete, open your terminal and use the following command to check the version of node that you have installed:
 +
 -----
 node -v
+-----
+
+. NPM
+* The Node Package Manager (NPM) is needed to install Angular CLI and can be downloaded by using the following command in your terminal:
++
+-----
+sudo apt install npm
+-----
+* Once the installation is complete, open your terminal and use the following command to check the version of node that you have installed:
++
+-----
+npm -v
 -----
 
 . Angular CLI
@@ -25,7 +40,13 @@ npm install -g @angular/cli
 * To check the version of Angular  CLI, the command can be used:
 +
 -----
-ng -v
+ng v
+-----
+
+* To ensure that you are using all the correct dependancies and version for the project, make sure that you have changed into the Telemetry-Teaser directory and use the following command:
++
+-----
+npm install
 -----
 
 . A Text Editor
@@ -58,7 +79,7 @@ The purpose of this training program is to create a  web-app that calculates the
 * Since we do not have enough data to determine the range of the Elysia at this moment, we will have to use an equation that does not relate to the statistics of the Elysia car but simulates how the range may change with the input variables instead. The following equation may be used to simulate the range of the car:
 +
 -----
-range = -(s * s * b / 400) + 5 * b + w
+range = -(s * s * b / 2500) + (4 * b) + w
 -----
 Where:
 *** s = speed
