@@ -29,7 +29,8 @@ uint8_t getbit(uint8_t data,int number)
 
 int getvelocity(uint8_t data)
 {
-    int velocity  = getbit(data, 1) + getbit(data, 2) + getbit(data, 3) + getbit(data, 4) + getbit(data, 5);
+    int VelocityBits  = getbit(data, 1) + getbit(data, 2) + getbit(data, 3) + getbit(data, 4) + getbit(data, 5);
+    int velocity = VelocityBits >> 1;
 
     if (getbit(data, 6))
     velocity *=-1;
