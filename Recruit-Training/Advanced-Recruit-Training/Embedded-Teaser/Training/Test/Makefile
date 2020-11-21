@@ -29,7 +29,8 @@ endif
 .PHONY: test
 .PHONY: all
 
-PATHS = -I . \
+PATHS = -lm \
+-I . \
 -I $(TRAINING_TESTS_DIR) \
 -I $(TRAINING_INC_DIR) \
 -I $(UNITY_SRC_DIR) \
