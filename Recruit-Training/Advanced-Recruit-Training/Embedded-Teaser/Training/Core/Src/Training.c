@@ -9,8 +9,8 @@ void trainingTask (uint8_t* data)
 	
 	if (motorOneState && motorOneState == motorTwoState) // set outputArray values of motor if motors data are valid, motors are in sync
 	{
-		outputArray[0] = *data;
-		outputArray[1] = *(data + 1);
+		outputArray[0] = data[0];
+		outputArray[1] = data[1];
 		validData = validData | (1 << FIRSTMOTOR);  // set first motor bit in validData to 1 if motor's data is valid
 		validData = validData | (1 << SECONDMOTOR); // set second motor bit in validData to 1 if motor's data is valid
 	}
@@ -22,7 +22,7 @@ void trainingTask (uint8_t* data)
 	
 	if (lightState) // set outputArray values of lights if lights data are valid
 	{
-		outputArray[2] = *(data + 2);
+		outputArray[2] = data[2];
 		validData = validData | (1 << LIGHTSBOARD);  // set lights bit in validData to 1 if lights data is valid
 	}
 	else
