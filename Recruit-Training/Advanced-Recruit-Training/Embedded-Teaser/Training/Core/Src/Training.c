@@ -3,9 +3,9 @@
 void trainingTask (uint8_t* data)
 {
 	validData = 0;
-	int motorOneState = motorCheck (*data);
-	int motorTwoState = motorCheck (*(data + 1));
-	int lightState = lightsCheck (*(data + 2));
+	int motorOneState = motorCheck (data[0]);
+	int motorTwoState = motorCheck (data[1]);
+	int lightState = lightsCheck (data[2]);
 	
 	if (motorOneState && motorOneState == motorTwoState) // set outputArray values of motor if motors data are valid, motors are in sync
 	{
