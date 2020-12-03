@@ -133,5 +133,8 @@
       }
     }
   },
-  "defaultProject": "BasicTelemetryRecruitTraining"
+  "defaultProject": "BasicTelemetryRecruitTraining",
+  "cli": {
+    "analytics": false
+  }
 }
