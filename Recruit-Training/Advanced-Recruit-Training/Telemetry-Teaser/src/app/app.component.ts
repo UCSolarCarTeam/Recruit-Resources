@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
   public input: any;
   title = 'Telemetry Recruit Training';
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit{
   displayText:string = "";
   speedInput:FormControl;
   batteryInput:FormControl;
-  rangeForm:FormGroup
+  rangeForm:FormGroup;
   speedError:boolean = false;
   batteryError:boolean = false;
 
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit{
                                               Validators.min(0),
                                               Validators.max(100)]);
 
-    this.rangeForm = new FormGroup({
+    this.rangeForm = new FormGroup( {
       'speedInput': this.speedInput,
       'batteryInput': this.batteryInput
     });
@@ -49,9 +49,9 @@ export class AppComponent implements OnInit{
   }
 
   calculateRange() {
-    if(this.speed == -1){
+    if(this.speed == -1) {
       this.speedError = true;
-      if(this.battery == -1){
+      if(this.battery == -1) {
         this.batteryError = true;
         return;
       }
