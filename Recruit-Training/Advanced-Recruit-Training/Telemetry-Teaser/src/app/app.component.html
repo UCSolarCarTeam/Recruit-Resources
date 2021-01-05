@@ -1,30 +1,36 @@
 <body>
   <div>
     <h1> Elysia Range Simulator </h1>
-    <form name="simulator" #simulator="ngForm" novalidate>
+    <form name="simulator" [formGroup]="simulatorForm" #simulator="ngForm" novalidate>
       <label>Speed (km/h):</label>
       <br>
       <input class="form-control" [ngClass]="{
-	  'invalid-field': speed.invalid && (speed.dirty || speed.touched),
-	  'valid-field': speed.valid && (speed.dirty || speed.touched)
-	  }" name="speed" type="number" [formControl]="speed" placeholder="Speed" (keyup)="onKeySpeed($event)" ngModel #speed="ngModel" required min="0" max="90">
-	  <div *ngIf="speed.errors && (speed.dirty || speed.touched)">
-		<p *ngIf="speed.errors.required" class="invalid-alert">Speed is required</p>
-		<!--<p *ngIf="speed.errors.min || speed.errors.max" class="invalid-alert">The speed should be with the range of 0 to 90</p>-->
+	  'invalid-field': inputSpeed.invalid && (inputSpeed.dirty || inputSpeed.touched),
+	  'valid-field': inputSpeed.valid && (inputSpeed.dirty || inputSpeed.touched)
+	  }" name="speed" type="number" formControlName="inputSpeed" placeholder="Speed" (keyup)="onKeySpeed($event)" >
+	  <div *ngIf="inputSpeed.errors && (inputSpeed.dirty || inputSpeed.touched)">
+		<p *ngIf="inputSpeed.errors.required" class="invalid-alert">Speed is required</p>
+		<p *ngIf="inputSpeed.errors.min || inputSpeed.errors.max" class="invalid-alert">The speed should be within the range of 0 to 90</p>
+		<br>
 	 </div>
       <br>
       <label>Battery Percentage (%):</label>
       <br>
       <input class="form-control"  [ngClass]="{
-	  'invalid-field': battery.invalid && (battery.dirty ||battery.touched),
-	  'valid-field': battery.valid && (battery.dirty ||battery.touched)
-	  }" name="battery"type="number" placeholder="Battery" (keyup)="onKeyBattery($event)" ngModel required min="0" max="100" #battery="ngModel">
+	  'invalid-field': inputBattery.invalid && (inputBattery.dirty || inputBattery.touched),
+	  'valid-field': inputBattery.valid && (inputBattery.dirty || inputBattery.touched)
+	  }" name="battery" formControlName="inputBattery" type="number" placeholder="Battery" (keyup)="onKeyBattery($event)" >
+	  <div *ngIf="inputBattery.errors && (inputBattery.dirty || inputBattery.touched)">
+		<p *ngIf="inputBattery.errors.required" class="invalid-alert">Battery percentage is required</p>
+		<p *ngIf="inputBattery.errors.min || inputBattery.errors.max" class="invalid-alert">The battery percentage should be with the range of 0 to 100</p>
+		<br>
+	 </div>
       <br>
       <img src="/assets/Cloud.png">
-      <input name="weather" type="range" min="0" max="100" value="50" (mouseup)="onMouseWeather($event)" ngModel>
+      <input name="weather" type="range" min="0" max="100" value="50" (mouseup)="onMouseWeather($event)">
       <img src="/assets/Sun.png">
 	  <br>
-	  <button [disabled]="simulator.invalid" (click) = "calculateRange()">
+	  <button [disabled]="simulatorForm.invalid" (click) = "calculateRange()">
 		Calculate
 	  </button>
 	  <br>

@@ -1,17 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import {
-    FormsModule,
-    FormGroup,
-    FormControl
-} from '@angular/forms';
-
-class Calculate {
-  constructor(public speed: number = 0,
-			  public battery: number = 0,
-              public range: number = 0,
-			  public weather: number = 50,
-              public result: string = '') { }
-}
+  FormGroup,
+  FormControl,
+  Validators,
+} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -19,21 +11,36 @@ class Calculate {
   styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent {
-	model: Calculate = new Calculate();
+export class AppComponent implements OnInit {
 	
-	speed = new FormControl('', [ Validators.required,
-                                            Validators.min(0),
-                                            Validators.max(90)]);
-
- public input: any;
+  public input: any;
   title = 'Telemetry Recruit Training';
-  weather = 50;
+  simulatorForm: FormGroup;
+  inputSpeed: FormControl;
+  inputBattery: FormControl;
   speed = 0;
   battery = 0;
   range = 0;
-  result = '';
+  result = "";
+  weather = 50;
+  
+  createFormControls() {
+    this.inputSpeed = new FormControl("", [Validators.required, Validators.min(0), Validators.max(90)]);
+    this.inputBattery = new FormControl("", [Validators.required, Validators.min(0), Validators.max(100)]);
+  }
 
+  createForm() {
+    this.simulatorForm = new FormGroup({
+      inputSpeed: this.inputSpeed,
+      inputBattery: this.inputBattery
+    });
+  }
+  
+  ngOnInit(): void {
+    this.createFormControls();
+    this.createForm();
+  }
+  
   onMouseWeather(event: MouseEvent) {
     this.weather = parseInt((event.target as HTMLInputElement).value);
   }
