@@ -1,3 +1,4 @@
+
 body {
 	margin: 0px;
 	padding: 0px;
@@ -42,6 +43,7 @@ button {
 	background-color: darkcyan;
 	font-size: 1.0rem;
 	margin-bottom: 2.0rem;
+	cursor: pointer;
 }
 
 input[type=number] {
@@ -107,4 +109,33 @@ input[type="range"]::-moz-range-thumb {
 	background: white;
 	margin-top: -5px;
 	border-radius: 50%;
+}
+
+.form-control {
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+	border-color: #80bdff;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+	background-color: #FFF;
+}
+
+.valid-field {
+	border-color: #7CFC00;
+	box-shadow: 0 0 0 0.2rem rgb(124,252,0);
+	background-color: #ddffdd;
+}
+
+.invalid-field {
+	border-color: #FF0000;
+	box-shadow: 0 0 0 0.2rem rgb(255,0,0);
+	background-color: #ffdddd;
+}
+
+.invalid-alert {
+  color: #F00;
+  position: relative;
+  left: -24.5rem;
 }

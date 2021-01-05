@@ -4,15 +4,31 @@
     <form name="simulator" #simulator="ngForm" novalidate>
       <label>Speed (km/h):</label>
       <br>
-      <input name="speed" type="number" placeholder="Speed" (keyup)="onKeySpeed($event)">
+      <input class="form-control" [ngClass]="{
+	  'invalid-field': speed.invalid && (speed.dirty || speed.touched),
+	  'valid-field': speed.valid && (speed.dirty || speed.touched)
+	  }" name="speed" type="number" [formControl]="speed" placeholder="Speed" (keyup)="onKeySpeed($event)" ngModel #speed="ngModel" required min="0" max="90">
+	  <div *ngIf="speed.errors && (speed.dirty || speed.touched)">
+		<p *ngIf="speed.errors.required" class="invalid-alert">Speed is required</p>
+		<!--<p *ngIf="speed.errors.min || speed.errors.max" class="invalid-alert">The speed should be with the range of 0 to 90</p>-->
+	 </div>
       <br>
       <label>Battery Percentage (%):</label>
       <br>
-      <input name="battery"type="number" placeholder="Battery" (keyup)="onKeyBattery($event)">
+      <input class="form-control"  [ngClass]="{
+	  'invalid-field': battery.invalid && (battery.dirty ||battery.touched),
+	  'valid-field': battery.valid && (battery.dirty ||battery.touched)
+	  }" name="battery"type="number" placeholder="Battery" (keyup)="onKeyBattery($event)" ngModel required min="0" max="100" #battery="ngModel">
       <br>
       <img src="/assets/Cloud.png">
-      <input type="range" min="0" max="100" value="50" (mouseup)="onMouseWeather($event)">
+      <input name="weather" type="range" min="0" max="100" value="50" (mouseup)="onMouseWeather($event)" ngModel>
       <img src="/assets/Sun.png">
+	  <br>
+	  <button [disabled]="simulator.invalid" (click) = "calculateRange()">
+		Calculate
+	  </button>
+	  <br>
+	  <h2> {{ result }}</h2>
     </form>
   </div>
 </body>
