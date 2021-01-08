@@ -7,6 +7,28 @@ InformationParser::InformationParser()
 
 bool InformationParser::readJSON()
 {
-    //Place Function Code Here
-    return true;
+    QFile loadFile(QStringLiteral("../../CarData.json"));
+
+       if (!loadFile.open(QIODevice::ReadOnly)) {
+           return false;
+       }
+
+       QByteArray CarData = loadFile.readAll();
+
+       QJsonDocument CarDoc(QJsonDocument::fromJson(CarData));
+       CarObj = CarDoc.object();
+       VisMem = CarDoc["viscommTeamMembers"].toArray();
+
+       return true;
+}
+
+QJsonObject InformationParser::getObj()
+{
+    return CarObj;
+}
+
+
+QJsonArray InformationParser::getMem()
+{
+    return VisMem;
 }
