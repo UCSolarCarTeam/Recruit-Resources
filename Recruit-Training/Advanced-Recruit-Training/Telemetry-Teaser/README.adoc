@@ -70,7 +70,7 @@ By using the link specified in your terminal in your browser, you will be able t
 Objectives
 ~~~~~~~~~~
 
-The purpose of this training program is to create a  web-app that calculates the predicted range of the Elysia. Currently the web-app only accepts inputs for the speed, battery percentage, and weather (percentage of visable sunlight). You must implemt the following to complete this calculator program:
+The purpose of this training program is to create a  web-app that calculates the predicted range of the Elysia. Currently the web-app only accepts inputs for the speed, battery percentage, and weather (percentage of visable sunlight). You must implement the following to complete this calculator program:
 
 . Add a button below the inputs labeled 'Calculate'.
 *  When this button is clicked, the calculateRange function in app.component.ts should be called.
