@@ -13,10 +13,13 @@ void trainingTask(uint8_t* data)
     if(!checkMotors())
     {
         validData = 0b100 & validData;
+        outputArray[0] = 0b11111111;
+        outputArray[1] = 0b11111111;
     }
     if(!checkLights())
     {
         validData = 0b011 & validData;
+        outputArray[2] = 0b11111111;
     }
 }
 
@@ -102,7 +105,7 @@ bool checkLights()
     }
 
     //check hazards and brakes
-    if((hazards || brakes) && ((headlightsHigh + rightSignal + leftSignal) != 3))
+    if((hazards || brakes) && ((headlightsHigh + headlightsLow + rightSignal + leftSignal) != 3))
     {
         return false;
     }
