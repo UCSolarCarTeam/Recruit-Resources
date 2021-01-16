@@ -30,7 +30,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedPages">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="carInformationPage">
        <widget class="QPushButton" name="nextPageButton">
