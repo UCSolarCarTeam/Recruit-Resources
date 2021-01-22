@@ -46,11 +46,11 @@ export class AppComponent implements OnInit {
   }
 
   onKeyBattery(event: KeyboardEvent) {
-	this.battery = parseInt((event.target as HTMLInputElement).value);
+    this.battery = parseInt((event.target as HTMLInputElement).value);
   }
 
   calculateRange() {
-	this.range = -(this.speed * this.speed * this.battery / 2500)  +  (4 * this.battery) + this.weather;
-	this.result = "The predicted range of the Eylsia is " + this.range + " km.";
+    this.range = -(this.speed * this.speed * this.battery / 2500)  +  (4 * this.battery) + this.weather;
+    this.result = "The predicted range of the Eylsia is " + this.range + " km.";
   }
 }
