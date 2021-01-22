@@ -4,21 +4,21 @@
     <form name="simulator" #simulator="ngForm" novalidate>
       <label>Speed (km/h):</label>
       <br>
-      <input id="speed" name="speed" class="form-control" type="number" placeholder="Speed" (keyup)="onKeySpeed($event)" required min="0" max="90" [formControl]="Sinput">
+      <input id="speed" name="speed" class="form-control" type="number" placeholder="Speed" (keyup)="onKeySpeed($event)" required min="0" max="90" [formControl]="speedInput">
       <br>
-      <label *ngIf="Sinput.invalid">
-        <label *ngIf="Sinput.errors.required" style="color:red">Speed is required.</label>
-        <label *ngIf="Sinput.errors.min || Sinput.errors.max" style="color:red">The speed should be within the range of 0 to 100</label>
+      <label *ngIf="speedInput.invalid && speedInput.dirty">
+        <label *ngIf="speedInput.errors.required" style="color: red;">Speed is required.</label>
+        <label *ngIf="speedInput.errors.min || speedInput.errors.max" style="color: red;">The speed should be within the range of 0 to 100</label>
       </label>
       <br>
       <br>
       <label>Battery Percentage (%):</label>
       <br>
-      <input name="battery" id="battery" type="number" placeholder="Battery" (keyup)="onKeyBattery($event)" required min="0" max="100" [formControl]="Binput">
+      <input name="battery" id="battery" type="number" placeholder="Battery" (keyup)="onKeyBattery($event)" required min="0" max="100" [formControl]="batteryInput">
       <br>
-      <label *ngIf="Binput.invalid">
-        <label *ngIf="Binput.errors.required" style="color:red">Battery is required.</label>
-        <label *ngIf="Binput.errors.min || Binput.errors.max" style="color:red">The battery should be within the range of 0 to 90</label>
+      <label *ngIf="batteryInput.invalid && batteryInput.dirty">
+        <label *ngIf="batteryInput.errors.required" style="color: red;">Battery is required.</label>
+        <label *ngIf="batteryInput.errors.min || batteryInput.errors.max" style="color: red;">The battery should be within the range of 0 to 90</label>
       </label>
       <br>
       <br>
@@ -26,9 +26,9 @@
       <input type="range" id="weather" min="0" max="100" value="50" (mouseup)="onMouseWeather($event)">
       <img src="/assets/Sun.png">
       <br>
-      <button *ngIf="Sinput.valid && Binput.valid" (click)="calculateRange()">Calculate</button>
+      <button *ngIf="speedInput.valid && batteryInput.valid" (click)="calculateRange()">Calculate</button>
       <br>
-      <label *ngIf="Sinput.value==speed && Binput.value==battery" id="Range"></label>
+      <label *ngIf="speedInput.value==speed && batteryInput.value==battery" id="Range"></label>
     </form>
   </div>
 </body>
