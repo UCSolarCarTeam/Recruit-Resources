@@ -40,7 +40,9 @@ bool InformationParser::readJSON()
     QJsonObject dObject = readFile();
 
     if(dObject.isEmpty())
+    {
         return false;
+    }
 
     Q_ASSERT(!(dObject.value("owner").isUndefined() || dObject.value("type").isUndefined()
                || dObject.value("carName").isUndefined() || dObject.value("batteryPercentage").isUndefined()
@@ -108,7 +110,9 @@ bool InformationParser::updateJSON()
     QJsonObject dObject = readFile();
 
     if(dObject.isEmpty())
+    {
         return false;
+    }
 
     QFile inputFile("../../CarData.json");
     dObject["viscommTeamMembers"] = teamMembers_;
