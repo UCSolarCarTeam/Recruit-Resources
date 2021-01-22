@@ -1,9 +1,5 @@
-import { Component, OnInit } from '@angular/core'
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -50,7 +46,7 @@ export class AppComponent implements OnInit {
   }
 
   onKeyBattery(event: KeyboardEvent) {
-    this.battery = parseInt((event.target as HTMLInputElement).value);
+	this.battery = parseInt((event.target as HTMLInputElement).value);
   }
 
   calculateRange() {

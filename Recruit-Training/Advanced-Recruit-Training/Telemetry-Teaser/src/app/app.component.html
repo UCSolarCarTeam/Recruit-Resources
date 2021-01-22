@@ -4,10 +4,13 @@
     <form name="simulator" [formGroup]="simulatorForm" #simulator="ngForm" novalidate>
       <label>Speed (km/h):</label>
       <br>
-      <input class="form-control" [ngClass]="{
-	  'invalid-field': inputSpeed.invalid && (inputSpeed.dirty || inputSpeed.touched),
-	  'valid-field': inputSpeed.valid && (inputSpeed.dirty || inputSpeed.touched)
-	  }" name="speed" type="number" formControlName="inputSpeed" placeholder="Speed" (keyup)="onKeySpeed($event)" >
+      <input [ngClass]="{
+		  'invalid-field': inputSpeed.invalid && (inputSpeed.dirty || inputSpeed.touched),
+		  'valid-field': inputSpeed.valid && (inputSpeed.dirty || inputSpeed.touched),
+		  'form-control': inputSpeed.prestine
+		}" 
+		name="speed" type="number" formControlName="inputSpeed" placeholder="Speed" 
+	(keyup)="onKeySpeed($event)" >
 	  <div *ngIf="inputSpeed.errors && (inputSpeed.dirty || inputSpeed.touched)">
 		<p *ngIf="inputSpeed.errors.required" class="invalid-alert">Speed is required</p>
 		<p *ngIf="inputSpeed.errors.min || inputSpeed.errors.max" class="invalid-alert">The speed should be within the range of 0 to 90</p>
@@ -16,10 +19,13 @@
       <br>
       <label>Battery Percentage (%):</label>
       <br>
-      <input class="form-control"  [ngClass]="{
-	  'invalid-field': inputBattery.invalid && (inputBattery.dirty || inputBattery.touched),
-	  'valid-field': inputBattery.valid && (inputBattery.dirty || inputBattery.touched)
-	  }" name="battery" formControlName="inputBattery" type="number" placeholder="Battery" (keyup)="onKeyBattery($event)" >
+      <input [ngClass]="{
+		  'invalid-field': inputBattery.invalid && (inputBattery.dirty || inputBattery.touched),
+		  'valid-field': inputBattery.valid && (inputBattery.dirty || inputBattery.touched),
+		  'form-control': inputBattery.prestine
+		}"
+		name="battery" formControlName="inputBattery" type="number" placeholder="Battery" 
+	(keyup)="onKeyBattery($event)" >
 	  <div *ngIf="inputBattery.errors && (inputBattery.dirty || inputBattery.touched)">
 		<p *ngIf="inputBattery.errors.required" class="invalid-alert">Battery percentage is required</p>
 		<p *ngIf="inputBattery.errors.min || inputBattery.errors.max" class="invalid-alert">The battery percentage should be with the range of 0 to 100</p>

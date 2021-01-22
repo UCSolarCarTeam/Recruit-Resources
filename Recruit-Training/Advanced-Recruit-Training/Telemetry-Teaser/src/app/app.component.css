@@ -135,6 +135,4 @@ input[type="range"]::-moz-range-thumb {
 
 .invalid-alert {
   color: #F00;
-  position: fixed;
-  left: 30rem;
 }
