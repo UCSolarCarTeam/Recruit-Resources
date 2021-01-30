@@ -29,6 +29,9 @@
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
      <widget class="QStackedWidget" name="stackedPages">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
       <widget class="QWidget" name="carInformationPage">
        <widget class="QPushButton" name="nextPageButton">
         <property name="geometry">
@@ -40,7 +43,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Next Page</string>
         </property>
        </widget>
        <widget class="QProgressBar" name="batteryPercentageBar">
@@ -59,14 +62,29 @@
        <widget class="QLabel" name="pageTitleLabel">
         <property name="geometry">
          <rect>
-          <x>500</x>
-          <y>50</y>
-          <width>200</width>
-          <height>61</height>
+          <x>420</x>
+          <y>30</y>
+          <width>344</width>
+          <height>71</height>
          </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>231</width>
+          <height>71</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+          <underline>true</underline>
+         </font>
         </property>
         <property name="text">
          <string>Car Information</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
        <widget class="QLabel" name="imageLabel">
@@ -117,7 +135,7 @@
         </property>
         <layout class="QGridLayout" name="gridLayout">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="ownerLabel">
            <property name="font">
             <font>
              <pointsize>18</pointsize>
@@ -129,7 +147,7 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="carTypeLabel">
            <property name="font">
             <font>
              <pointsize>18</pointsize>
@@ -141,7 +159,7 @@
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="carNameLabel">
            <property name="font">
             <font>
              <pointsize>18</pointsize>
@@ -153,7 +171,7 @@
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="colorLabel">
            <property name="font">
             <font>
              <pointsize>18</pointsize>
@@ -165,7 +183,7 @@
           </widget>
          </item>
          <item row="4" column="0">
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="locationLabel">
            <property name="font">
             <font>
              <pointsize>18</pointsize>
@@ -183,9 +201,9 @@
        <widget class="QLabel" name="listNameLabel">
         <property name="geometry">
          <rect>
-          <x>820</x>
+          <x>440</x>
           <y>20</y>
-          <width>241</width>
+          <width>300</width>
           <height>51</height>
          </rect>
         </property>
@@ -195,8 +213,13 @@
           <height>80</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>LIST NAME HERE</string>
+         <string>Member List</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -245,7 +268,7 @@
          </size>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Add Member</string>
         </property>
        </widget>
        <widget class="QPushButton" name="pageBackwardsButton">
@@ -270,7 +293,7 @@
          </size>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Previous Page</string>
         </property>
        </widget>
        <widget class="QPushButton" name="removeMemberButton">
@@ -295,7 +318,7 @@
          </size>
         </property>
         <property name="text">
-         <string>PushButton</string>
+         <string>Remove Member</string>
         </property>
        </widget>
       </widget>
@@ -309,7 +332,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>21</height>
+     <height>37</height>
     </rect>
    </property>
   </widget>

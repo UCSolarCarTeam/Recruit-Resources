@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
         qDebug() << "Unable to read JSON file.";
         exit(1);
     }
+    w.setParser(parser);
     w.updateInformation();
     w.show();
     return a.exec();

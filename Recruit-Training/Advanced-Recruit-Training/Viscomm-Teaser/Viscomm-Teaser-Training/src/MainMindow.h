@@ -16,8 +16,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void updateInformation();
+    void setParser(InformationParser parser);
 public slots:
     void nextPageButtonClicked();
+    void previousPageButtonClicked();
+    void addMemberButtonClicked();
+    void removeMemberButtonClicked();
 
 private:
     Ui::MainWindow *ui_;

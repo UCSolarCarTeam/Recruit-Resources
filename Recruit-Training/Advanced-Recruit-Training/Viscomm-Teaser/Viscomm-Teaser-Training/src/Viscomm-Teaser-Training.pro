@@ -17,12 +17,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     InformationParser.cpp \
+    Member.cpp \
     main.cpp \
     MainWindow.cpp
 
 HEADERS += \
     InformationParser.h \
-    MainMindow.h
+    MainMindow.h \
+    Member.h
 
 FORMS += \
     MainWindow.ui
