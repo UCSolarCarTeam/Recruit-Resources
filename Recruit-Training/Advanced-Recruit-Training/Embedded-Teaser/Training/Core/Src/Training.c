@@ -5,21 +5,19 @@ void trainingTask(uint8_t* data)
     loadMotorData(data[0], data[1]);
     loadLightData(data[2]);
 
-    outputArray[0] = data[0];
-    outputArray[1] = data[1];
-    outputArray[2] = data[2];
-    validData = 0b00000111;
+    validData = 0b0;
 
-    if(!checkMotors())
+    if(motorsValid())
     {
-        validData = 0b100 & validData;
-        outputArray[0] = 0b11111111;
-        outputArray[1] = 0b11111111;
+        outputArray[0] = data[0];
+        outputArray[1] = data[1];
+        validData = 0b11;
     }
-    if(!checkLights())
+
+    if(lightsValid())
     {
-        validData = 0b011 & validData;
-        outputArray[2] = 0b11111111;
+        outputArray[2] = data[2];
+        validData = 0b100 | validData;
     }
 }
 
@@ -60,61 +58,81 @@ void loadLightData(uint8_t lights)
     brakes = (lights >> 6) & 0b00000001;
 }
 
-bool checkMotors()
+uint8_t motorsValid()
 {
     //check power
-    if(m1Power != m2Power){
-        return false;
+    if((m1Power + m2Power) == 1){
+        return 0;
     }
 
     //check power vs movement
     if((m1Velocity != 0 && m1Power == 0) || (m1Power != 0 && m1Velocity == 0)){
-        return false;
+        return 0;
     }
     else if((m2Velocity != 0 && m2Power == 0) || (m2Power != 0 && m2Velocity == 0)){
-        return false;
+        return 0;
     }
 
     //check direction
     if(m1Velocity != 0 && (m1Direction == m1VelocitySign)){
-        return false;
+        return 0;
     }
     else if(m2Velocity != 0 && (m2Direction == m2VelocitySign)){
-        return false;
+        return 0;
     }
 
     //check synchronicity
     if(m1Direction != m2Direction) 
     {
-        return false;
+        return 0;
     } 
     else if (m1Velocity != m2Velocity)
     {
-        return false;
+        return 0;
     }
 
-    return true;
+    return 1;
 }
 
-bool checkLights()
+uint8_t lightsValid()
 {
-    //check headlights
+    /**
+     * Here, we are checking if the headlights are valid, meaning only one headlight setting is on (value = 1)
+     * Therefore, if we add up all of the headlight setting variables, it should total to 1
+     * If not, then there is something wrong with the headlights data and return
+     */
     if((headlightsOff + headlightsLow + headlightsHigh) != 1)
     {
-        return false;
+        return 0;
     }
 
-    //check hazards and brakes
-    if((hazards || brakes) && ((headlightsHigh + headlightsLow + rightSignal + leftSignal) != 3))
+
+    if(hazards || brakes) // Hazards and/or brakes are on
     {
-        return false;
+        /**
+         * If hazards and/or brakes are on, then to check if the lights are valid is if:
+         *  1) right and left signals are on (meaning rightSignal = 1, leftSignal = 1)
+         *  2) headlights are on high (meaning headlightsHigh = 1)
+         * Therefore, headlightsHigh + rightSignal + leftSignal must equal 3 to be valid
+         */
+        if((headlightsHigh + rightSignal + leftSignal) != 3)
+        {
+            return 0;
+        }
     }
-    
-    //check signals
-    if (!(hazards || brakes) && ((rightSignal + leftSignal) > 1))
+    else // Neither hazards and/or brakes are on
     {
-        return false;
+        /**
+         * The only time when both signals can be on is if the hazards and/or brakes are on.
+         * Since we have already checked that hazards and brakes are NOT on,
+         * then rightSignal and leftSignal must not both be 1.
+         * Therefore, if rightSignal + leftSignal == 2, then both signals are on and the signals are invalid. 
+         */
+        if((rightSignal + leftSignal) == 2)
+        {
+            return 0;
+        }
     }
 
-    return true;
+    return 1;
 }

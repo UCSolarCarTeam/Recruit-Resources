@@ -13,35 +13,32 @@ void runTrainingTests()
 
 void test_EverythingValid()
 {
-    uint8_t data[3] = {0b00000000, 0b00000000, 0b00111100};
+    uint8_t data[3] = {0b0, 0b0, 0b1};
     trainingTask(data);
-    TEST_ASSERT_EQUAL_UINT8(0b00000111, validData);
-    TEST_ASSERT_EQUAL_UINT8_ARRAY(data, outputArray, 3);
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(0b111, validData, 
+        "INVALID validData. CHECK YOUR MOTORS AND LIGHTS INPUTS. THEY SHOULD ALL BE VALID.");
 }
 
 void test_EverythingInvalid()
 {
-    uint8_t data[3] = {0b00111111, 0b10111111, 0b00001101};
-    uint8_t expected[3] = {0b11111111, 0b11111111, 0b11111111};
+    uint8_t data[3] = {0b10000000, 0b0, 0b00001101};
     trainingTask(data);
-    TEST_ASSERT_EQUAL_UINT8(0b00000000, validData);
-    TEST_ASSERT_EQUAL_UINT8_ARRAY(expected, outputArray, 3);
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(0b0, validData, 
+        "INVALID validData. CHECK YOUR MOTORS AND LIGHTS INPUTS. THEY SHOULD ALL BE INVALID.");
 }
 
 void test_OnlyLightsInvalid()
 {
     uint8_t data[3] = {0b10111111, 0b10111111, 0b00011010};
-    uint8_t expected[3] = {0b10111111, 0b10111111, 0b11111111};
     trainingTask(data);
-    TEST_ASSERT_EQUAL_UINT8(0b00000011, validData);
-    TEST_ASSERT_EQUAL_UINT8_ARRAY(expected, outputArray, 3);
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(0b11, validData, 
+        "INVALID validData. CHECK YOUR LIGHTS INPUTS. ONLY MOTORS SHOULD BE VALID.");
 }
 
 void test_OnlyMotorsInvalid()
 {
-    uint8_t data[3] = {0b00111111, 0b10111111, 0b00001100};
-    uint8_t expected[3] = {0b11111111, 0b11111111, 0b00001100};
+    uint8_t data[3] = {0b11111111, 0b11111111, 0b00001100};
     trainingTask(data);
-    TEST_ASSERT_EQUAL_UINT8(0b00000100, validData);
-    TEST_ASSERT_EQUAL_UINT8_ARRAY(expected, outputArray, 3);
+    TEST_ASSERT_EQUAL_UINT8_MESSAGE(0b100, validData, 
+        "INVALID validData. CHECK YOUR MOTORS INPUTS. ONLY LIGHTS SHOULD BE VALID.");
 }
