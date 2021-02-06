@@ -4,10 +4,14 @@
 #include <QString>
 #include <QJsonObject>
 
-class Member {
+class Member 
+{
 public:
     Member(QString first, QString last, int gradYr);
-    Member() {};
+    Member() 
+    {
+
+    };
     QString getFirstName() const;
     QString getLastName() const;
     int getGradYear() const;
