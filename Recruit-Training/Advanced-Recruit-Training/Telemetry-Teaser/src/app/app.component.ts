@@ -16,6 +16,15 @@ export class AppComponent {
   range = 0;
   batteryError = 0;
   speedError = 0;
+  showRange = 0;
+
+  clearSpeedMessage(){
+    this.speedError = 0;
+  }
+
+  clearBatteryMessage(){
+    this.batteryError = 0;
+  }
 
   onMouseWeather(event: MouseEvent) {
     this.weather = parseInt((event.target as HTMLInputElement).value);
@@ -23,43 +32,38 @@ export class AppComponent {
 
   onKeySpeed(event: KeyboardEvent) {
     this.speed = parseInt((event.target as HTMLInputElement).value);
-  }
-
-  onKeyBattery(event: KeyboardEvent) {
-    this.battery = parseInt((event.target as HTMLInputElement).value);
-  }
-
-  calculateRange(event: MouseEvent) {
-    if(this.validate()){
-      this.range = -(this.speed * this.speed * this.battery / 2500) + (4 * this.battery) + this.weather;
-    }
-  }
-
-  validate(){
     if(isNaN(this.speed)){
+      this.showRange = 0;
       this.speedError = 1;
     } 
     else if(this.speed < 0 || 90 < this.speed){
+      this.showRange = 0;
       this.speedError = 2;
     }
     else {
       this.speedError = 0;
     }
+  }
 
+  onKeyBattery(event: KeyboardEvent) {
+    this.battery = parseInt((event.target as HTMLInputElement).value);
     if(isNaN(this.battery)){
+      this.showRange = 0;
       this.batteryError = 1;
     } 
     else if(this.battery < 0 || 100 < this.battery){
+      this.showRange = 0;
       this.batteryError = 2;
     }
     else {
       this.batteryError = 0;
     }
+  }
 
-    if((this.batteryError + this.speedError) != 0){
-      return false;
+  calculateRange(event: MouseEvent) {
+    if((this.batteryError + this.speedError) == 0){
+      this.range = -(this.speed * this.speed * this.battery / 2500) + (4 * this.battery) + this.weather;
+      this.showRange = 1;
     }
-
-    return true;
   }
 }

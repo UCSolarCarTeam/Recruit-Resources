@@ -4,22 +4,22 @@
     <form name="simulator" #simulator="ngForm" novalidate>
       <label>Speed (km/h):</label>
       <br>
-      <input name="speed" type="number" placeholder="Speed" (keyup)="onKeySpeed($event)" max=90 min=0>
+      <input name="speed" type="number" placeholder="Speed" (click)="clearSpeedMessage()" (blur)="onKeySpeed($event)" max=90 min=0>
       <div *ngIf="speedError == 1; else speedError2" class="errorMessage">Speed is required</div>
-      <br/>
+      <br>
       <label>Battery Percentage (%):</label>
       <br>
-      <input name="battery"type="number" placeholder="Battery" (keyup)="onKeyBattery($event)">
+      <input name="battery"type="number" placeholder="Battery" (click)="clearBatteryMessage()" (blur)="onKeyBattery($event)">
       <div *ngIf="batteryError == 1; else batteryError2" class="errorMessage">Battery percentage is required</div>
-      <br/>
+      <br>
       <img src="/assets/Cloud.png">
       <input type="range" min="0" max="100" value="50" (mouseup)="onMouseWeather($event)">
       <img src="/assets/Sun.png">
-      <br/>
+      <br>
       <button (click)="calculateRange($event)">Calculate</button>
-      <br/>
-      <h1 *ngIf="(this.batteryError + this.speedError) == 0">
-        {{"The predicted range of the Eylsia is: " +range +" km"}}
+      <br>
+      <h1 *ngIf="(this.showRange) == 1">
+        {{"The predicted range of the Eylsia is: " + range + " km"}}
       </h1>
     </form>
   </div>
