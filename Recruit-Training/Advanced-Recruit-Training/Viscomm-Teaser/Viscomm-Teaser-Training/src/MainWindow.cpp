@@ -61,16 +61,18 @@ void MainWindow::addMemberButtonClicked()
     bool input;
     QString first = QInputDialog::getText(this, tr("Member Registration"), tr("Member First Name:"),
                                           QLineEdit::Normal, tr(""), &input);
-    if(!input)
+    if(!input || first.isEmpty())
     {
         return;
     }
+
     QString last = QInputDialog::getText(this, tr("Member Registration"), tr("Member Last Name:"),
                                          QLineEdit::Normal, tr(""), &input);
-    if(!input)
+    if(!input || last.isEmpty())
     {
         return;
     }
+
     int year = QInputDialog::getInt(this, tr("Member Registration"),
                                      tr("Member Graduation Year:"), 2021, 2000, 2030, 1, &input);
     if(!input)

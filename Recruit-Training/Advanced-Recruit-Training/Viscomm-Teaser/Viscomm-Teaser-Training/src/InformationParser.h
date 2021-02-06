@@ -20,11 +20,12 @@ public:
     QVector<Member> getViscommTeamMembers() const;
     bool addMember(QString first, QString last, int year), removeMember(QString first, QString last, int year);
     int searchForMember(Member& target);
+
 private:
     //Place your JSON variables here
-    QString owner, type, carName, color, location;
-    double batteryPercentage;
-    QVector<Member> viscommTeamMembers;
+    QString owner_, type_, carName_, color_, location_;
+    double batteryPercentage_;
+    QVector<Member> viscommTeamMembers_;
 };
 
 #endif // INFORMATIONPARSER_H

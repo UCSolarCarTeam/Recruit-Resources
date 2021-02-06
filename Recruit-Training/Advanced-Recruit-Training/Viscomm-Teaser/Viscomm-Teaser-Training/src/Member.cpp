@@ -1,20 +1,26 @@
 #include <Member.h>
 
-Member::Member(QString first, QString last, int gradYr): firstName(first), lastName(last), gradYear(gradYr){ }
+Member::Member(QString first, QString last, int gradYr): firstName_(first), lastName_(last), gradYear_(gradYr)
+{ 
+    
+}
 
-QString Member::getFirstName(){
-    return firstName;
+QString Member::getFirstName() const
+{
+    return firstName_;
 };
 
-QString Member::getLastName(){
-    return lastName;
+QString Member::getLastName() const
+{
+    return lastName_;
 };
 
-int Member::getGradYear(){
-    return gradYear;
+int Member::getGradYear() const
+{
+    return gradYear_;
 };
 
 bool Member::isEqual(const Member& other)
 {
-    return (firstName == other.firstName) && (lastName == other.lastName) && (gradYear == other.gradYear);
+    return (firstName_ == other.firstName_) && (lastName_ == other.lastName_) && (gradYear_ == other.gradYear_);
 }

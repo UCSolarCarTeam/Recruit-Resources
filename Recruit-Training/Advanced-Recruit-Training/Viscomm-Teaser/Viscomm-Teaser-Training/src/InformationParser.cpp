@@ -13,7 +13,8 @@ bool InformationParser::readJSON()
     inFile.close();
 
     QJsonDocument doc = QJsonDocument::fromJson(data);
-    if (doc.isNull()) {
+    if (doc.isNull()) 
+    {
         return false;
     }
 
@@ -26,21 +27,21 @@ bool InformationParser::readJSON()
        json.contains("location") && json["location"].isString() &&
        json.contains("viscommTeamMembers") && json["viscommTeamMembers"].isArray())
     {
-        owner = json["owner"].toString();
-        type = json["type"].toString();
-        carName = json["carName"].toString();
-        batteryPercentage = json["batteryPercentage"].toDouble();
-        color = json["color"].toString();
-        location = json["location"].toString();
+        owner_ = json["owner"].toString();
+        type_ = json["type"].toString();
+        carName_ = json["carName"].toString();
+        batteryPercentage_ = json["batteryPercentage"].toDouble();
+        color_ = json["color"].toString();
+        location_ = json["location"].toString();
 
         QJsonArray teamMemberArray = json["viscommTeamMembers"].toArray();
-        viscommTeamMembers.clear();
-        viscommTeamMembers.reserve(teamMemberArray.size());
+        viscommTeamMembers_.clear();
+        viscommTeamMembers_.reserve(teamMemberArray.size());
         for(QJsonValueRef a : teamMemberArray)
         {
            QJsonObject m = a.toObject();
            Member member(m["firstName"].toString(), m["lastName"].toString(), m["gradYear"].toString().toInt());
-           viscommTeamMembers.append(member);
+           viscommTeamMembers_.append(member);
         }
 
         return true;
@@ -49,32 +50,39 @@ bool InformationParser::readJSON()
     return false;
 }
 
-QString InformationParser::getOwner() const{
-    return owner;
+QString InformationParser::getOwner() const
+{
+    return owner_;
 };
 
-QString InformationParser::getType() const{
-    return type;
+QString InformationParser::getType() const
+{
+    return type_;
 };
 
-QString InformationParser::getCarName() const{
-    return carName;
+QString InformationParser::getCarName() const
+{
+    return carName_;
 };
 
-QString InformationParser::getColor() const{
-    return color;
+QString InformationParser::getColor() const
+{
+    return color_;
 };
 
-QString InformationParser::getLocation() const{
-    return location;
+QString InformationParser::getLocation() const
+{
+    return location_;
 };
 
-double InformationParser::getBatteryPercentage() const{
-    return batteryPercentage;
+double InformationParser::getBatteryPercentage() const
+{
+    return batteryPercentage_;
 };
 
-QVector<Member> InformationParser::getViscommTeamMembers() const{
-    return viscommTeamMembers;
+QVector<Member> InformationParser::getViscommTeamMembers() const
+{
+    return viscommTeamMembers_;
 };
 
 bool InformationParser::addMember(QString first, QString last, int year)
@@ -83,7 +91,7 @@ bool InformationParser::addMember(QString first, QString last, int year)
     int result = searchForMember(newbie);
     if(result == -1)
     {
-        viscommTeamMembers.append(newbie);
+        viscommTeamMembers_.append(newbie);
         return true;
     }
     return false;
@@ -95,7 +103,7 @@ bool InformationParser::removeMember(QString first, QString last, int year)
     int result = searchForMember(target);
     if(result > -1)
     {
-        viscommTeamMembers.remove(result);
+        viscommTeamMembers_.remove(result);
         return true;
     }
     return false;
@@ -103,11 +111,13 @@ bool InformationParser::removeMember(QString first, QString last, int year)
 
 int InformationParser::searchForMember(Member& target)
 {
-    int size = viscommTeamMembers.size();
+    int size = viscommTeamMembers_.size();
     for(int i = 0; i < size ; ++i)
     {
-        if(target.isEqual(viscommTeamMembers[i]))
+        if(target.isEqual(viscommTeamMembers_[i]))
+        {
             return i;
+        }
     }
 
     return -1;

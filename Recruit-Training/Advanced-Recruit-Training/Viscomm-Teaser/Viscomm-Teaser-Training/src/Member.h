@@ -5,16 +5,17 @@
 #include <QJsonObject>
 
 class Member {
-private:
-    QString firstName, lastName;
-    int gradYear;
 public:
     Member(QString first, QString last, int gradYr);
     Member() {};
-    QString getFirstName();
-    QString getLastName();
-    int getGradYear();
+    QString getFirstName() const;
+    QString getLastName() const;
+    int getGradYear() const;
     bool isEqual(const Member& other);
+
+private:
+    QString firstName_, lastName_;
+    int gradYear_;
 };
 
 
