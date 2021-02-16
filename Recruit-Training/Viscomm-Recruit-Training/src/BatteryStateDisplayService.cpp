@@ -6,9 +6,9 @@
 #include "I_BatteryStateOfChargeService.h"
 
 BatteryStateDisplayService::BatteryStateDisplayService(
-        const I_BatteryDataSource& batteryDataSource,
-        I_BatteryStateOfChargeService& batteryStateOfChargeService)
-    : batteryStateOfChargeService_(batteryStateOfChargeService)
+    const I_BatteryDataSource& batteryDataSource,
+    I_BatteryStateOfChargeService& batteryStateOfChargeService)
+: batteryStateOfChargeService_(batteryStateOfChargeService)
 {
     // This function is what "connects" the signal to the slot. So whenever the
     // signals it emitted, the slot will be called and the signal arguements

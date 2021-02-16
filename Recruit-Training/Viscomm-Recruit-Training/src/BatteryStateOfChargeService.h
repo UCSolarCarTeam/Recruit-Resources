@@ -27,7 +27,6 @@ public:
 
     void updateAmpHours();
 
-
 private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;

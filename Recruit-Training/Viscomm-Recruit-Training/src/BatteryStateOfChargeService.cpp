@@ -3,7 +3,7 @@
 
 namespace
 {
-  const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
