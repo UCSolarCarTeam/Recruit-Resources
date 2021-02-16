@@ -1,6 +1,7 @@
 #pragma once
 
 #include "I_BatteryStateOfChargeService.h"
+#include "BatteryData.h"
 
 class BatteryStateOfChargeService : public I_BatteryStateOfChargeService
 {
@@ -24,9 +25,16 @@ public:
     /*Update Variables*/
     void addData(const BatteryData& batteryData);
 
+    void updateAmpHours();
+
+
 private:
     // Convention is to have an _ after private members
     const double initialStateOfChargePercent_;
-
+    const BatteryData* currentData_;
+    const BatteryData* pastData_;
+    double totalCurrent_;
+    int currentCount_;
+    double totalAmpHours_;
     // Add your necessary variables here
 };
