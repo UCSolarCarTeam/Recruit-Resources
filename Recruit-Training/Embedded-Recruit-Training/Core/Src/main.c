@@ -57,8 +57,8 @@ CAN_TxHeaderTypeDef canHeader;
 osThreadId_t blueLedTaskHandle;
 osThreadId_t greenLedTaskHandle;
 
-uint8_t blueToggleFlag;
-uint8_t greenToggleFlag;
+uint8_t blueLedToggleFlag;
+uint8_t greenLedToggleFlag;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -328,11 +328,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
         {
             if ((data[0] & 0b10001001) == 0b10001001) // check that bits 0, 3, and 7 are HIGH
             {
-                blueToggleFlag = 1;
+                blueLedToggleFlag = 1;
             }
             else 
             {
-                blueToggleFlag = 0;
+                blueLedToggleFlag = 0;
             }
         }
 
@@ -340,11 +340,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
         {
            if (data[0] == 0b00000011) // check it is exactly 0b00000011
             {
-                greenToggleFlag = 1;
+                greenLedToggleFlag = 1;
             }
             else
             {
-                greenToggleFlag = 0;
+                greenLedToggleFlag = 0;
             }
         }
     }

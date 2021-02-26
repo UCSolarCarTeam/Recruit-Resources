@@ -13,4 +13,4 @@
 void greenLedToggleTask(void const* arg);
 extern CAN_HandleTypeDef hcan2;
 extern CAN_TxHeaderTypeDef canHeader;
-extern uint8_t greenToggleFlag;
+extern uint8_t greenLedToggleFlag;
