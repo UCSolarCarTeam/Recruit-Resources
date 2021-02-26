@@ -11,3 +11,6 @@
 //TODO: Define external blue LED toggle flag (same variable as in main)
 
 void blueLedToggleTask(void const* arg);
+extern CAN_HandleTypeDef hcan2;
+extern CAN_TxHeaderTypeDef canHeader;
+extern uint8_t blueToggleFlag;
