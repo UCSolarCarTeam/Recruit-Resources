@@ -4,6 +4,7 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double HOURS_TO_MSECS = 3600000.0;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -22,19 +23,23 @@ BatteryStateOfChargeService::~BatteryStateOfChargeService()
     delete currentData_;
 }
 
-void BatteryStateOfChargeService::updateAmpHours(){
-
-    if(pastData_->time.QTime::isNull()){
+void BatteryStateOfChargeService::updateAmpHours()
+{
+    if(pastData_->time.QTime::isNull())
+    {
         return;
     }
 
     double currentAvg = totalCurrent_ / currentCount_;
-    double timeDifference = pastData_->time.QTime::msecsTo(currentData_->time) / 3600000.0;
+    double timeDifference = pastData_->time.QTime::msecsTo(currentData_->time) / HOURS_TO_MSECS;
     double ampHoursDifference = currentAvg * timeDifference;
 
-    if(isCharging()){
+    if(isCharging())
+    {
         totalAmpHours_ += ampHoursDifference;
-    } else{
+    }
+    else
+    {
         totalAmpHours_ -= ampHoursDifference;
     }
 }
@@ -46,7 +51,8 @@ double BatteryStateOfChargeService::totalAmpHoursUsed() const
 
 bool BatteryStateOfChargeService::isCharging() const
 {
-    if(currentData_->current > 0.0){
+    if(currentData_->current > 0.0)
+    {
         return true;
     }
 
@@ -57,12 +63,15 @@ QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
     int totalMsecs;
     double currentAvg = totalCurrent_ / currentCount_;
-    if(isCharging()){
+    if(isCharging())
+    {
         double chargingHours = (BATTERY_AMP_HOUR_CAPACITY - totalAmpHours_) / currentAvg;
-        totalMsecs = chargingHours * 3600000;
-    } else {
+        totalMsecs = chargingHours * HOURS_TO_MSECS;
+    }
+    else
+    {
         double depletionHours = totalAmpHours_ / currentAvg;
-        totalMsecs = depletionHours * 3600000;
+        totalMsecs = depletionHours * HOURS_TO_MSECS;
     }
 
     return QTime(0, 0, 0, 0).QTime::addMSecs(totalMsecs);

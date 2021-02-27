@@ -25,11 +25,10 @@ void BatteryStateDisplayService::handleBatteryDataReceived(const BatteryData& ba
 {
     batteryStateOfChargeService_.addData(batteryData);
 
-
     QTextStream(stdout) << "Voltage: " << batteryData.voltage
                         << " Current: " << batteryData.current
                         << " Total Ah used: " << batteryStateOfChargeService_.totalAmpHoursUsed()
-                        << " Time Till Charged or Depleted: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString() << endl;
+                        << " Time Till Charged or Depleted: " << batteryStateOfChargeService_.timeWhenChargedOrDepleted().toString("hh:mm:ss.zzz") << endl;
 
     // TODO: Print out time until the battery is fully charged or depleted.
 }
