@@ -19,25 +19,26 @@ int main()
     int *p = &x;
 
     //TODO in the line below predict what what is going to be output
-    cout << "Predicted value of p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of p: The Address to the variable x" /* Correct! << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of p: " << p << endl;
-    cout << "Predicted value &x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value &x: 3" /* No &x means the address of the variable x << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value &x: " << &x << endl;
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: 3" /* Correct! << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of *p: " << *p << endl;
-    
+
     foo(p, x);
     
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: 42" /* Correct! << PLACE YOUR PREDICTION HERE*/ << endl; 
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of x: 3" /* x is linked to *p because *p changed to 42 x will too << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of x: " << x << endl;
+
     foo(p, y);
 
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: 42" /* Correct! << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of y: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
-    cout << "Actual value of y: " << y << endl;
+    cout << "Predicted value of y: 4" /* Correct! << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Actual value of y: " << y << endl; 
 
     //start writing mySwap here
     
