@@ -6,7 +6,7 @@
 #include "cmsis_os.h"
 #include "main.h"
 
-extern CAN_HandleTypeDef hcan2;;
+extern CAN_HandleTypeDef hcan2;
 extern CAN_TxHeaderTypeDef canTxHdr;
 extern uint8_t blueLedToggleFlag;
 
