@@ -19,22 +19,22 @@ void greenLedToggleTask(void const* arg)
         //TODO: Check green toggle flag and toggle green LED
         if(greenLedToggleFlag) 
         {
-            HAL_GPIO_TogglePin(GPIOA, LED_GREEN_Pin);
+            HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
         } 
 
         //TODO: Send CAN message indicating current state of LED
-        uint8_t GREEN_LED_STATUS_ID = HAL_GPIO_ReadPin(GPIOA, LED_GREEN_Pin);
+        uint8_t greenLedStatusId = HAL_GPIO_ReadPin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
 
         if(osMutexAcquire(canMutex, 0) == osOK)
         {
-            uint32_t mailboxVariable = HAL_CAN_GetTxMailboxesFreeLevel(&hcan2);
-            if(mailboxVariable != 0U)
+            if(HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0)
             {
+                uint32_t mailboxVariable;
                 canHeader.StdId = GREEN_LED_STATUS_STDID;
                 canHeader.DLC = 1;
-                uint8_t GREEN_LED_MESSAGE[1] = {(~GREEN_LED_STATUS_ID) & 0b0000000};
+                uint8_t greenLedMessage[1] = {greenLedStatusId ^ 0b00000001};
             
-                if (HAL_CAN_AddTxMessage(&hcan2, &canHeader, GREEN_LED_MESSAGE, &mailboxVariable) != HAL_OK)
+                if (HAL_CAN_AddTxMessage(&hcan2, &canHeader, greenLedMessage, &mailboxVariable) != HAL_OK)
                 {
                     Error_Handler();
                 }

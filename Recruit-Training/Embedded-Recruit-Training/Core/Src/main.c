@@ -26,7 +26,6 @@
 /* USER CODE BEGIN Includes */
 #include "BlueLedToggleTask.h"
 #include "GreenLedToggleTask.h"
-#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -131,7 +130,6 @@ int main(void)
 
     /* USER CODE BEGIN RTOS_MUTEX */
     //TODO: Define and create mutexes and mutex attributes
-    osMutexId_t canMutexHandle;
     const osMutexAttr_t CanMutexAttr = 
     {
         "CanMutexAttr", 
@@ -139,7 +137,7 @@ int main(void)
         NULL,
         0
     };
-    canMutexHandle = osMutexNew(&CanMutexAttr);
+    osMutexId_t canMutexHandle = osMutexNew(&CanMutexAttr);
     /* add mutexes, ... */
     /* USER CODE END RTOS_MUTEX */
 
@@ -324,7 +322,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 
     //TODO: Match StdId of header and data length content for green and blue messages and check data for set bit of toggling green and blue led
     if (hdr.DLC == 1){
-        if(hdr.StdId == 0xAAA)
+        if(hdr.StdId == BLUE_MESSAGE_STDID)
         {
             if ((data[0] & 0b10001001) == 0b10001001) // check that bits 0, 3, and 7 are HIGH
             {
@@ -336,7 +334,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
             }
         }
 
-        if(hdr.StdId == 0xBBB)
+        if(hdr.StdId == GREEN_MESSAGE_STDID)
         {
            if (data[0] == 0b00000011) // check it is exactly 0b00000011
             {
