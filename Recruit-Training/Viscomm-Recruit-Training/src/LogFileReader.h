@@ -14,4 +14,6 @@ public:
 
 private:
     bool parseLine(const QString& line, BatteryData& batteryData) const;
+    bool lineIsOfProperFormat(const QStringList sections) const;
+    bool isTimeValid(const QString& timeValue) const;
 };

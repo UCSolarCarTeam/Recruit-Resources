@@ -35,12 +35,8 @@ In this document you can find the stylistic conventions that are to be used thro
 
 === Tasks to Complete
 
- *  Complete the error checking in `LogFileReader::parseLine`. The proper format of each line in batData.csv should be hh:mm:ss:zzz, so any other differences should be caught. 
-It should be able to catch all the errors in batDataFailure.csv. 
  *  Implement the functions of BatteryStateOfChargeService. 
 The instructions for how to calculate the required values can be found in the values and calculations section below.
- *  `BatteryStateDisplayService::handleBatteryDataReceived` can be found in BatteryStateOfChargeService. 
-In this function, the time until the battery is charged or depleted needs to be printed.
  *  In order to print newly calculated values, the variables must be updated. 
 There are many different ways to do this. 
 This should be implemented within the addData function which can be found in BatteryStateOfChargeService.
@@ -48,12 +44,8 @@ This should be implemented within the addData function which can be found in Bat
 === Values and Calculations to Note for BatteryStateOfChargeService
 
  *  Refer to `BatteryStateOfChargeService.h` for the function descriptions.
- *  In order to determine whether the battery is charging or depleting, the battery's current must be considered. 
-A positive current implies that the battery is charging whereas a negative current means that the battery is depleting. 
- *  The initial amount of Amphours used can be calculated by multiplying the battery's amphour capacity (Ah) by the battery's state of charge (%).
- *  In order to calculate the amphours used between two data points, the average current (A) can be multiplied by the difference in time (h).
  *  The time until the battery is charged can be calculated by dividing the amphours used (Ah) by the current (A). 
-The time until depletion can be calculated by dividing the remaining amphours (Ah) by the current.
+    The time until depletion can be calculated by dividing the remaining amphours (Ah) by the current.
 
 === Extra Information to Help with Task Completion
 
