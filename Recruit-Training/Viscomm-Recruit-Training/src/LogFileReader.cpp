@@ -8,7 +8,7 @@
 namespace
 {
     const QString STRING_TIME_FORMAT= "hh:mm:ss.zzz";
-    const QString BATDATA_DELIMITER= ", ";
+    const QString BATDATA_DELIMITER= ",";
     const int COLUMNS = 3;
 }
 
@@ -37,7 +37,7 @@ bool LogFileReader::readAll(const QString& fileName)
         if (!parseLine(line, batteryData))
         {
             qDebug() << "Error while parsing" << line;
-            // return false;
+            return false;
         }
         else
         {
@@ -58,6 +58,10 @@ bool LogFileReader::readAll(const QString& fileName)
 bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) const
 {
     QStringList sections = line.split(BATDATA_DELIMITER);
+    if(!lineIsOfProperFormat(sections))
+    {
+        return false;
+    }
 
     QString timeString = sections.at(0);
     batteryData.time = QTime::fromString(timeString, STRING_TIME_FORMAT);
@@ -68,4 +72,57 @@ bool LogFileReader::parseLine(const QString& line, BatteryData& batteryData) con
 
     return true;
 
+}
+
+bool LogFileReader::lineIsOfProperFormat(const QStringList sections) const
+{
+    if(sections.size() != 3)
+    {
+        return false;
+    }
+
+    if(!isTimeValid(sections.at(0)))
+    {
+        return false;
+    }
+
+    bool voltageOk = false, currentOk = false;
+    sections.at(1).toDouble(&voltageOk);
+    sections.at(2).toDouble(&currentOk);
+    if(!voltageOk || !currentOk)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool LogFileReader::isTimeValid(const QString &timeValue) const
+{
+
+    QStringList sections = timeValue.split(":");
+    if(sections.size() != 3) {
+        return false;
+    }
+
+    bool hoursOk = false, minutesOk = false, secondsOk = false;
+    int hours = sections.at(0).toInt(&hoursOk, 10), minutes = sections.at(1).toInt(&minutesOk, 10);
+    double seconds = sections.at(2).toDouble(&secondsOk);
+
+    if(!hoursOk || hours < 0)
+    {
+        return false;
+    }
+
+    if(!minutesOk || minutes < 0)
+    {
+        return false;
+    }
+
+    if(!secondsOk || seconds < 0 || seconds >= 60)
+    {
+        return false;
+    }
+
+    return true;
 }

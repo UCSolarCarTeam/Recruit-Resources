@@ -41,7 +41,10 @@ int main(int argc, char *argv[])
     BatteryStateOfChargeService batteryStateOfChargeService(initialStateOfCharge);
     BatteryStateDisplayService batteryStateOfChargeDisplayService(logFileReader, batteryStateOfChargeService);
 
-    logFileReader.readAll(filename);
+    if(!logFileReader.readAll(filename))
+    {
+        return 0;
+    }
 
     // Quit the program when it is done.
     QTimer::singleShot(0, &app, SLOT(quit()));
