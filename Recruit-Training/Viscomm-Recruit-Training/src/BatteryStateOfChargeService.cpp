@@ -3,6 +3,7 @@
 namespace
 {
     const double BATTERY_AMP_HOUR_CAPACITY = 123.0;
+    const double HRS_TO_MS = 3600000.0;
 }
 
 BatteryStateOfChargeService::BatteryStateOfChargeService(double initialStateOfChargePercent)
@@ -35,18 +36,18 @@ bool BatteryStateOfChargeService::isCharging() const
 
 QTime BatteryStateOfChargeService::timeWhenChargedOrDepleted() const
 {
-    double numberOfSecondsToWait;
-    if(isCharging()) //if charging, then calculate time (in seconds) until fully charged
+    double numberOfMillisecondsToWait;
+    if(isCharging()) //if charging, then calculate time (in ms) until fully charged
     {
-        numberOfSecondsToWait = (totalAmpHoursUsed()/currentData_.current)*3600.0;
+        numberOfMillisecondsToWait = (totalAmpHoursUsed()/currentData_.current)*HRS_TO_MS;
     }
-    else //if not charging, then calculate time (in seconds) until fully depleted
+    else //if not charging, then calculate time (in ms) until fully depleted
     {
         double remainingAmpHours = BATTERY_AMP_HOUR_CAPACITY-totalAmpHoursUsed();
-        numberOfSecondsToWait = (remainingAmpHours/currentData_.current)*3600.0;
+        numberOfMillisecondsToWait = (remainingAmpHours/currentData_.current)*HRS_TO_MS;
     }
 
-    return QTime(0, 0, 0, 0).addSecs(numberOfSecondsToWait);
+    return QTime(0, 0, 0, 0).addMSecs(numberOfMillisecondsToWait);
 }
 
 void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
@@ -59,7 +60,7 @@ void BatteryStateOfChargeService::addData(const BatteryData& batteryData)
     averageCurrent_ = (averageCurrent_ + currentData_.current)/2.0;
 
     //calculate difference in time (in hours) between previous and current data
-    double differenceInTimeInHrs = previousData_.time.secsTo(currentData_.time)/3600.0;
+    double differenceInTimeInHrs = previousData_.time.msecsTo(currentData_.time)/HRS_TO_MS;
     if(differenceInTimeInHrs < 0)
     {
         differenceInTimeInHrs *= -1;
