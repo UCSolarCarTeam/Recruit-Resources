@@ -28,9 +28,9 @@ void blueLedToggleTask(void const* arg)
 
         if(osMutexAcquire(canMutex, 0) == osOK)
         {
-            uint32_t mailboxVariable = HAL_CAN_GetTxMailboxesFreeLevel(&hcan2);
-            if(mailboxVariable != 0U)
+            if(HAL_CAN_GetTxMailboxesFreeLevel(&hcan2) > 0)
             {
+                uint32_t mailboxVariable;
                 canHeader.StdId = BLUE_LED_STATUS_STDID;
                 canHeader.DLC = 1;
                 uint8_t blueLedMessage[1] = {blueLedStatusId ^ 0b0000001};
