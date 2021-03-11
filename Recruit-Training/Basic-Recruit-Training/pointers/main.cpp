@@ -1,7 +1,7 @@
 /*
-First read through main() and make predictions on what the outpout of each variable will be where indicated.
+First read through main() and make predictions on what the output of each variable will be where indicated.
 After doing that add a function prototype at the top for a function called mySwap() that will return type void.
-You will pass two variables in as argument, one will be the pointer p. The other one will be an interger pointer you make that points to the variable y.
+You will pass two variables in as argument, one will be the pointer p. The other one will be an integer pointer you make that points to the variable y.
 In the function mySwap you will swap the values of the two arguments so the values are changed inside main()
 */
 
@@ -11,6 +11,7 @@ using namespace std;
 
 void foo(int *a, int b);
 void bar(int *a, int b);
+void mySwap(int *a, int *y);
 
 int main()
 {
@@ -40,12 +41,29 @@ int main()
     cout << "Predicted value of y: 4" /* Correct! << PLACE YOUR PREDICTION HERE*/ << endl;
     cout << "Actual value of y: " << y << endl; 
 
+    int *q = &y;
     //start writing mySwap here
+    // NEED TO FIGURE OUT HOW TO WRITE MYSWAP
+    cout << "Value of p before swap: " << *p << endl;
+    cout << "Value of q before swap: " << *q << endl;
+
+    mySwap(p, q);
+    
+    cout << "Value of p after swap: " << *p << endl;
+    cout << "Value of q after swap: " << *q << endl;
     
     return 0;
 }
 
- void foo(int *a, int b)
+void mySwap(int *a, int *y)
+{
+    int t;
+    t = *a;
+    *a = *y;
+    *y = t;
+}
+
+void foo(int *a, int b)
 {
    *a = 42;
    b = 78;
