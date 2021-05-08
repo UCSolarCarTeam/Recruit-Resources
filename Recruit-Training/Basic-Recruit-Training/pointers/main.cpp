@@ -10,7 +10,7 @@ In the function mySwap you will swap the values of the two arguments so the valu
 using namespace std;
 
 void foo(int *a, int b);
-void bar(int *a, int b);
+void mySwap(int *a, int *b);
 
 int main()
 {
@@ -19,27 +19,34 @@ int main()
     int *p = &x;
 
     //TODO in the line below predict what what is going to be output
-    cout << "Predicted value of p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of p: " << "the address of x" << endl;
     cout << "Actual value of p: " << p << endl;
-    cout << "Predicted value &x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value &x: " << "the address of x" << endl;
     cout << "Actual value &x: " << &x << endl;
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: " << "the value that the pointer points to, in this case 3" << endl;
     cout << "Actual value of *p: " << *p << endl;
     
     foo(p, x);
     
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: " << 42 << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of x: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of x: " << "42, because P was pointing to the same thing as x and it also changed to 42" << endl;
     cout << "Actual value of x: " << x << endl;
+
     foo(p, y);
 
-    cout << "Predicted value of *p: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of *p: " << 42 << endl;
     cout << "Actual value of *p: " << *p << endl;
-    cout << "Predicted value of y: " /* << PLACE YOUR PREDICTION HERE*/ << endl;
+    cout << "Predicted value of y: " << "4, because the local variable b in function foo will not change y" << endl;
     cout << "Actual value of y: " << y << endl;
 
     //start writing mySwap here
+    int *c = &y;
+    cout << "Initial value of *p: " << *p << endl;
+    cout << "Initial value of *c: " << *c << endl;
+    mySwap(p, c);
+    cout << "Final value of *p: " << *p << endl;
+    cout << "Final value of *c: " << *c << endl;
     
     return 0;
 }
@@ -50,8 +57,11 @@ int main()
    b = 78;
 }
 
-void var(int *a, int b)
+
+void mySwap(int *a, int *b)
 {
-    *a = 365;
-    b = 912;
+    int t;
+    t = *b;
+    *b = *a;
+    *a = t;
 }
