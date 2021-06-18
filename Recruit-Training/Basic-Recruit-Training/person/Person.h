@@ -17,6 +17,10 @@ public:
 
     // Print out the name and age of the person
     void printInfo() const;
+    void printInfo() {
+        std::cout << "HellO?";
+    }
+
     // Print the combined age of everyone pointed to by personArray
     static int combinedAge(Person** personArray, int size);
     // Increases the Person's Age by 1

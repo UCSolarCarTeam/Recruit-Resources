@@ -13,6 +13,7 @@ export class AppComponent {
   weather = 50;
   speed = 0;
   battery = 0;
+  range = 0;
 
   onMouseWeather(event: MouseEvent) {
     this.weather = parseInt((event.target as HTMLInputElement).value);
@@ -27,6 +28,6 @@ export class AppComponent {
   }
 
   calculateRange() {
-
+    this.range = -(this.speed * this.speed * this.battery / 2500) + (4 * this.battery) + this.weather
   }
 }
