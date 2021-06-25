@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,8 @@ export class AppComponent {
   speed = 0;
   battery = 0;
   range = 0;
+  speedInput = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(90)]);
+  batteryInput = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]);
 
   onMouseWeather(event: MouseEvent) {
     this.weather = parseInt((event.target as HTMLInputElement).value);
