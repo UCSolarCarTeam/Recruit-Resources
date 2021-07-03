@@ -2,17 +2,43 @@
   <div>
     <h1> Elysia Range Simulator </h1>
     <form name="simulator" #simulator="ngForm" novalidate>
+
       <label>Speed (km/h):</label>
       <br>
-      <input name="speed" type="number" placeholder="Speed" (keyup)="onKeySpeed($event)">
+
+      <input name="speed" type="number" placeholder="Speed" (blur)="onKeySpeed($event)"
+        required max=90 min=0 [formControl]="speedInput">
+      <br>
+      <label *ngIf="speedInput.invalid && speedInput.dirty">
+        <label *ngIf="speedInput.errors.required">Speed is Required</label>
+        <label *ngIf="speedInput.errors.max || speedInput.errors.min">Speed must be between 0 and 90</label>
+      </label>
+      <br>
+
       <br>
       <label>Battery Percentage (%):</label>
       <br>
-      <input name="battery"type="number" placeholder="Battery" (keyup)="onKeyBattery($event)">
+
+      <input name="battery"type="number" placeholder="Battery" (blur)="onKeyBattery($event)"
+        required max=100 min=0 [formControl]="batteryInput">
       <br>
+      <label *ngIf="batteryInput.invalid && batteryInput.dirty">
+        <label *ngIf="batteryInput.errors.required">Battery is Required</label>
+        <label *ngIf="batteryInput.errors.max || batteryInput.errors.min">Battery must be between 0 and 100</label>
+      </label>
+      <br>
+      
       <img src="/assets/Cloud.png">
       <input type="range" min="0" max="100" value="50" (mouseup)="onMouseWeather($event)">
       <img src="/assets/Sun.png">
+      <br>
+
+      <br>
+      <button (click)="calculateRange()">Calculate</button>
+      <h1 *ngIf="!speedInput.invalid && !batteryInput.invalid">
+        {{this.displayRange}}
+      </h1>
+
     </form>
   </div>
 </body>

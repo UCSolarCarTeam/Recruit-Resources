@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,10 @@ export class AppComponent {
   weather = 50;
   speed = 0;
   battery = 0;
+  range = 0;
+  speedInput = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(90)]);
+  batteryInput = new FormControl(null, [Validators.required, Validators.min(0), Validators.max(100)]);
+  displayRange = "";
 
   onMouseWeather(event: MouseEvent) {
     this.weather = parseInt((event.target as HTMLInputElement).value);
@@ -27,6 +32,7 @@ export class AppComponent {
   }
 
   calculateRange() {
-
+    this.range = -(this.speed * this.speed * this.battery / 2500) + (4 * this.battery) + this.weather;
+    this.displayRange = "The calculated range is: " + this.range + " kilometers";
   }
 }
