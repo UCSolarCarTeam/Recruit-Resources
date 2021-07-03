@@ -36,7 +36,7 @@
       <br>
       <button (click)="calculateRange()">Calculate</button>
       <h1 *ngIf="!speedInput.invalid && !batteryInput.invalid">
-        {{"The calculated range is: " + this.range + " kilometers"}}
+        {{this.displayRange}}
       </h1>
 
     </form>
